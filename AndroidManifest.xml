@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <service android:logo="@drawable/ic_launcher" android:enabled="true" android:label="ServiceMain" android:icon="@drawable/ic_launcher" android:name="ServiceMain"></service>
         <receiver android:name="ServiceBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

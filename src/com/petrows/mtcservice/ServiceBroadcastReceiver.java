@@ -12,7 +12,10 @@ public class ServiceBroadcastReceiver extends BroadcastReceiver {
 	
 	@Override
 	public void onReceive(Context ctx, Intent arg1) {
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ctx);
+		if (Settings.get().getServiceEnable())
+		{
+			ctx.startService(new Intent(ctx, ServiceMain.class));
+		}
 	}
 
 }
