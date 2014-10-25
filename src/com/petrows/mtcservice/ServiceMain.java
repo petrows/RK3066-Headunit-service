@@ -8,28 +8,22 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.media.AudioManager;
+import android.os.Bundle;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.widget.Toast;
 
-public class ServiceMain extends Service {
+public class ServiceMain extends Service implements LocationListener  {
 
 	final static String TAG = "MTCService.ServiceMain";
-	final static String MTCBroadcastIrkeyUp    = "com.microntek.irkeyUp";
-	final static String MTCBroadcastIrkeyDown  = "com.microntek.irkeyDown";
-
-	List<Integer> MTCKeysPrev  = Arrays.asList(58, 22);
-	List<Integer> MTCKeysNext  = Arrays.asList(59, 24);
-	List<Integer> MTCKeysPause = Arrays.asList(3);
 	
-	private final String MTCBroadcastWidget = "com.android.MTClauncher.action.INSTALL_WIDGETS";
-	private final int    MTCWidgetAdd    = 10520;
-	private final int    MTCWidgetRemove = 10521;
-
+	public static boolean isRunning = false;
+	public float last_speed = 0;
+	
 	public BroadcastReceiver brKeys;
 	public BroadcastReceiver brWidget;
 
@@ -41,70 +35,14 @@ public class ServiceMain extends Service {
 
 	@Override
 	public void onCreate() {
+		isRunning = true;
 		super.onCreate();
 		Log.d(TAG, "MTCService onCreate");
-				
-		IntentFilter intFilt;
-
-		brKeys = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				int keyCode = intent.getIntExtra("keyCode", 0);
-				Log.d(TAG, "MTCService recieve key "+keyCode);
-				
-				if (MTCKeysPrev.contains(keyCode))
-				{
-					sendKey(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-					toast("<<");
-				}
-				if (MTCKeysNext.contains(keyCode))
-				{
-					sendKey(KeyEvent.KEYCODE_MEDIA_NEXT);
-					toast(">>");
-				}				
-				if (MTCKeysPause.contains(keyCode))
-				{
-					sendKey(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-					toast("||");
-				}				
-			}
-		};
-		
-		intFilt = new IntentFilter();
-		intFilt.addAction(MTCBroadcastIrkeyDown);
-		registerReceiver(brKeys, intFilt);
-		
-		brWidget = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				int wdgAction  = intent.getIntExtra("myWidget.action", 0);
-				String wdgPackage = intent.getStringExtra("myWidget.packageName");
-				Log.d(TAG, "MTCService recieve widget "+wdgPackage+", "+wdgAction);
-				// Install widget?
-				if (MTCWidgetAdd == wdgAction)
-				{
-					String[] wdgPackageSplit = wdgPackage.split("\\.");
-					if (wdgPackageSplit.length > 0)
-					{
-						String pkgShort = wdgPackageSplit[wdgPackageSplit.length - 1];
-						pkgShort = String.valueOf(pkgShort.charAt(0)).toUpperCase() + pkgShort.subSequence(1, pkgShort.length());
-						Log.d(TAG, "Started mode: " + pkgShort);
-						toast(pkgShort);
-					}
-					
-					killMusic();
-				}
-			}
-		};
-		
-		intFilt = new IntentFilter();
-		intFilt.addAction(MTCBroadcastWidget);
-		registerReceiver(brWidget, intFilt);
 	}
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
+		isRunning = false;
 		super.onDestroy();
 		unregisterReceiver(brKeys);
 	}
@@ -120,41 +58,64 @@ public class ServiceMain extends Service {
 				.setContentText(getString(R.string.app_service_descr))
 				.setSmallIcon(R.drawable.ic_launcher).build();
 		startForeground(1337, note);
+		
+		LocationManager locationManager = (LocationManager) this
+				.getSystemService(Context.LOCATION_SERVICE);
+		
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+				0, this);
 
 		return START_STICKY;
 	}
-	
-	public void killMusic()
-	{
-		Log.d(TAG, "Killing music");	
-		// Stop playback (NORMAL players)
-		sendKey(KeyEvent.KEYCODE_MEDIA_STOP);
-		// Stop all music players
+
+	@Override
+	public void onLocationChanged(Location location) {
+		Log.d(TAG, "Speed is: " + location.getSpeed());
+		List<Integer> speed_steps = Arrays.asList(20, 60, 100, 120);
+		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+		int vol = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+		float speed = location.getSpeed();
 		
-		//ActivityManager activityManager = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE);
-		//activityManager.killBackgroundProcesses("com.vkontakte.android.AudioPlayerService");
-	}
-
-	public void sendKey(int keycode) {
-		Log.d(TAG, "Send key " + keycode);
-		long eventtime = SystemClock.uptimeMillis();
-
-		Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-		KeyEvent downEvent = new KeyEvent(eventtime, eventtime,
-				KeyEvent.ACTION_DOWN, keycode, 0);
-		downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
-		sendOrderedBroadcast(downIntent, null);
-				
-		Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-		KeyEvent upEvent = new KeyEvent(eventtime, eventtime,
-				KeyEvent.ACTION_UP, keycode, 0);
-		upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-		sendOrderedBroadcast(upIntent, null);		
-	}
-
-	public void toast(String msg) {
-		if (Settings.get().toast) {
-			Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+		if (speed > last_speed)
+		{
+			// Speed is bigger!
+			for (Integer spd_step : speed_steps) {
+				if (last_speed < spd_step && speed > spd_step)
+				{
+					// Speed is changed! (higher)
+					am.setStreamVolume(
+							AudioManager.STREAM_MUSIC,
+							vol+1,
+						    0);
+					Log.d(TAG, "Set voume: " + (vol+1));
+					break;
+				}
+			}
+		} else {
+			// Speed is lower!
+			for (Integer spd_step : speed_steps) {
+				if (last_speed > spd_step && speed < spd_step)
+				{
+					// Speed is changed! (higher)
+					am.setStreamVolume(
+							AudioManager.STREAM_MUSIC,
+							vol-1,
+						    0);
+					Log.d(TAG, "Set voume: " + (vol-1));
+					break;
+				}
+			}
 		}
+		
+		last_speed = speed;
 	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+	@Override
+	public void onProviderEnabled(String provider) {}
+
+	@Override
+	public void onProviderDisabled(String provider) {}
 }

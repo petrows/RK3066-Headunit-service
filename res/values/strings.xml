@@ -3,5 +3,10 @@
     <string name="app_name">MTC-Service</string>
     <string name="app_service_title">MTC-Service</string>
     <string name="app_service_descr">HeadUnit service running</string>
+    
+    <string name="ui_service_title">MicronTek HeadUnit Service</string>
+    <string name="ui_service_control">Service control:</string>
+    <string name="ui_service_restart">(Re)Start</string>
+    <string name="ui_service_stop">Stop</string>
 
 </resources>

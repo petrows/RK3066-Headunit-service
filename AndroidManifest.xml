@@ -7,6 +7,7 @@
         android:minSdkVersion="17"
         android:targetSdkVersion="17" />
     
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
@@ -24,9 +25,16 @@
             </intent-filter>
         </activity>
         <service android:logo="@drawable/ic_launcher" android:enabled="true" android:label="ServiceMain" android:icon="@drawable/ic_launcher" android:name="ServiceMain"></service>
-        <receiver android:name="ServiceBroadcastReceiver">
+        <receiver android:name="ServiceBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+				<action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="ServiceEventReciever">
+            <intent-filter>
+                <action android:name="com.microntek.irkeyUp"/>
+                <action android:name="com.microntek.irkeyDown"/>
             </intent-filter>
         </receiver>
     </application>
