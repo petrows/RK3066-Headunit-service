@@ -1,5 +1,7 @@
 <resources>
 
     <string name="app_name">MTC-Service</string>
+    <string name="app_service_title">MTC-Service</string>
+    <string name="app_service_descr">HeadUnit service running</string>
 
 </resources>

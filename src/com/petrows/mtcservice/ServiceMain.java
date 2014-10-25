@@ -88,7 +88,7 @@ public class ServiceMain extends Service {
 					{
 						String pkgShort = wdgPackageSplit[wdgPackageSplit.length - 1];
 						pkgShort = String.valueOf(pkgShort.charAt(0)).toUpperCase() + pkgShort.subSequence(1, pkgShort.length());
-						Log.d(TAG, "Started mode: " + pkgShort);						
+						Log.d(TAG, "Started mode: " + pkgShort);
 						toast(pkgShort);
 					}
 					
@@ -116,8 +116,8 @@ public class ServiceMain extends Service {
 		Log.d(TAG, "MTCService onStartCommand");
 
 		Notification note = new NotificationCompat.Builder(this)
-				.setContentTitle("MTC system service")
-				.setContentText("Service running")
+				.setContentTitle(getString(R.string.app_service_title))
+				.setContentText(getString(R.string.app_service_descr))
 				.setSmallIcon(R.drawable.ic_launcher).build();
 		startForeground(1337, note);
 
