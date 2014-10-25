@@ -22,7 +22,7 @@ public class ServiceMain extends Service implements LocationListener  {
 	final static String TAG = "MTCService.ServiceMain";
 	
 	public static boolean isRunning = false;
-	public float last_speed = 0;
+	public double last_speed = 0;
 	
 	public BroadcastReceiver brKeys;
 	public BroadcastReceiver brWidget;
@@ -70,11 +70,13 @@ public class ServiceMain extends Service implements LocationListener  {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.d(TAG, "Speed is: " + location.getSpeed());
+		
 		List<Integer> speed_steps = Arrays.asList(20, 60, 100, 120);
 		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		int vol = am.getStreamVolume(AudioManager.STREAM_MUSIC);
-		float speed = location.getSpeed();
+		double speed = location.getSpeed();
+		speed = speed * 3.6; // m/s => km/h
+		Log.d(TAG, "Speed is: " + speed);
 		
 		if (speed > last_speed)
 		{
@@ -88,7 +90,7 @@ public class ServiceMain extends Service implements LocationListener  {
 							vol+1,
 						    0);
 					Log.d(TAG, "Set voume: " + (vol+1));
-					break;
+					//break;
 				}
 			}
 		} else {
@@ -102,7 +104,7 @@ public class ServiceMain extends Service implements LocationListener  {
 							vol-1,
 						    0);
 					Log.d(TAG, "Set voume: " + (vol-1));
-					break;
+					//break;
 				}
 			}
 		}
