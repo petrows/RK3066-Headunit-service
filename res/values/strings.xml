@@ -5,8 +5,17 @@
     <string name="app_service_descr">HeadUnit service running</string>
     
     <string name="ui_service_title">MicronTek HeadUnit Service</string>
-    <string name="ui_service_control">Service control:</string>
-    <string name="ui_service_restart">(Re)Start</string>
-    <string name="ui_service_stop">Stop</string>
+    <string name="ui_service_enable">Service enable</string>
+    <string name="ui_service_settings">Service advanced settings</string>
+    
+    <string name="ui_adv_settings_toast_cat">Notifications</string>
+    <string name="ui_adv_settings_toast_enable_title">Enable toast</string>
+    <string name="ui_adv_settings_toast_enable_text">Show short message on all keys and events</string>
+    
+    <string name="ui_adv_settings_speedvol_cat">Speed volume</string>
+    <string name="ui_adv_settings_speedvol_speed_title">Speed edges</string>
+    <string name="ui_adv_settings_speedvol_speed_text">Speed values to up/down volume</string>
+    <string name="ui_adv_settings_speedvol_level_title">Change level</string>
+    <string name="ui_adv_settings_speedvol_level_text">Volume level value to change on every step</string>
 
 </resources>

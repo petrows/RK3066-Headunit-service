@@ -23,9 +23,6 @@ public class ServiceMain extends Service implements LocationListener  {
 	
 	public static boolean isRunning = false;
 	public double last_speed = 0;
-	
-	public BroadcastReceiver brKeys;
-	public BroadcastReceiver brWidget;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -44,7 +41,6 @@ public class ServiceMain extends Service implements LocationListener  {
 	public void onDestroy() {
 		isRunning = false;
 		super.onDestroy();
-		unregisterReceiver(brKeys);
 	}
 
 	@Override
@@ -74,37 +70,37 @@ public class ServiceMain extends Service implements LocationListener  {
 		List<Integer> speed_steps = Arrays.asList(20, 60, 100, 120);
 		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		int vol = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+		int volChange = Settings.get(this).getSpeedChangeValue();
 		double speed = location.getSpeed();
 		speed = speed * 3.6; // m/s => km/h
-		Log.d(TAG, "Speed is: " + speed);
-		
-		if (speed > last_speed)
-		{
+		if (speed == last_speed) return;
+		Log.d(TAG, "Speed is: " + speed);		
+		Log.d(TAG, "Last Speed is: " + last_speed);		
+		if (speed > last_speed) {
 			// Speed is bigger!
-			for (Integer spd_step : speed_steps) {
-				if (last_speed < spd_step && speed > spd_step)
+			for (Integer spd_step : speed_steps) {				
+				if ((last_speed < spd_step) && (speed > spd_step))
 				{
+					Log.d(TAG, last_speed + " < " + spd_step + " && " + speed + " > " + spd_step);
 					// Speed is changed! (higher)
 					am.setStreamVolume(
 							AudioManager.STREAM_MUSIC,
-							vol+1,
+							vol+volChange,
 						    0);
-					Log.d(TAG, "Set voume: " + (vol+1));
-					//break;
+					Log.d(TAG, "Set (+) voume: " + vol + "+" + volChange + " / " + last_speed + " / " + speed + "("+spd_step+")");
 				}
 			}
 		} else {
 			// Speed is lower!
 			for (Integer spd_step : speed_steps) {
-				if (last_speed > spd_step && speed < spd_step)
+				if ((last_speed > spd_step) && (speed < spd_step))
 				{
 					// Speed is changed! (higher)
 					am.setStreamVolume(
 							AudioManager.STREAM_MUSIC,
-							vol-1,
+							vol-volChange,
 						    0);
-					Log.d(TAG, "Set voume: " + (vol-1));
-					//break;
+					Log.d(TAG, "Set (-) voume: " + vol + "-" + volChange + " / " + last_speed + " / " + speed + "("+spd_step+")");
 				}
 			}
 		}

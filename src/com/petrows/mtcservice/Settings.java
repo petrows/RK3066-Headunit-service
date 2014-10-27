@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class Settings {	
 	final static String TAG = "MTCService.Settings";
@@ -29,21 +30,34 @@ public class Settings {
 	public Settings(Context ctx) 
 	{
 		prefs = ctx.getSharedPreferences("MTCService", ctx.MODE_PRIVATE);
+		instance = this;
 	}
 	
 	public static Settings get(Context ctx)
 	{
-		if (null == instance) instance = new Settings(ctx);
+		new Settings(ctx);
 		return instance;
 	}
 	
-	boolean getServiceEnable()
+	private void setCfgBool(String name, boolean val)
 	{
-		return true;
+		Editor editor = prefs.edit();
+		editor.putBoolean(name, val);
+		editor.commit();
 	}
 	
-	boolean getServiceToast()
+	private void setCfgString(String name, String val)
 	{
-		return true;
+		Editor editor = prefs.edit();
+		editor.putString(name, val);
+		editor.commit();
 	}
+	
+	public boolean getServiceEnable() { return prefs.getBoolean("service.enable", true); }	
+	public void setServiceEnable(boolean enable) { setCfgBool("service.enable", enable); }
+	
+	public boolean getServiceToast() { return prefs.getBoolean("service.toast", true); }
+	public void setServiceToast(boolean enable) { setCfgBool("service.toast", enable); }
+	
+	public int getSpeedChangeValue() { return prefs.getInt("service.speedvol", 1); }
 }

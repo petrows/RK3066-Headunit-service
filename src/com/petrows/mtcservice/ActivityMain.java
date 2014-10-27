@@ -6,9 +6,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.Switch;
 import android.widget.TextView;
 
-public class ActivityMain extends Activity {
+public class ActivityMain extends Activity implements OnClickListener {
 	final static String TAG = "MTCService.ActivityMain";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,9 @@ public class ActivityMain extends Activity {
 			e.printStackTrace();
 		}
 		txtVersion.setText("Version: " + version);
+		
+		Switch chService = (Switch)findViewById(R.id.swServiceEnable);
+		chService.setChecked(Settings.get(this).getServiceEnable());
 
 		if (Settings.get(this).getServiceEnable() && !ServiceMain.isRunning)
 		{
@@ -33,5 +40,32 @@ public class ActivityMain extends Activity {
 		}
 		
 		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.swServiceEnable:
+			Log.d(TAG, "Service enable: " + (((Switch)findViewById(R.id.swServiceEnable)).isChecked()));
+			setService(((Switch)findViewById(R.id.swServiceEnable)).isChecked());
+			break;
+		case R.id.btnSettings:
+			// Run advanced settings
+			Intent intent = new Intent(this, ActivitySettings.class);
+			startActivity(intent);
+			break;
+		}
+		
+	}
+	
+	public void setService(boolean state)
+	{
+		stopService(new Intent(this, ServiceMain.class)); // Stop it		
+		// If enable - start it
+		if (state)
+		{
+			Log.d(TAG, "Starting service!");
+			startService(new Intent(this, ServiceMain.class));
+		}
 	}
 }

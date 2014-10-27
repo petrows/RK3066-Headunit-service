@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory
+        android:key="cat1"
+        android:summary=""
+        android:title="@string/ui_adv_settings_toast_cat" >
+    <CheckBoxPreference
+        android:key="service.toast"
+        android:summary="@string/ui_adv_settings_toast_enable_text"
+        android:title="@string/ui_adv_settings_toast_enable_title" >
+    </CheckBoxPreference>  
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="cat1"
+        android:summary=""
+        android:title="@string/ui_adv_settings_speedvol_cat" >
+    <EditTextPreference
+        android:key="service.speedrange"
+        android:title="@string/ui_adv_settings_speedvol_speed_title"
+        android:summary="@string/ui_adv_settings_speedvol_speed_text"
+        android:defaultValue="60, 100, 120"
+        >
+    </EditTextPreference>
+    <EditTextPreference
+        android:key="service.speedvol"
+        android:title="@string/ui_adv_settings_speedvol_level_title"
+        android:summary="@string/ui_adv_settings_speedvol_level_text"
+        android:defaultValue="1"
+        >
+    </EditTextPreference>
+    </PreferenceCategory>
+    
+    
+</PreferenceScreen>
