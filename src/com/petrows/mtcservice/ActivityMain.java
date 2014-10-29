@@ -13,10 +13,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 public class ActivityMain extends Activity implements OnClickListener {
-	final static String TAG = "MTCService.ActivityMain";
+	final static String TAG = "ActivityMain";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
 		TextView txtVersion = (TextView)findViewById(R.id.txtVersion);
@@ -37,9 +37,7 @@ public class ActivityMain extends Activity implements OnClickListener {
 		{
 			Log.d(TAG, "Starting service!");
 			startService(new Intent(this, ServiceMain.class));
-		}
-		
-		super.onCreate(savedInstanceState);
+		}		
 	}
 	
 	@Override
@@ -47,6 +45,7 @@ public class ActivityMain extends Activity implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.swServiceEnable:
 			Log.d(TAG, "Service enable: " + (((Switch)findViewById(R.id.swServiceEnable)).isChecked()));
+			Settings.get(this).setServiceEnable(((Switch)findViewById(R.id.swServiceEnable)).isChecked());
 			setService(((Switch)findViewById(R.id.swServiceEnable)).isChecked());
 			break;
 		case R.id.btnSettings:

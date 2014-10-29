@@ -1,16 +1,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.petrows.mtcservice"
-    android:versionCode="8"
-    android:versionName="1.8" >
+    android:versionCode="9"
+    android:versionName="1.9" >
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="14" />
+        android:minSdkVersion="17"
+        android:targetSdkVersion="17" />
     
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
+    
+    <!-- 
+    <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+	-->
+	
 	<uses-feature android:name="android.hardware.location" android:required="false" />
 	<uses-feature android:name="android.hardware.location.gps" android:required="false" />
 
@@ -32,14 +38,45 @@
             android:name=".ActivitySettings"
             android:label="@string/app_name" >
         </activity>
-        <service android:logo="@drawable/ic_launcher" android:enabled="true" android:label="ServiceMain" android:icon="@drawable/ic_launcher" android:name="ServiceMain"></service>
-        <receiver android:name="ServiceBootReceiver">
+        <!-- 
+        <activity
+            android:name=".ActivityDialer"
+            android:label="@string/app_name">
+            <intent-filter>
+		        <action android:name="android.intent.action.VIEW" />
+		        <action android:name="android.intent.action.DIAL" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		        <category android:name="android.intent.category.BROWSABLE" />
+		        <data android:scheme="tel" />
+		    </intent-filter>
+		    <intent-filter>
+		        <action android:name="android.intent.action.CALL_BUTTON" />
+		        <category android:name="android.intent.category.DEFAULT" />
+		    </intent-filter>
+	        <intent-filter>
+	            <action android:name="android.intent.action.CALL_PRIVILEGED" />
+	            <category android:name="android.intent.category.DEFAULT" />
+	        </intent-filter>
+	        <intent-filter>
+	            <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+	        </intent-filter>
+	    </activity>
+	    -->
+        <service 
+            android:logo="@drawable/ic_launcher" 
+            android:enabled="true" 
+            android:label="ServiceMain" 
+            android:icon="@drawable/ic_launcher" 
+            android:name="ServiceMain"
+            >            
+        </service>
+        <receiver android:name=".ServiceBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
 				<action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        <receiver android:name="ServiceEventReciever">
+        <receiver android:name=".ServiceEventReciever">
             <intent-filter>
                 <action android:name="com.microntek.irkeyUp"/>
                 <action android:name="com.microntek.irkeyDown"/>

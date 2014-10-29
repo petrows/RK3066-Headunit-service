@@ -6,6 +6,8 @@ import java.util.List;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class Settings {	
 	final static String TAG = "MTCService.Settings";
@@ -29,13 +31,12 @@ public class Settings {
 	
 	public Settings(Context ctx) 
 	{
-		prefs = ctx.getSharedPreferences("MTCService", ctx.MODE_PRIVATE);
-		instance = this;
+		prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 	}
 	
 	public static Settings get(Context ctx)
 	{
-		new Settings(ctx);
+		if (null == instance) instance = new Settings(ctx);
 		return instance;
 	}
 	

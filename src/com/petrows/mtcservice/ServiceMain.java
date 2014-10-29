@@ -22,7 +22,12 @@ public class ServiceMain extends Service implements LocationListener  {
 	final static String TAG = "MTCService.ServiceMain";
 	
 	public static boolean isRunning = false;
+	public static ServiceMain inst;
 	public double last_speed = 0;
+	
+	public ServiceMain() {
+		inst = this;
+	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -40,6 +45,7 @@ public class ServiceMain extends Service implements LocationListener  {
 	@Override
 	public void onDestroy() {
 		isRunning = false;
+		inst = null;
 		super.onDestroy();
 	}
 
@@ -60,7 +66,7 @@ public class ServiceMain extends Service implements LocationListener  {
 		
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 				0, this);
-
+		
 		return START_STICKY;
 	}
 
@@ -95,7 +101,7 @@ public class ServiceMain extends Service implements LocationListener  {
 			for (Integer spd_step : speed_steps) {
 				if ((last_speed > spd_step) && (speed < spd_step))
 				{
-					// Speed is changed! (higher)
+					// Speed is changed! (lower)
 					am.setStreamVolume(
 							AudioManager.STREAM_MUSIC,
 							vol-volChange,

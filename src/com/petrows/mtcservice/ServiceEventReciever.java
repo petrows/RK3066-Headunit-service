@@ -13,30 +13,24 @@ import android.widget.Toast;
 
 public class ServiceEventReciever extends BroadcastReceiver {
 	final static String TAG = "MTCService.ServiceEventReciever";
-
-	ServiceConnection mServconn = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d("SVTEST", "Activity service connected");            
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.d("SVTEST", "Activity service disconnected");            
-        }
-    };
     
 	@Override
 	public void onReceive(Context context, Intent intent) 
 	{
+		//int keyCode_ = intent.getIntExtra("keyCode", 0);
+		//toast(context, "Action " + intent.getAction() + ", key " + keyCode_);
+		
+		Log.d(TAG, "Pkg " + context.getPackageName());
+		Log.d(TAG, "Service enable " + Settings.get(context).getServiceEnable());
+		
 		if (Settings.get(context).getServiceEnable() && !ServiceMain.isRunning)
 		{
 			// Run our service (if needed)
 			context.startService(new Intent(context, ServiceMain.class));
 		}
-
+		
 		// Microntek keys?
-		if (intent.getAction().equals(Settings.MTCBroadcastIrkeyDown))
+		if (intent.getAction().equals(Settings.MTCBroadcastIrkeyUp))
 		{
 			// Key pressed...
 			
@@ -46,19 +40,20 @@ public class ServiceEventReciever extends BroadcastReceiver {
 			if (Settings.MTCKeysPrev.contains(keyCode))
 			{
 				sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-				// toast(context, "<<");
+				toast(context, "<<");
 			}
 			if (Settings.MTCKeysNext.contains(keyCode))
 			{
 				sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
-				// toast(context, ">>");
+				toast(context, ">>");
 			}				
 			if (Settings.MTCKeysPause.contains(keyCode))
 			{
 				sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-				// toast(context, "||");
+				toast(context, "||");
 			}
 		}
+		
 		// Microntek launch app?
 		if (intent.getAction().equals(Settings.MTCBroadcastWidget))
 		{
@@ -109,7 +104,7 @@ public class ServiceEventReciever extends BroadcastReceiver {
 	}
 	
 	public void toast(Context ctx, String msg) {
-		if (Settings.get(ctx).toast) {
+		if (Settings.get(ctx).getServiceToast()) {
 			Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
 		}
 	}
