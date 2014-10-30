@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class ServiceBootReceiver extends BroadcastReceiver {
-	final static String TAG = "MTCService.ServiceBootReceiver";
+	final static String TAG = "ServiceBootReceiver";
 	public ServiceBootReceiver() {}
 	
 	@Override

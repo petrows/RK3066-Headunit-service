@@ -2,29 +2,38 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <PreferenceCategory
-        android:key="cat1"
+        android:key="cat_toast"
         android:summary=""
         android:title="@string/ui_adv_settings_toast_cat" >
     <CheckBoxPreference
         android:key="service.toast"
         android:summary="@string/ui_adv_settings_toast_enable_text"
-        android:title="@string/ui_adv_settings_toast_enable_title" >
+        android:title="@string/ui_adv_settings_toast_enable_title" 
+        android:defaultValue="true"
+        >
     </CheckBoxPreference>  
     </PreferenceCategory>
     
     <PreferenceCategory
-        android:key="cat1"
+        android:key="cat_speed"
         android:summary=""
         android:title="@string/ui_adv_settings_speedvol_cat" >
+    <CheckBoxPreference
+        android:key="speed.enable"
+        android:summary="@string/ui_adv_settings_speedvol_enable_text"
+        android:title="@string/ui_adv_settings_speedvol_enable_title" 
+        android:defaultValue="true"
+        >
+    </CheckBoxPreference>  
     <EditTextPreference
-        android:key="service.speedrange"
+        android:key="speed.speedrange"
         android:title="@string/ui_adv_settings_speedvol_speed_title"
         android:summary="@string/ui_adv_settings_speedvol_speed_text"
-        android:defaultValue="60, 100, 120"
+        android:defaultValue="@string/cfg_def_speed_values"
         >
     </EditTextPreference>
     <EditTextPreference
-        android:key="service.speedvol"
+        android:key="speed.speedvol"
         android:title="@string/ui_adv_settings_speedvol_level_title"
         android:summary="@string/ui_adv_settings_speedvol_level_text"
         android:defaultValue="1"

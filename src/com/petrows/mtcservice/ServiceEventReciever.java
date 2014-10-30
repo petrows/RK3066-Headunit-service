@@ -12,7 +12,7 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 public class ServiceEventReciever extends BroadcastReceiver {
-	final static String TAG = "MTCService.ServiceEventReciever";
+	final static String TAG = "ServiceEventReciever";
     
 	@Override
 	public void onReceive(Context context, Intent intent) 
@@ -20,7 +20,7 @@ public class ServiceEventReciever extends BroadcastReceiver {
 		//int keyCode_ = intent.getIntExtra("keyCode", 0);
 		//toast(context, "Action " + intent.getAction() + ", key " + keyCode_);
 		
-		Log.d(TAG, "Pkg " + context.getPackageName());
+		Log.d(TAG, "Action " + intent.getAction() + ", key " + intent.getIntExtra("keyCode", -1));
 		Log.d(TAG, "Service enable " + Settings.get(context).getServiceEnable());
 		
 		if (Settings.get(context).getServiceEnable() && !ServiceMain.isRunning)

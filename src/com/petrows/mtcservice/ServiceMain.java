@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,7 +20,7 @@ import android.util.Log;
 
 public class ServiceMain extends Service implements LocationListener  {
 
-	final static String TAG = "MTCService.ServiceMain";
+	final static String TAG = "ServiceMain";
 	
 	public static boolean isRunning = false;
 	public static ServiceMain inst;
@@ -54,10 +55,15 @@ public class ServiceMain extends Service implements LocationListener  {
 		// TODO Auto-generated method stub
 		super.onStartCommand(intent, flags, startId);
 		Log.d(TAG, "MTCService onStartCommand");
+		
+		Intent notificationIntent = new Intent(this, ActivityMain.class);  
+	    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,   
+	            PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Notification note = new NotificationCompat.Builder(this)
-				.setContentTitle(getString(R.string.app_service_title))
+				.setContentTitle(getString(R.string.app_service_title) + " " + Settings.get(this).getVersion())
 				.setContentText(getString(R.string.app_service_descr))
+				.setContentIntent(contentIntent)
 				.setSmallIcon(R.drawable.ic_launcher).build();
 		startForeground(1337, note);
 		
@@ -72,15 +78,15 @@ public class ServiceMain extends Service implements LocationListener  {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		
-		List<Integer> speed_steps = Arrays.asList(20, 60, 100, 120);
+		if (!Settings.get(this).getSpeedEnable()) return; // Speed control is disabled
+		List<Integer> speed_steps = Settings.get(this).getSpeedValues();
 		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		int vol = am.getStreamVolume(AudioManager.STREAM_MUSIC);
 		int volChange = Settings.get(this).getSpeedChangeValue();
 		double speed = location.getSpeed();
 		speed = speed * 3.6; // m/s => km/h
 		if (speed == last_speed) return;
-		Log.d(TAG, "Speed is: " + speed);		
+		Log.d(TAG, "Speed is: " + speed + ", spteps is: " + speed_steps.toString());		
 		Log.d(TAG, "Last Speed is: " + last_speed);		
 		if (speed > last_speed) {
 			// Speed is bigger!
@@ -89,10 +95,18 @@ public class ServiceMain extends Service implements LocationListener  {
 				{
 					Log.d(TAG, last_speed + " < " + spd_step + " && " + speed + " > " + spd_step);
 					// Speed is changed! (higher)
+					/*
 					am.setStreamVolume(
 							AudioManager.STREAM_MUSIC,
 							vol+volChange,
-						    0);
+						    0);*/
+					for (int z=0; z<volChange; z++)
+					{
+						Intent localIntent = new Intent();
+						localIntent.setAction("com.microntek.irkeyDown");
+						localIntent.putExtra("keyCode", 19);
+						sendBroadcast(localIntent);
+					}
 					Log.d(TAG, "Set (+) voume: " + vol + "+" + volChange + " / " + last_speed + " / " + speed + "("+spd_step+")");
 				}
 			}
@@ -102,10 +116,18 @@ public class ServiceMain extends Service implements LocationListener  {
 				if ((last_speed > spd_step) && (speed < spd_step))
 				{
 					// Speed is changed! (lower)
+					/*
 					am.setStreamVolume(
 							AudioManager.STREAM_MUSIC,
 							vol-volChange,
-						    0);
+						    0);*/
+					for (int z=0; z<volChange; z++)
+					{
+						Intent localIntent = new Intent();
+						localIntent.setAction("com.microntek.irkeyDown");
+						localIntent.putExtra("keyCode", 27);
+						sendBroadcast(localIntent);
+					}
 					Log.d(TAG, "Set (-) voume: " + vol + "-" + volChange + " / " + last_speed + " / " + speed + "("+spd_step+")");
 				}
 			}

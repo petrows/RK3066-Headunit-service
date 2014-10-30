@@ -19,16 +19,8 @@ public class ActivityMain extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		TextView txtVersion = (TextView)findViewById(R.id.txtVersion);
-		String version = "?";
-		try {
-			PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			version = pInfo.versionName;
-		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		txtVersion.setText("Version: " + version);
+		TextView txtVersion = (TextView)findViewById(R.id.txtVersion);		
+		txtVersion.setText("Version: " + Settings.get(this).getVersion());
 		
 		Switch chService = (Switch)findViewById(R.id.swServiceEnable);
 		chService.setChecked(Settings.get(this).getServiceEnable());
