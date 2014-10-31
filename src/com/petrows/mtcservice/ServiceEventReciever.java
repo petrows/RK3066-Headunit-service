@@ -40,17 +40,17 @@ public class ServiceEventReciever extends BroadcastReceiver {
 			if (Settings.MTCKeysPrev.contains(keyCode))
 			{
 				sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-				toast(context, "<<");
+				Settings.get(context).showToast("<<");
 			}
 			if (Settings.MTCKeysNext.contains(keyCode))
 			{
 				sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
-				toast(context, ">>");
+				Settings.get(context).showToast(">>");
 			}				
 			if (Settings.MTCKeysPause.contains(keyCode))
 			{
 				sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-				toast(context, "||");
+				Settings.get(context).showToast("||");
 			}
 		}
 		
@@ -71,7 +71,7 @@ public class ServiceEventReciever extends BroadcastReceiver {
 					String pkgShort = wdgPackageSplit[wdgPackageSplit.length - 1];
 					pkgShort = String.valueOf(pkgShort.charAt(0)).toUpperCase() + pkgShort.subSequence(1, pkgShort.length());
 					Log.d(TAG, "Started mode: " + pkgShort);						
-					toast(context, pkgShort);
+					Settings.get(context).showToast(pkgShort);
 				}
 				
 				killMusic(context);
@@ -101,12 +101,5 @@ public class ServiceEventReciever extends BroadcastReceiver {
 		Log.d(TAG, "Killing music");	
 		// Stop playback (NORMAL players)
 		sendKey(ctx, KeyEvent.KEYCODE_MEDIA_STOP);
-	}
-	
-	public void toast(Context ctx, String msg) {
-		if (Settings.get(ctx).getServiceToast()) {
-			Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
-		}
-	}
-	
+	}	
 }

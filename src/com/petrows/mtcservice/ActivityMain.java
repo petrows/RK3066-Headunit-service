@@ -29,7 +29,7 @@ public class ActivityMain extends Activity implements OnClickListener {
 		{
 			Log.d(TAG, "Starting service!");
 			startService(new Intent(this, ServiceMain.class));
-		}		
+		}
 	}
 	
 	@Override

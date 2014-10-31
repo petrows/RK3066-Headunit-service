@@ -65,13 +65,15 @@ public class ServiceMain extends Service implements LocationListener  {
 				.setContentText(getString(R.string.app_service_descr))
 				.setContentIntent(contentIntent)
 				.setSmallIcon(R.drawable.ic_launcher).build();
-		startForeground(1337, note);
+		startForeground(startId, note);
 		
 		LocationManager locationManager = (LocationManager) this
 				.getSystemService(Context.LOCATION_SERVICE);
 		
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				0, this);
+		if (null != locationManager)
+		{
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, this);
+		}
 		
 		return START_STICKY;
 	}
@@ -79,9 +81,10 @@ public class ServiceMain extends Service implements LocationListener  {
 	@Override
 	public void onLocationChanged(Location location) {
 		if (!Settings.get(this).getSpeedEnable()) return; // Speed control is disabled
+		if (!location.hasSpeed()) return; // Speed control is disabled
 		List<Integer> speed_steps = Settings.get(this).getSpeedValues();
-		AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-		int vol = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+		int vol = Settings.get(this).getVolume();
+		int volNew = vol;
 		int volChange = Settings.get(this).getSpeedChangeValue();
 		double speed = location.getSpeed();
 		speed = speed * 3.6; // m/s => km/h
@@ -93,21 +96,8 @@ public class ServiceMain extends Service implements LocationListener  {
 			for (Integer spd_step : speed_steps) {				
 				if ((last_speed < spd_step) && (speed > spd_step))
 				{
-					Log.d(TAG, last_speed + " < " + spd_step + " && " + speed + " > " + spd_step);
-					// Speed is changed! (higher)
-					/*
-					am.setStreamVolume(
-							AudioManager.STREAM_MUSIC,
-							vol+volChange,
-						    0);*/
-					for (int z=0; z<volChange; z++)
-					{
-						Intent localIntent = new Intent();
-						localIntent.setAction("com.microntek.irkeyDown");
-						localIntent.putExtra("keyCode", 19);
-						sendBroadcast(localIntent);
-					}
-					Log.d(TAG, "Set (+) voume: " + vol + "+" + volChange + " / " + last_speed + " / " + speed + "("+spd_step+")");
+					Log.d(TAG, "Set (+) voume: " + volNew + "+" + volChange + " / " + last_speed + " / " + speed + "("+spd_step+")");
+					volNew = volNew + volChange;					
 				}
 			}
 		} else {
@@ -116,21 +106,17 @@ public class ServiceMain extends Service implements LocationListener  {
 				if ((last_speed > spd_step) && (speed < spd_step))
 				{
 					// Speed is changed! (lower)
-					/*
-					am.setStreamVolume(
-							AudioManager.STREAM_MUSIC,
-							vol-volChange,
-						    0);*/
-					for (int z=0; z<volChange; z++)
-					{
-						Intent localIntent = new Intent();
-						localIntent.setAction("com.microntek.irkeyDown");
-						localIntent.putExtra("keyCode", 27);
-						sendBroadcast(localIntent);
-					}
-					Log.d(TAG, "Set (-) voume: " + vol + "-" + volChange + " / " + last_speed + " / " + speed + "("+spd_step+")");
+					Log.d(TAG, "Set (-) voume: " + volNew + "-" + volChange + " / " + last_speed + " / " + speed + "("+spd_step+")");
+					volNew = volNew - volChange;
 				}
 			}
+		}
+		
+		if (volNew != vol)
+		{
+			// Change it!
+			Settings.get(this).setVolume(volNew);
+			Settings.get(this).showToast("Volume " + (volNew>vol?"+":"-") + " ("+volNew+")");
 		}
 		
 		last_speed = speed;
@@ -144,4 +130,6 @@ public class ServiceMain extends Service implements LocationListener  {
 
 	@Override
 	public void onProviderDisabled(String provider) {}
+	
+	
 }

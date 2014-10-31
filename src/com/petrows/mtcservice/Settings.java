@@ -1,6 +1,9 @@
 package com.petrows.mtcservice;
 
 import java.util.ArrayList;
+
+import android.media.AudioManager;
+import android.provider.Settings.System;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +14,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class Settings {	
 	final static String TAG = "Settings";
@@ -30,6 +34,8 @@ public class Settings {
 	private String speedValuesDef = "";
 	private int speedValueChange = 1;
 	
+	private AudioManager am = null;
+	
 	private static Settings instance = null;
 	private SharedPreferences prefs;
 	
@@ -40,6 +46,9 @@ public class Settings {
 		ctx = context;
 		prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		speedValuesDef = ctx.getString(R.string.cfg_def_speed_values);
+		
+		am = ((AudioManager)ctx.getSystemService(Context.AUDIO_SERVICE));
+		
 		Log.d(TAG, "Settings created");
 	}
 	
@@ -87,6 +96,12 @@ public class Settings {
 	
 	public boolean getServiceToast() { return prefs.getBoolean("service.toast", true); }
 	public void setServiceToast(boolean enable) { setCfgBool("service.toast", enable); }
+	public void showToast(String text) { showToast(text, Toast.LENGTH_SHORT); }
+	public void showToast(String text, int length)
+	{
+		Log.d(TAG, "Toast: " + text);
+		if (getServiceToast()) Toast.makeText(ctx, text, length).show();
+	}
 	
 	public boolean getSpeedEnable() { return prefs.getBoolean("speed.enable", true); }
 	public int getSpeedChangeValue() { return Integer.valueOf(prefs.getString("speed.speedvol", "1")); }
@@ -118,5 +133,35 @@ public class Settings {
 			setCfgString("speed.speedrange", speed_vals_clr.toString());
 		}
 		return speedValues;
+	}
+	
+	// This function is reversed from package android.microntek.service.MicrontekServer
+	private int mtcGetRealVolume(int paramInt)
+	  {
+	    int i = paramInt * 100 / 30;
+	    if (i < 20) {
+	      return i + i / 2;
+	    }
+	    if (i < 50) {
+	      return i + 10;
+	    }
+	    return i + (100 - i) / 5;
+	  }
+	
+	public void setVolume(int level)
+	{
+		if (level < 0 || level > 30)
+		{
+			Log.w(TAG, "Volume level " + level + " is wrong, ignore it"); return;
+		}
+		
+		Log.d(TAG, "Settings new volume real: " + mtcGetRealVolume(level));
+		android.provider.Settings.System.putInt(ctx.getContentResolver(), "av_volume=", level);
+		am.setParameters("av_volume="+mtcGetRealVolume(level));
+	}
+	
+	public int getVolume()
+	{
+		return android.provider.Settings.System.getInt(ctx.getContentResolver(), "av_volume=", 15);
 	}
 }
