@@ -86,12 +86,22 @@ public class ServiceMain extends Service implements LocationListener  {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		
 		if (!Settings.get(this).getSpeedEnable()) return; // Speed control is disabled
 		if (!location.hasSpeed()) return; // Speed control is disabled
+		
+		if (Settings.get(this).getMute())
+		{
+			// Skip volume change on Mute
+			Log.d(TAG, "Set voume skipped - mute is active");
+			return;
+		}
+		
 		List<Integer> speed_steps = Settings.get(this).getSpeedValues();
 		int vol = Settings.get(this).getVolume();
 		int volNew = vol;
 		int volChange = Settings.get(this).getSpeedChangeValue();
+						
 		double speed = location.getSpeed();
 		speed = speed * 3.6; // m/s => km/h
 		if (speed == last_speed) return;
@@ -120,12 +130,7 @@ public class ServiceMain extends Service implements LocationListener  {
 		
 		last_speed = speed;
 		
-		if (Settings.get(this).getMute())
-		{
-			// Skip volume change on Mute
-			Log.d(TAG, "Set voume skipped - mute is active");
-			return;
-		}
+		
 		
 		if (volNew != vol)
 		{
