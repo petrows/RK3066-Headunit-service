@@ -54,6 +54,22 @@ public class ServiceEventReciever extends BroadcastReceiver {
 			}
 		}
 		
+		if (intent.getAction().equals(Settings.MTCBroadcastACC))
+		{
+			String accState = intent.getStringExtra("accstate");
+			Log.d(TAG, "Acc state: " + accState);
+			if ("accoff" == accState)
+			{
+				// We are powering-off
+				
+				// Set safe volume?
+				if (Settings.get(context).getSafeVolumeEnable())
+				{
+					Settings.get(context).setVolumeSafe();
+				}
+			}
+		}
+		
 		// Microntek launch app?
 		if (intent.getAction().equals(Settings.MTCBroadcastWidget))
 		{

@@ -6,9 +6,14 @@
     <string name="app_service_title">MTC-Service</string>
     <string name="app_service_descr">HeadUnit service running</string>
     
+    <string name="toast_safe_volume">Set safe volume level</string>
+    
     <string name="ui_service_title">MicronTek HeadUnit Service</string>
     <string name="ui_service_enable">Service enable</string>
     <string name="ui_service_settings">Service advanced settings</string>
+
+    <string name="ui_adv_settings_safe_volume_title">Set safe volume on service start</string>
+    <string name="ui_adv_settings_safe_volume_text">Set volume level 5 on HeadUnit start</string>
     
     <string name="ui_adv_settings_toast_cat">Notifications</string>
     <string name="ui_adv_settings_toast_enable_title">Enable toast</string>

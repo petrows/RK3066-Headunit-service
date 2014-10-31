@@ -21,6 +21,7 @@ public class Settings {
 	
 	final static String MTCBroadcastIrkeyUp    = "com.microntek.irkeyUp";
 	final static String MTCBroadcastIrkeyDown  = "com.microntek.irkeyDown";
+	final static String MTCBroadcastACC  = "com.microntek.acc";
 
 	final static List<Integer> MTCKeysPrev  = Arrays.asList(58, 22);
 	final static List<Integer> MTCKeysNext  = Arrays.asList(59, 24);
@@ -94,6 +95,8 @@ public class Settings {
 	public boolean getServiceEnable() { return prefs.getBoolean("service.enable", true); }	
 	public void setServiceEnable(boolean enable) { setCfgBool("service.enable", enable); }
 	
+	public boolean getSafeVolumeEnable() { return prefs.getBoolean("service.safe_volume_on_start", false); }	
+	
 	public boolean getServiceToast() { return prefs.getBoolean("service.toast", true); }
 	public void setServiceToast(boolean enable) { setCfgBool("service.toast", enable); }
 	public void showToast(String text) { showToast(text, Toast.LENGTH_SHORT); }
@@ -159,6 +162,7 @@ public class Settings {
 		android.provider.Settings.System.putInt(ctx.getContentResolver(), "av_volume=", level);
 		am.setParameters("av_volume="+mtcGetRealVolume(level));
 	}
+	public void setVolumeSafe() { showToast(ctx.getString(R.string.toast_safe_volume)); setVolume(10); }
 	
 	public int getVolume()
 	{

@@ -75,6 +75,12 @@ public class ServiceMain extends Service implements LocationListener  {
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, this);
 		}
 		
+		// Set safe volume?
+		if (Settings.get(this).getSafeVolumeEnable())
+		{
+			Settings.get(this).setVolumeSafe();
+		}
+		
 		return START_STICKY;
 	}
 
