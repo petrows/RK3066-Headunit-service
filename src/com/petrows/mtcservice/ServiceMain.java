@@ -118,6 +118,15 @@ public class ServiceMain extends Service implements LocationListener  {
 			}
 		}
 		
+		last_speed = speed;
+		
+		if (Settings.get(this).getMute())
+		{
+			// Skip volume change on Mute
+			Log.d(TAG, "Set voume skipped - mute is active");
+			return;
+		}
+		
 		if (volNew != vol)
 		{
 			// Change it!
@@ -125,7 +134,7 @@ public class ServiceMain extends Service implements LocationListener  {
 			Settings.get(this).showToast("Volume " + (volNew>vol?"+":"-") + " ("+volNew+")");
 		}
 		
-		last_speed = speed;
+		
 	}
 
 	@Override

@@ -90,8 +90,7 @@ public class Settings {
 		}
 		return version;
 	}
-	
-		
+			
 	public boolean getServiceEnable() { return prefs.getBoolean("service.enable", true); }	
 	public void setServiceEnable(boolean enable) { setCfgBool("service.enable", enable); }
 	
@@ -136,6 +135,11 @@ public class Settings {
 			setCfgString("speed.speedrange", speed_vals_clr.toString());
 		}
 		return speedValues;
+	}
+	
+	public boolean getMute()
+	{
+		return am.getParameters("av_mute=").equals("true");
 	}
 	
 	// This function is reversed from package android.microntek.service.MicrontekServer
