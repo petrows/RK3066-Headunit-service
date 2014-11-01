@@ -7,6 +7,7 @@
     <string name="app_service_descr">HeadUnit service running</string>
     
     <string name="toast_safe_volume">Set safe volume level</string>
+    <string name="toast_calling">Calling: %s</string>
     
     <string name="ui_service_title">MicronTek HeadUnit Service</string>
     <string name="ui_service_enable">Service enable</string>

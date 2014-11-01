@@ -10,7 +10,8 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-
+    
+    <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
 
@@ -23,8 +24,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        
+        android:theme="@style/AppTheme" >        
         <activity
             android:name=".ActivityMain"
             android:label="@string/app_name" >
@@ -32,19 +32,32 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>             
         <activity
             android:name=".ActivitySettings"
             android:label="@string/app_name" >
+        </activity>        
+        <activity
+            android:name=".ActivityDialer"
+            android:label="@string/app_name" >            
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SENDTO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="sms"/>
+                <data android:scheme="smsto"/>
+                <data android:scheme="mms"/>
+                <data android:scheme="mmsto"/>
+            </intent-filter>
         </activity>
-
         <service 
             android:logo="@drawable/ic_launcher" 
             android:enabled="true" 
             android:label="ServiceMain" 
             android:icon="@drawable/ic_launcher" 
             android:name="ServiceMain"
-            >            
+            >
         </service>
         <receiver android:name=".ServiceBootReceiver">
             <intent-filter>
@@ -58,23 +71,6 @@
                 <action android:name="com.microntek.irkeyDown"/>
                 <action android:name="com.microntek.acc"/>
             </intent-filter>
-        </receiver>        
-        <receiver android:name=".ServiceDialReciever">
-            <intent-filter>
-		        <action android:name="android.intent.action.DIAL" />
-		    </intent-filter>
-		    <intent-filter>
-		        <action android:name="android.intent.action.CALL_BUTTON" />
-		        <category android:name="android.intent.category.DEFAULT" />
-		    </intent-filter>
-	        <intent-filter>
-	            <action android:name="android.intent.action.CALL_PRIVILEGED" />
-	            <category android:name="android.intent.category.DEFAULT" />
-	        </intent-filter>
-	        <intent-filter>
-	            <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
-	        </intent-filter>
-	    </receiver>
+        </receiver>
     </application>
-
 </manifest>
