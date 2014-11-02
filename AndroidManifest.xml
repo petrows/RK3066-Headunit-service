@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.petrows.mtcservice"
-    android:versionCode="11"
-    android:versionName="1.11" >
+    android:versionCode="12"
+    android:versionName="1.12" >
 
     <uses-sdk
         android:minSdkVersion="17"
@@ -11,10 +11,11 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     
+    <!-- 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
-
+	-->
 	
 	<uses-feature android:name="android.hardware.telephony" android:required="false" />
 	<uses-feature android:name="android.hardware.location" android:required="false" />
@@ -36,7 +37,8 @@
         <activity
             android:name=".ActivitySettings"
             android:label="@string/app_name" >
-        </activity>        
+        </activity> 
+        <!--        
         <activity
             android:name=".ActivityDialer"
             android:label="@string/app_name" >            
@@ -51,6 +53,7 @@
                 <data android:scheme="mmsto"/>
             </intent-filter>
         </activity>
+        -->
         <service 
             android:logo="@drawable/ic_launcher" 
             android:enabled="true" 

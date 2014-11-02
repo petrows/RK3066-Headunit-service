@@ -1,19 +1,26 @@
 package com.petrows.mtcservice;
 
+import java.io.FileDescriptor;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.IInterface;
+import android.os.Parcel;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
 import android.widget.Switch;
 import android.widget.TextView;
 
 public class ActivityMain extends Activity implements OnClickListener {
 	final static String TAG = "ActivityMain";
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,7 +38,7 @@ public class ActivityMain extends Activity implements OnClickListener {
 			startService(new Intent(this, ServiceMain.class));
 		}
 	}
-	
+		 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
