@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MTC-Service</string>
+    <string name="app_service_title">MTC-Service</string>
+    <string name="app_service_descr">Сервис магнитолы работает</string>
+    
+    <string name="toast_safe_volume">Установлена безопасная громкость</string>
+    <string name="toast_calling">Вызов: %s</string>
+    
+    <string name="ui_service_title">MicronTek сервис магнитолы</string>
+    <string name="ui_service_enable">Включить сервис</string>
+    <string name="ui_service_settings">Настройки</string>
+
+    <string name="ui_adv_settings_safe_volume_title">Громкость при включении</string>
+    <string name="ui_adv_settings_safe_volume_text">Установить безопасную громкость при включении</string>
+    
+    <string name="ui_adv_settings_toast_cat">Уведомления</string>
+    <string name="ui_adv_settings_toast_enable_title">Показывать уведомления</string>
+    <string name="ui_adv_settings_toast_enable_text">Показывать короткие пояснения на все события</string>
+    
+    <string name="ui_adv_settings_speedvol_cat">Компенсация громкости на скорости</string>
+    <string name="ui_adv_settings_speedvol_enable_title">Включить компенсацию</string>
+    <string name="ui_adv_settings_speedvol_enable_text">Настраивать громкость от скорости</string>
+    <string name="ui_adv_settings_speedvol_speed_title">Шаги регулировки</string>
+    <string name="ui_adv_settings_speedvol_speed_text">Рубеж скорости для увеличинения/уменьшения громоксти</string>
+    <string name="ui_adv_settings_speedvol_level_title">Степень регулировки</string>
+    <string name="ui_adv_settings_speedvol_level_text">Насколько сильно громкость меняется на каждом шаге</string>
+
+</resources>
