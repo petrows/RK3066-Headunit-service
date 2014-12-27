@@ -37,20 +37,26 @@ public class ServiceEventReciever extends BroadcastReceiver {
 			int keyCode = intent.getIntExtra("keyCode", 0);
 			Log.d(TAG, "MTCService recieve key "+keyCode);
 			
-			if (Settings.MTCKeysPrev.contains(keyCode))
-			{
-				sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-				Settings.get(context).showToast("<<");
-			}
-			if (Settings.MTCKeysNext.contains(keyCode))
-			{
-				sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
-				Settings.get(context).showToast(">>");
-			}				
-			if (Settings.MTCKeysPause.contains(keyCode))
-			{
-				sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-				Settings.get(context).showToast("||");
+			// Test media keys?
+			if (Settings.get(context).getMediaKeysEnable())
+			{			
+				if (Settings.MTCKeysPrev.contains(keyCode))
+				{
+					sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+					Settings.get(context).showToast("<<");
+				}
+				if (Settings.MTCKeysNext.contains(keyCode))
+				{
+					sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
+					Settings.get(context).showToast(">>");
+				}				
+				if (Settings.MTCKeysPause.contains(keyCode))
+				{
+					sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+					Settings.get(context).showToast("||");
+				}
+			} else {
+				Log.d(TAG, "Media keys handler is disabled in settings");
 			}
 		}
 		

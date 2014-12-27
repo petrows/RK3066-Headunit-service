@@ -94,7 +94,7 @@ public class Settings {
 	public boolean getServiceEnable() { return prefs.getBoolean("service.enable", true); }	
 	public void setServiceEnable(boolean enable) { setCfgBool("service.enable", enable); }
 	
-	public boolean getSafeVolumeEnable() { return prefs.getBoolean("service.safe_volume_on_start", false); }	
+	
 	
 	public boolean getServiceToast() { return prefs.getBoolean("service.toast", true); }
 	public void setServiceToast(boolean enable) { setCfgBool("service.toast", enable); }
@@ -105,8 +105,13 @@ public class Settings {
 		if (getServiceToast()) Toast.makeText(ctx, text, length).show();
 	}
 	
+	public boolean getMediaKeysEnable() { return prefs.getBoolean("keys.enable", true); }	
+	
+	public boolean getSafeVolumeEnable() { return prefs.getBoolean("svol.enable", false); }
+	public int getSafeVolumeLevel() { return Integer.valueOf(prefs.getString("svol.level", "5")); }
+	
 	public boolean getSpeedEnable() { return prefs.getBoolean("speed.enable", true); }
-	public int getSpeedChangeValue() { return Integer.valueOf(prefs.getString("speed.speedvol", "1")); }
+	public int getSpeedChangeValue() { return Integer.valueOf(prefs.getString("speed.speedvol", "5")); }
 	public List<Integer> getSpeedValues() {
 		// Load speed values		
 		if (speedValues == null || speedValues.size() <= 0)
@@ -162,11 +167,11 @@ public class Settings {
 			Log.w(TAG, "Volume level " + level + " is wrong, ignore it"); return;
 		}
 		
-		Log.d(TAG, "Settings new volume real: " + mtcGetRealVolume(level));
+		Log.d(TAG, "Settings new volume system: " + level + ", real: " + mtcGetRealVolume(level));
 		android.provider.Settings.System.putInt(ctx.getContentResolver(), "av_volume=", level);
 		am.setParameters("av_volume="+mtcGetRealVolume(level));
 	}
-	public void setVolumeSafe() { showToast(ctx.getString(R.string.toast_safe_volume)); setVolume(10); }
+	public void setVolumeSafe() { showToast(ctx.getString(R.string.toast_safe_volume)); setVolume(getSafeVolumeLevel()); }
 	
 	public int getVolume()
 	{
