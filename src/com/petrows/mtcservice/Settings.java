@@ -93,9 +93,7 @@ public class Settings {
 			
 	public boolean getServiceEnable() { return prefs.getBoolean("service.enable", true); }	
 	public void setServiceEnable(boolean enable) { setCfgBool("service.enable", enable); }
-	
-	
-	
+		
 	public boolean getServiceToast() { return prefs.getBoolean("service.toast", true); }
 	public void setServiceToast(boolean enable) { setCfgBool("service.toast", enable); }
 	public void showToast(String text) { showToast(text, Toast.LENGTH_SHORT); }
@@ -104,6 +102,8 @@ public class Settings {
 		Log.d(TAG, "Toast: " + text);
 		if (getServiceToast()) Toast.makeText(ctx, text, length).show();
 	}
+	
+	public boolean getCallerEnable() { return prefs.getBoolean("caller.enable", true); }	
 	
 	public boolean getMediaKeysEnable() { return prefs.getBoolean("keys.enable", true); }	
 	

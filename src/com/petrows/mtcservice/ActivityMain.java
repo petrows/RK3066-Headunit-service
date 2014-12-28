@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +55,12 @@ public class ActivityMain extends Activity implements OnClickListener {
 			break;
 		}
 		
+	}
+	
+	public void onClickCall(View v)
+	{
+		Intent intent = new Intent(this, ActivityDialer.class);
+		startActivity(intent);
 	}
 	
 	public void setService(boolean state)

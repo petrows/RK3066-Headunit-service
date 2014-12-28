@@ -49,5 +49,14 @@
         android:layout_centerHorizontal="true"
         android:onClick="onClick"
         android:text="@string/ui_service_settings" />
-
+    <!-- 
+    <Button
+        android:id="@+id/btnCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSettings"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClickCall"
+        android:text="Call test" />
+	-->
 </RelativeLayout>

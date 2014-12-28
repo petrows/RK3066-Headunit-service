@@ -47,7 +47,7 @@
                 <category android:name="android.intent.category.DEFAULT" />  
             </intent-filter>  
         </activity> 
-        <!--        
+    
         <activity
             android:name=".ActivityDialer"
             android:label="@string/app_name" >            
@@ -62,7 +62,7 @@
                 <data android:scheme="mmsto"/>
             </intent-filter>
         </activity>
-        -->
+
         <service 
             android:logo="@drawable/ic_launcher" 
             android:enabled="true" 
