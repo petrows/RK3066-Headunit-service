@@ -39,16 +39,18 @@
             android:layout_height="wrap_content"
             android:onClick="onClick"
             android:text="@string/ui_service_enable" />
+
     </FrameLayout>
 
     <Button
         android:id="@+id/btnSettings"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/frameLayout1"
         android:layout_centerHorizontal="true"
         android:onClick="onClick"
         android:text="@string/ui_service_settings" />
+    
     <!-- 
     <Button
         android:id="@+id/btnCall"
@@ -59,4 +61,14 @@
         android:onClick="onClickCall"
         android:text="Call test" />
 	-->
+
+    <Button
+        android:id="@+id/btnContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSettings"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:text="@string/ui_contact_title" />
+
 </RelativeLayout>

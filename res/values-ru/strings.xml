@@ -9,6 +9,8 @@
     <string name="toast_calling_process">Звоним: %s</string>
     <string name="toast_calling_error">Ошибка вызова: %d</string>
     
+    <string name="ui_contact_title">Написать автору</string>
+    <string name="ui_contact_text">Отправить письмо на petro@petro.ws</string>
     
     <string name="ui_service_title">MicronTek сервис магнитолы</string>
     <string name="ui_service_enable">Включить сервис</string>

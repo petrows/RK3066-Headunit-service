@@ -9,6 +9,9 @@
     <string name="toast_calling_process">Calling: %s</string>
     <string name="toast_calling_error">Calling error: %d</string>
     
+    <string name="ui_contact_title">Contact author</string>
+    <string name="ui_contact_text">Write email to petro@petro.ws</string>
+    
     <string name="ui_service_title">MicronTek HeadUnit Service</string>
     <string name="ui_service_enable">Service enable</string>
     <string name="ui_service_settings">Service advanced settings</string>

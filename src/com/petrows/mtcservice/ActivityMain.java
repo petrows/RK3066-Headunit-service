@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -52,6 +53,14 @@ public class ActivityMain extends Activity implements OnClickListener {
 			// Run advanced settings
 			Intent intent = new Intent(this, ActivitySettings.class);
 			startActivity(intent);
+			break;
+		case R.id.btnContact:
+			// Run advanced settings
+			Intent intentMail = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+		            "mailto","petro@petro.ws", null));
+			intentMail.putExtra(Intent.EXTRA_SUBJECT, "Microntek headunit app");
+			startActivity(Intent.createChooser(intentMail, getString(R.string.ui_contact_title)));
+			
 			break;
 		}
 		
