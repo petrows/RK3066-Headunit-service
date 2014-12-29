@@ -23,8 +23,8 @@ public class Settings {
 	final static String MTCBroadcastIrkeyDown  = "com.microntek.irkeyDown";
 	final static String MTCBroadcastACC  = "com.microntek.acc";
 
-	final static List<Integer> MTCKeysPrev  = Arrays.asList(58, 22);
-	final static List<Integer> MTCKeysNext  = Arrays.asList(59, 24);
+	final static List<Integer> MTCKeysPrev  = Arrays.asList(45, 58, 22);
+	final static List<Integer> MTCKeysNext  = Arrays.asList(46, 59, 24);
 	final static List<Integer> MTCKeysPause = Arrays.asList(3);
 	
 	final static String MTCBroadcastWidget = "com.android.MTClauncher.action.INSTALL_WIDGETS";
