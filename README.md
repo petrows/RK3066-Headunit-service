@@ -10,8 +10,6 @@ Features:
  - Background volume change (no stock or system UI)
  - Safe volume level set on start/stop headunit
 
-App is full open-source: https://github.com/petrows/mtc-service
-
 Supports head units on Rockchip RK30SDK platform: RK3066 (Android 4.2.2 and 4.4.X)
  - Klyde (KLD)
  - Roadmaster (RM)
