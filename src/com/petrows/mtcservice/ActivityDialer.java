@@ -43,8 +43,15 @@ public class ActivityDialer extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		// Test who called us...	
 		String callRequest = getIntent().getData().getSchemeSpecificPart();
 		phoneNumber = callRequest.replaceAll("[^\\+\\d]", "");
+		if (phoneNumber.length() == 0)
+		{
+			// Wrong phone!
+			showError(4);
+			return;
+		}
 		
 		// Disabled in settings?
 		if (!Settings.get(this).getCallerEnable())
@@ -58,11 +65,18 @@ public class ActivityDialer extends Activity {
 		Settings.get(this).showToast(String.format(getString(R.string.toast_calling_process), phoneNumber));		
 		Log.d(TAG, "Calling to: " + phoneNumber);
 				
-		if (!bindService(new Intent("com.microntek.btserver"), this.serviceConnection, 1))
-		{
-			showError(1);			
-		} else {
-			// Will try to call on ServiceConnected!
+		try {
+			if (!bindService(new Intent("com.microntek.btserver"), this.serviceConnection, 1))
+			{
+				showError(1);		
+				return;
+			} else {
+				// Will try to call on ServiceConnected!
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "Service exception " + e.getLocalizedMessage());
+			showError(1);		
+			return;
 		}
 	}
 		
@@ -81,6 +95,7 @@ public class ActivityDialer extends Activity {
 	
 	void showError(int id)
 	{
+		Log.e(TAG, "Call error " + String.valueOf(id));
 		Settings.get(this).showToast(String.format(getString(R.string.toast_calling_error), id));	
 		finish();
 	}	
