@@ -97,6 +97,13 @@ public class ServiceMain extends Service implements LocationListener  {
 			return;
 		}
 		
+		if (Settings.get(this).getVolume() == 0)
+		{
+			// Skip volume change on Mute
+			Log.d(TAG, "Set voume skipped - volume is zero");
+			return;
+		}
+		
 		List<Integer> speed_steps = Settings.get(this).getSpeedValues();
 		int vol = Settings.get(this).getVolume();
 		int volNew = vol;
