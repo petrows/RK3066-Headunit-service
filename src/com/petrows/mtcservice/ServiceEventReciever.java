@@ -1,15 +1,11 @@
 package com.petrows.mtcservice;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 public class ServiceEventReciever extends BroadcastReceiver {
 	final static String TAG = "ServiceEventReciever";
@@ -109,13 +105,13 @@ public class ServiceEventReciever extends BroadcastReceiver {
 		KeyEvent downEvent = new KeyEvent(eventtime, eventtime,
 				KeyEvent.ACTION_DOWN, keycode, 0);
 		downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
-		ctx.sendOrderedBroadcast(downIntent, null);
+		ctx.sendBroadcast(downIntent);
 				
 		Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
 		KeyEvent upEvent = new KeyEvent(eventtime, eventtime,
 				KeyEvent.ACTION_UP, keycode, 0);
 		upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-		ctx.sendOrderedBroadcast(upIntent, null);		
+		ctx.sendBroadcast(upIntent);		
 	}
 	
 	public void killMusic(Context ctx)
