@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="3dp" >
+
+    <TextView
+        android:id="@+id/wdgHistoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name of Phone"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+	<!-- 
+    <TextView
+        android:id="@+id/wdgHistoryDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/wdgHistoryName"
+        android:text="Date"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+	-->
+    <TextView
+        android:id="@+id/wdgHistoryPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/wdgHistoryName"
+        android:layout_marginLeft="17dp"
+        android:text="Phone"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
