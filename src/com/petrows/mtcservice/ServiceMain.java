@@ -1,19 +1,19 @@
 package com.petrows.mtcservice;
 
-import java.util.Arrays;
 import java.util.List;
 
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -25,7 +25,7 @@ public class ServiceMain extends Service implements LocationListener  {
 	public static boolean isRunning = false;
 	public static ServiceMain inst;
 	public double last_speed = 0;
-	
+
 	public ServiceMain() {
 		inst = this;
 	}
@@ -41,6 +41,14 @@ public class ServiceMain extends Service implements LocationListener  {
 		isRunning = true;
 		super.onCreate();
 		Log.d(TAG, "MTCService onCreate");
+
+        //dsa
+        IntentFilter intf = new IntentFilter();
+        intf.addAction( "com.microntek.irkeyUp" );
+        intf.addAction( "com.microntek.irkeyDown" );
+        intf.addAction( "com.microntek.acc" );
+        registerReceiver( new ServiceEventReciever(), intf );
+        Log.d(TAG, "MTCService registerReceiver");
 	}
 
 	@Override
@@ -80,7 +88,7 @@ public class ServiceMain extends Service implements LocationListener  {
 		{
 			Settings.get(this).setVolumeSafe();
 		}
-		
+
 		return START_STICKY;
 	}
 
@@ -94,13 +102,6 @@ public class ServiceMain extends Service implements LocationListener  {
 		{
 			// Skip volume change on Mute
 			Log.d(TAG, "Set voume skipped - mute is active");
-			return;
-		}
-		
-		if (Settings.get(this).getVolume() == 0)
-		{
-			// Skip volume change on Mute
-			Log.d(TAG, "Set voume skipped - volume is zero");
 			return;
 		}
 		
@@ -137,15 +138,12 @@ public class ServiceMain extends Service implements LocationListener  {
 		
 		last_speed = speed;
 		
-		
-		
 		if (volNew != vol)
 		{
 			// Change it!
 			Settings.get(this).setVolume(volNew);
 			Settings.get(this).showToast("Volume " + (volNew>vol?"+":"-") + " ("+volNew+")");
 		}
-		
 		
 	}
 

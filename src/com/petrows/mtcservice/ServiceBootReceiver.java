@@ -3,8 +3,6 @@ package com.petrows.mtcservice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class ServiceBootReceiver extends BroadcastReceiver {
@@ -16,10 +14,12 @@ public class ServiceBootReceiver extends BroadcastReceiver {
 	{
 		// Check out this
 		Log.d(TAG, "Starting service");
-		
-		if (Settings.get(ctx).getServiceEnable())
-		{
-			ctx.startService(new Intent(ctx, ServiceMain.class));
-		}
+
+        //dsa
+        ServiceEventReciever.syn = true;
+
+        //dsa
+        if (Settings.get(ctx).getServiceEnable() && !ServiceMain.isRunning)
+		    ctx.startService(new Intent(ctx, ServiceMain.class));
 	}
 }

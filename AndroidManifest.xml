@@ -85,12 +85,15 @@
             android:logo="@drawable/ic_launcher" >
         </service>
 
+
         <receiver android:name=".ServiceBootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
+        <!-- dsa
         <receiver android:name=".ServiceEventReciever" >
             <intent-filter>
                 <action android:name="com.microntek.irkeyUp" />
@@ -98,6 +101,8 @@
                 <action android:name="com.microntek.acc" />
             </intent-filter>
         </receiver>
+        -->
+
     </application>
 
 </manifest>

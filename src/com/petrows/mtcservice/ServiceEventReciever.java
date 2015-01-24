@@ -4,16 +4,17 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 public class ServiceEventReciever extends BroadcastReceiver {
 	final static String TAG = "ServiceEventReciever";
-    
+
+    //dsa
+    public static boolean syn = false;
+    private boolean ord = false;
+
 	@Override
 	public void onReceive(Context context, Intent intent) 
 	{
@@ -42,18 +43,21 @@ public class ServiceEventReciever extends BroadcastReceiver {
 			{			
 				if (Settings.MTCKeysPrev.contains(keyCode))
 				{
-					sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-					Settings.get(context).showToast("<<");
+                    Settings.get(context).showToast("<<");
+                    sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+
 				}
 				if (Settings.MTCKeysNext.contains(keyCode))
 				{
-					sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
-					Settings.get(context).showToast(">>");
+                    Settings.get(context).showToast(">>");
+                    sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
+
 				}				
 				if (Settings.MTCKeysPause.contains(keyCode))
 				{
-					sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-					Settings.get(context).showToast("||");
+                    Settings.get(context).showToast("||");
+                    sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+
 				}
 			} else {
 				Log.d(TAG, "Media keys handler is disabled in settings");
@@ -105,17 +109,30 @@ public class ServiceEventReciever extends BroadcastReceiver {
 		Log.d(TAG, "Send key " + keycode);
 		long eventtime = SystemClock.uptimeMillis();
 
-		Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+        //dsa
+        if( false == ord ) if( syn ) ord = true;
+
+        Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+        //downIntent.setComponent( new ComponentName( "com.maxmpz.audioplayer", "com.maxmpz.audioplayer.player.PlayerMediaButtonReceiver" ) );
 		KeyEvent downEvent = new KeyEvent(eventtime, eventtime,
 				KeyEvent.ACTION_DOWN, keycode, 0);
 		downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
-		ctx.sendOrderedBroadcast(downIntent, null);
-				
+        //dsa
+        if( ord )
+            ctx.sendOrderedBroadcast( downIntent, null );
+        else
+            ctx.sendBroadcast( downIntent );
+
 		Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
+        //upIntent.setComponent( new ComponentName( "com.maxmpz.audioplayer", "com.maxmpz.audioplayer.player.PlayerMediaButtonReceiver" ) );
 		KeyEvent upEvent = new KeyEvent(eventtime, eventtime,
 				KeyEvent.ACTION_UP, keycode, 0);
 		upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-		ctx.sendOrderedBroadcast(upIntent, null);		
+        //dsa
+        if( ord )
+            ctx.sendOrderedBroadcast( upIntent, null );
+        else
+            ctx.sendBroadcast( upIntent );
 	}
 	
 	public void killMusic(Context ctx)
