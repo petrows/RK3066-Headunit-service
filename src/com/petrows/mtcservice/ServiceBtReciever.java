@@ -97,7 +97,7 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			btInterface = null;
-		}		
+		}
 	};
 
 	@Override

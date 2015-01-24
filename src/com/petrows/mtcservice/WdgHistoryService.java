@@ -15,6 +15,12 @@ public class WdgHistoryService extends RemoteViewsService {
 		int appWidgetId = intent.getIntExtra(
 				AppWidgetManager.EXTRA_APPWIDGET_ID,
 				AppWidgetManager.INVALID_APPWIDGET_ID);
+		
+		if (null == ServiceMain.btReciever)
+		{
+			// Create new if needed
+			ServiceMain.btReciever = new ServiceBtReciever(this.getApplicationContext());
+		}
 
 		return new WdgHistoryListProvider(this.getApplicationContext(), intent);
 	}
