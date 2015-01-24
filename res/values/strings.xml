@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MTC-Service</string>
-    <string name="app_service_title">MTC-Service</string>
-    <string name="app_service_descr">HeadUnit service running</string>
+    <string name="app_name">Headunit</string>
+    <string name="app_service_title">Headunit</string>
+    <string name="app_service_descr">Microntek HeadUnit service running</string>
     
     <string name="toast_safe_volume">Set safe volume level</string>
     
@@ -47,5 +47,6 @@
     <string name="ui_adv_settings_speedvol_level_text">Volume level value to change on every step</string>
     
     <string name="wdg_history_title">HeadUnit Call History</string>
+    <string name="wdg_history_unknown_contact">Unknown</string>
     
 </resources>

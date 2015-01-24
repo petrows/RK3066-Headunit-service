@@ -22,13 +22,43 @@
         android:text="Date"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 	-->
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/ic_menu_call" />
+
     <TextView
         android:id="@+id/wdgHistoryPhone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/wdgHistoryName"
-        android:layout_marginLeft="17dp"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_toRightOf="@+id/imageView2"
+        android:paddingLeft="3dp"
         android:text="Phone"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/wdgHistoryDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/wdgHistoryName"
+        android:layout_below="@+id/wdgHistoryName"
+        android:text="Date"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:paddingLeft="3dp"
+        android:layout_alignBottom="@+id/wdgHistoryDate"
+        android:layout_toRightOf="@+id/wdgHistoryDate"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/stat_sys_phone_call" />
 
 </RelativeLayout>

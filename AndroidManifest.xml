@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!--
@@ -95,6 +94,7 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".ServiceEventReciever" >
             <intent-filter>
                 <action android:name="com.microntek.irkeyUp" />
@@ -110,7 +110,7 @@
 
         <receiver
             android:name=".WdgHistoryWidget"
-            android:icon="@android:drawable/star_big_on"
+            android:icon="@android:drawable/ic_menu_call"
             android:label="@string/wdg_history_title" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

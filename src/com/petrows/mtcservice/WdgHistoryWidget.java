@@ -15,15 +15,14 @@ import android.widget.RemoteViews;
 public class WdgHistoryWidget extends AppWidgetProvider {
 	final String TAG = "HistoryWidget";
 	public final String ActionUpdateAll = "UPDATEHISTORY";
-	
+		
 	static ArrayList<Integer> widgetIds = new ArrayList<Integer>();
 	
 	public void onUpdateAll(Context context)
 	{
 		Log.d(TAG, "Update all widgets");
 		
-		ServiceBtReciever s = new ServiceBtReciever();
-		s.genTestData(context);
+		// ServiceBtReciever.get(context).genTestData();
 		
 		int[] ret = new int[widgetIds.size()];
 	    for (int i=0; i < ret.length; i++)

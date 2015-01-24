@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MTC-Service</string>
-    <string name="app_service_title">MTC-Service</string>
-    <string name="app_service_descr">Сервис магнитолы работает</string>
+    <string name="app_name">Автомагнитола</string>
+    <string name="app_service_title">Автомагнитола</string>
+    <string name="app_service_descr">Microntek сервис магнитолы работает</string>
     
     <string name="toast_safe_volume">Установлена безопасная громкость</string>
     
@@ -46,4 +46,6 @@
     <string name="ui_adv_settings_speedvol_level_title">Степень регулировки</string>
     <string name="ui_adv_settings_speedvol_level_text">Насколько сильно громкость меняется на каждом шаге</string>
 
+    <string name="wdg_history_title">Магнитола: звонки</string>
+    <string name="wdg_history_unknown_contact">Неизвестный</string>
 </resources>
