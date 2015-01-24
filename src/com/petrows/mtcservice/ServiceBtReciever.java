@@ -180,6 +180,7 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		context = ctx;
 		
 		IntentFilter intf = new IntentFilter();
+		intf.addAction( "com.microntek.bootcheck" );
 		intf.addAction( "com.microntek.bt.report" );
 		context.registerReceiver(this, intf);
 		

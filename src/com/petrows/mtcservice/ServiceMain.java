@@ -85,7 +85,7 @@ public class ServiceMain extends Service implements LocationListener  {
 		}
 		
 		// Start Bletooth data listener
-		btReciever = new ServiceBtReciever(this);
+		if (null == btReciever) btReciever = new ServiceBtReciever(this);
 				
 		return START_STICKY;
 	}

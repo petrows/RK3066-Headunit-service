@@ -22,7 +22,7 @@
         android:text="Date"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 	-->
-
+<!-- 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_alignParentRight="true"
@@ -31,7 +31,7 @@
         android:layout_height="24dp"
         android:scaleType="fitCenter"
         android:src="@android:drawable/ic_menu_call" />
-
+-->
     <TextView
         android:id="@+id/wdgHistoryPhone"
         android:layout_width="wrap_content"

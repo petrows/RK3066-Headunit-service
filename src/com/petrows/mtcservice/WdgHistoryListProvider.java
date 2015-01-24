@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -101,12 +102,10 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 			// No data
 			Log.e(TAG, "Service is not active!");
 			return remoteView;
-		}
-				
-		ServiceBtReciever.BtHistoryRecord rec = ServiceMain.btReciever.historyData.get(position);
-
-		remoteView.setTextViewText(R.id.wdgHistoryPhone, ServiceBtReciever.FormatStringAsPhoneNumber(rec.phone));
+		}		
 		
+		ServiceBtReciever.BtHistoryRecord rec = ServiceMain.btReciever.historyData.get(position);
+		remoteView.setTextViewText(R.id.wdgHistoryPhone, ServiceBtReciever.FormatStringAsPhoneNumber(rec.phone));		
 		String name = ServiceMain.btReciever.getContactDisplayNameByNumber(rec.phone);
 		if (name.isEmpty())
 		{
@@ -114,6 +113,13 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 		}
 		remoteView.setTextViewText(R.id.wdgHistoryName, name);		
 		remoteView.setTextViewText(R.id.wdgHistoryDate, DateFormat.getTimeFormat(context).format(rec.callDate));
+		
+		Intent fillInIntent = new Intent();
+        fillInIntent.setData(Uri.parse("tel:" + rec.phone));
+        remoteView.setOnClickFillInIntent(R.id.wdgHistoryName, fillInIntent);
+        remoteView.setOnClickFillInIntent(R.id.wdgHistoryPhone, fillInIntent);
+        remoteView.setOnClickFillInIntent(R.id.wdgHistoryDate, fillInIntent);
+		
 		Log.d("pws", "Item at " + position);
 
 		return remoteView;

@@ -3,6 +3,7 @@ package com.petrows.mtcservice;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
@@ -75,6 +76,10 @@ public class WdgHistoryWidget extends AppWidgetProvider {
 			
 			// setting adapter to listview of the widget
 			widgetView.setRemoteAdapter(R.id.wdgHistoryMainList, svcIntent);
+			
+			Intent callContactIntent = new Intent("com.microntek.dial");
+	        PendingIntent startActivityPendingIntent = PendingIntent.getActivity(context, 0, callContactIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	        widgetView.setPendingIntentTemplate(R.id.wdgHistoryMainList, startActivityPendingIntent);
 			
 			// setting an empty view in case of no data
 			// widgetView.setEmptyView(R.id.listView1, R.id.);
