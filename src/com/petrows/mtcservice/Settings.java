@@ -64,6 +64,8 @@ public class Settings {
 			volumeMax = 30.0f;
 		}
 		Log.d(TAG, "Max volume = " + String.valueOf(volumeMax));
+		
+		getSpeedValues(); // Update settings
 
 		Log.d(TAG, "Settings created");
 	}
@@ -161,7 +163,7 @@ public class Settings {
 	}
 
 	public int getSpeedChangeValue() {
-		return Integer.valueOf(prefs.getString("speed.speedvol", "5"));
+		return getCfgStringAsInt("speed.speedvol", 1);
 	}
 
 	public List<Integer> getSpeedValues() {
@@ -190,6 +192,7 @@ public class Settings {
 			}
 
 			setCfgString("speed.speedrange", speed_vals_clr.toString());
+			setCfgString("speed.speedvol", String.valueOf(getSpeedChangeValue()));
 		}
 		return speedValues;
 	}
