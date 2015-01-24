@@ -81,14 +81,14 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 
 	@Override
 	public int getCount() {
-		if (null == ServiceMain.btReciever)
+		if (null == ServiceBtReciever.get(context))
 		{
 			// No data
 			Log.e(TAG, "Service is not active!");
 			return 0;
 		}
 		
-		return ServiceMain.btReciever.historyData.size();
+		return ServiceBtReciever.get(context).historyData.size();
 	}
 
 	@Override
@@ -97,16 +97,16 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 		final RemoteViews remoteView = new RemoteViews(
 				context.getPackageName(), R.layout.historywdg_list_fragment);
 		
-		if (null == ServiceMain.btReciever)
+		if (null == ServiceBtReciever.get(context))
 		{
 			// No data
 			Log.e(TAG, "Service is not active!");
 			return remoteView;
 		}		
 		
-		ServiceBtReciever.BtHistoryRecord rec = ServiceMain.btReciever.historyData.get(position);
+		ServiceBtReciever.BtHistoryRecord rec = ServiceBtReciever.get(context).historyData.get(position);
 		remoteView.setTextViewText(R.id.wdgHistoryPhone, ServiceBtReciever.FormatStringAsPhoneNumber(rec.phone));		
-		String name = ServiceMain.btReciever.getContactDisplayNameByNumber(rec.phone);
+		String name = ServiceBtReciever.get(context).getContactDisplayNameByNumber(rec.phone);
 		if (name.isEmpty())
 		{
 			name = context.getString(R.string.wdg_history_unknown_contact);

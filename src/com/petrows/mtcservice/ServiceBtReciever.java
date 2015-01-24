@@ -71,8 +71,19 @@ public class ServiceBtReciever extends BroadcastReceiver {
 				e.printStackTrace();
 			}
 		    String phoneNumber = recordParts[1].replaceAll("[^\\d\\+]", "");
-		    historyData.add(new BtHistoryRecord(phoneNumber, dt));
+		    historyData.add(0, new BtHistoryRecord(phoneNumber, dt));
 		}
+	}
+	
+	private static ServiceBtReciever instance;
+	public static ServiceBtReciever get(Context ctx) {
+		if (null == instance)
+			instance = new ServiceBtReciever(ctx);
+		return instance;
+	}
+
+	public static void destroy() {
+		instance = null;
 	}
 	
 	BTServiceInf btInterface = null;
@@ -175,7 +186,7 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		context.sendBroadcast(updIntent);
 	}
 	
-	public ServiceBtReciever(Context ctx)
+	private ServiceBtReciever(Context ctx)
 	{
 		context = ctx;
 		

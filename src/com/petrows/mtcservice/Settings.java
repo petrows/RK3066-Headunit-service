@@ -42,7 +42,7 @@ public class Settings {
 
 	private Context ctx;
 
-	public Settings(Context context) {
+	private Settings(Context context) {
 		ctx = context;
 		prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		speedValuesDef = ctx.getString(R.string.cfg_def_speed_values);
@@ -76,6 +76,17 @@ public class Settings {
 
 	public static void destroy() {
 		instance = null;
+	}
+	
+	private Integer getCfgStringAsInt(String name, int def)
+	{
+		String cleanVal = prefs.getString(name, String.valueOf(def)).trim().replaceAll("[^\\d]", "");
+		if (cleanVal.isEmpty()) cleanVal = String.valueOf(def);
+		Integer out = def;
+		try {
+			out = Integer.valueOf(cleanVal);
+		} catch (Exception e) {}
+		return out;
 	}
 
 	private void setCfgBool(String name, boolean val) {
@@ -142,7 +153,7 @@ public class Settings {
 	}
 
 	public int getSafeVolumeLevel() {
-		return Integer.valueOf(prefs.getString("svol.level", "5"));
+		return getCfgStringAsInt("svol.level", 5);
 	}
 
 	public boolean getSpeedEnable() {
@@ -218,6 +229,7 @@ public class Settings {
 	public void setVolumeSafe() {
 		showToast(ctx.getString(R.string.toast_safe_volume));
 		setVolume(getSafeVolumeLevel());
+		setCfgString("svol.level", String.valueOf(getSafeVolumeLevel()));
 	}
 
 	public int getVolume() {
