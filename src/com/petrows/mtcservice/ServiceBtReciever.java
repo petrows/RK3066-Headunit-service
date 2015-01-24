@@ -22,6 +22,8 @@ import android.provider.ContactsContract;
 
 import org.apache.http.impl.cookie.DateParseException;
 import org.apache.http.impl.cookie.DateUtils;
+
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
 public class ServiceBtReciever extends BroadcastReceiver {
@@ -38,9 +40,19 @@ public class ServiceBtReciever extends BroadcastReceiver {
 			callDate = t;
 		}
 	}
-
 	public ArrayList<BtHistoryRecord> historyData = new ArrayList<BtHistoryRecord>();
 	public int historyDataRev = 0;
+	
+	public class BtPhonebookRecord {
+		String name;
+		String phone;
+		public BtPhonebookRecord(String n, String ph) 
+		{
+			name = n;
+			phone = ph; 
+		}
+	}
+	public ArrayList<BtPhonebookRecord> phonebookData = new ArrayList<BtPhonebookRecord>();
 	
 	public void setHistoryData(List<String> histRaw)
 	{
@@ -58,7 +70,8 @@ public class ServiceBtReciever extends BroadcastReceiver {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		    historyData.add(new BtHistoryRecord(recordParts[1], dt));
+		    String phoneNumber = recordParts[1].replaceAll("[^\\d\\+]", "");
+		    historyData.add(new BtHistoryRecord(phoneNumber, dt));
 		}
 	}
 	
@@ -73,6 +86,8 @@ public class ServiceBtReciever extends BroadcastReceiver {
 			try {
 				btInterface.init();
 				// Update list
+				updateHistory(); // Gen test data?
+				updatePhoneBook(); // Request phonebook update
 			} catch (RemoteException e) {				
 				e.printStackTrace();
 				Log.d(TAG, "Error " + e.getMessage());
@@ -86,12 +101,32 @@ public class ServiceBtReciever extends BroadcastReceiver {
 	};
 
 	@Override
-	public void onReceive(Context ctx, Intent intent) {
-		Log.d(TAG, "Recv! " + ctx);
-		
+	public void onReceive(Context ctx, Intent intent) {		
 		if (intent.getAction().equals("com.microntek.bt.report"))
 		{
-			updateHistory(); // Update our history
+			if (intent.hasExtra("phonebook_record"))
+			{
+				String[] bookRecord = intent.getStringExtra("phonebook_record").split("\\^");
+				if (bookRecord.length > 1)
+				{
+					String phoneNumber = bookRecord[1].replaceAll("[^\\d\\+]", "");
+					phonebookData.add(new BtPhonebookRecord(bookRecord[0], phoneNumber));
+				}
+			}
+			if (intent.hasExtra("phonebook_end"))
+			{
+				// Show The Data
+				Log.d(TAG, "Updated phonebook, records = " + String.valueOf(phonebookData.size()));
+				notifyWidgets();
+			}				
+		}
+		if (intent.getAction().equals("com.microntek.bootcheck"))
+		{
+			String str = intent.getStringExtra("class");
+		    if (str.equals("com.microntek.bluetooth") || str.equals("phonecallin") || str.equals("phonecallout"))
+		    {
+		    	updateHistory(); // Update our history
+		    }
 		}
 	}
 	
@@ -120,6 +155,17 @@ public class ServiceBtReciever extends BroadcastReceiver {
 			setHistoryData(tst);
 		}
 		notifyWidgets(); // kick widgets
+	}
+	
+	public void updatePhoneBook()
+	{
+		phonebookData.clear();
+		try {
+			btInterface.syncPhonebook();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void notifyWidgets()
@@ -187,11 +233,11 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		return leadPlus + output;
 	}
 	
-	public static String getContactDisplayNameByNumber(Context ctx, String number) {
+	public String getContactDisplayNameByNumber(String number) {
 	    Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 	    String name = "";
 
-	    ContentResolver contentResolver = ctx.getContentResolver();
+	    ContentResolver contentResolver = context.getContentResolver();
 	    Cursor contactLookup = contentResolver.query(uri, new String[] {BaseColumns._ID,
 	            ContactsContract.PhoneLookup.DISPLAY_NAME }, null, null, null);
 
@@ -205,6 +251,19 @@ public class ServiceBtReciever extends BroadcastReceiver {
 	        if (contactLookup != null) {
 	            contactLookup.close();
 	        }
+	    }
+	    
+	    if (name.isEmpty())
+	    {
+	    	// Try to search in local (BT) phonebook
+	    	for (BtPhonebookRecord rec : phonebookData)
+	    	{
+	    		if (PhoneNumberUtils.compare(rec.phone, number))
+	    		{
+	    			// Found!
+	    			return rec.name;
+	    		}
+	    	}
 	    }
 
 	    return name;

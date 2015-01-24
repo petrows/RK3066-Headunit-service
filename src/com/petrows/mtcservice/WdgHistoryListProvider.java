@@ -24,9 +24,7 @@ import android.widget.RemoteViewsService.RemoteViewsFactory;
 
 public class WdgHistoryListProvider implements RemoteViewsFactory {
 	final String TAG = "HistoryListProvider";
-	
-	public ServiceBtReciever btData = null;
-	
+		
 	public String getContactDisplayNameByNumber(Context ctx, String number) {
 	    Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
 	    String name = "";
@@ -55,7 +53,7 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 	
 	public WdgHistoryListProvider(Context context, Intent intent) {
 		this.context = context;
-		this.btData = new ServiceBtReciever(context); 
+		
 		appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
 				AppWidgetManager.INVALID_APPWIDGET_ID);
 		
@@ -82,8 +80,14 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 
 	@Override
 	public int getCount() {
-		Log.d(TAG, "Get item count! : " + String.valueOf(btData.historyData.size()));
-		return btData.historyData.size();
+		if (null == ServiceMain.btReciever)
+		{
+			// No data
+			Log.e(TAG, "Service is not active!");
+			return 0;
+		}
+		
+		return ServiceMain.btReciever.historyData.size();
 	}
 
 	@Override
@@ -91,23 +95,25 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 
 		final RemoteViews remoteView = new RemoteViews(
 				context.getPackageName(), R.layout.historywdg_list_fragment);
-				
-		ServiceBtReciever.BtHistoryRecord rec = btData.historyData.get(position);
-
 		
+		if (null == ServiceMain.btReciever)
+		{
+			// No data
+			Log.e(TAG, "Service is not active!");
+			return remoteView;
+		}
+				
+		ServiceBtReciever.BtHistoryRecord rec = ServiceMain.btReciever.historyData.get(position);
+
 		remoteView.setTextViewText(R.id.wdgHistoryPhone, ServiceBtReciever.FormatStringAsPhoneNumber(rec.phone));
 		
-		String name = ServiceBtReciever.getContactDisplayNameByNumber(this.context, rec.phone);
+		String name = ServiceMain.btReciever.getContactDisplayNameByNumber(rec.phone);
 		if (name.isEmpty())
 		{
 			name = context.getString(R.string.wdg_history_unknown_contact);
 		}
-		remoteView.setTextViewText(R.id.wdgHistoryName, name);
-		
+		remoteView.setTextViewText(R.id.wdgHistoryName, name);		
 		remoteView.setTextViewText(R.id.wdgHistoryDate, DateFormat.getTimeFormat(context).format(rec.callDate));
-		
-		//remoteView.setTextViewText(R.id.wdgHistoryPhone, rec.phone);
-		// remoteView.setTextViewText(R.id.wdgHistoryDate, "08:30 AM");
 		Log.d("pws", "Item at " + position);
 
 		return remoteView;

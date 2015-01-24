@@ -27,6 +27,8 @@ public class ServiceMain extends Service implements LocationListener  {
 	public static ServiceMain inst;
 	public double last_speed = 0;
 	
+	public static ServiceBtReciever btReciever = null;
+	
 	public ServiceMain() {
 		inst = this;
 	}
@@ -81,6 +83,9 @@ public class ServiceMain extends Service implements LocationListener  {
 		{
 			Settings.get(this).setVolumeSafe();
 		}
+		
+		// Start Bletooth data listener
+		btReciever = new ServiceBtReciever(this);
 				
 		return START_STICKY;
 	}
