@@ -16,4 +16,5 @@ Supports head units on Rockchip RK30SDK platform: RK3066 (Android 4.2.2 and 4.4.
  - Hui Fei (KGL)
  
 App developer home page: http://petro.ws/projects/auto/micronteck-headunit/mtc-service
+
 App page on Google Play: https://play.google.com/store/apps/details?id=com.petrows.mtcservice
