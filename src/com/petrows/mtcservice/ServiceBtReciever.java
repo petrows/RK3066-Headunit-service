@@ -98,7 +98,8 @@ public class ServiceBtReciever extends BroadcastReceiver {
 				btInterface.init();
 				// Update list
 				updateHistory(); // Gen test data?
-				updatePhoneBook(); // Request phonebook update
+				// This should be tested more complitely
+				// updatePhoneBook(); // Request phonebook update
 			} catch (RemoteException e) {				
 				e.printStackTrace();
 				Log.d(TAG, "Error " + e.getMessage());
