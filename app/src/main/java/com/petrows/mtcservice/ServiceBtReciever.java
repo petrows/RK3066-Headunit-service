@@ -1,10 +1,5 @@
 package com.petrows.mtcservice;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -13,69 +8,72 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.database.Cursor;
-import android.microntek.mtcser.BTServiceInf;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
+import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 
 import org.apache.http.impl.cookie.DateParseException;
 import org.apache.http.impl.cookie.DateUtils;
 
-import android.telephony.PhoneNumberUtils;
-import android.util.Log;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class ServiceBtReciever extends BroadcastReceiver {
 	final static String TAG = "ServiceBtReciever";
 
 	public Context context;
-	
+
 	public class BtHistoryRecord {
 		String phone;
 		Date callDate;
-		public BtHistoryRecord(String ph, Date t) 
-		{ 
-			phone = ph; 
+
+		public BtHistoryRecord(String ph, Date t) {
+			phone = ph;
 			callDate = t;
 		}
 	}
+
 	public ArrayList<BtHistoryRecord> historyData = new ArrayList<BtHistoryRecord>();
 	public int historyDataRev = 0;
-	
+
 	public class BtPhonebookRecord {
 		String name;
 		String phone;
-		public BtPhonebookRecord(String n, String ph) 
-		{
+
+		public BtPhonebookRecord(String n, String ph) {
 			name = n;
-			phone = ph; 
+			phone = ph;
 		}
 	}
+
 	public ArrayList<BtPhonebookRecord> phonebookData = new ArrayList<BtPhonebookRecord>();
-	
-	public void setHistoryData(List<String> histRaw)
-	{
+
+	public void setHistoryData(List<String> histRaw) {
 		historyDataRev++;
 		historyData.clear();
 		Log.d(TAG, "Loading " + String.valueOf(histRaw.size()) + " as history data!");
-		for (int x=0; x<histRaw.size(); x++)
-		{
+		for (int x = 0; x < histRaw.size(); x++) {
 			String[] recordParts = histRaw.get(x).split("\\^");
 			if (recordParts.length < 4) continue;
 			Date dt = new Date();
-		    try {
-		    	dt = DateUtils.parseDate(recordParts[2] + " " + recordParts[3], new String[]{"yyyy/MM/dd HH:mm:ss"}, null);
+			try {
+				dt = DateUtils.parseDate(recordParts[2] + " " + recordParts[3], new String[]{"yyyy/MM/dd HH:mm:ss"}, null);
 			} catch (DateParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		    String phoneNumber = recordParts[1].replaceAll("[^\\d\\+]", "");
-		    historyData.add(0, new BtHistoryRecord(phoneNumber, dt));
+			String phoneNumber = recordParts[1].replaceAll("[^\\d\\+]", "");
+			historyData.add(0, new BtHistoryRecord(phoneNumber, dt));
 		}
 	}
-	
+
 	private static ServiceBtReciever instance;
+
 	public static ServiceBtReciever get(Context ctx) {
 		if (null == instance)
 			instance = new ServiceBtReciever(ctx);
@@ -85,22 +83,30 @@ public class ServiceBtReciever extends BroadcastReceiver {
 	public static void destroy() {
 		instance = null;
 	}
-	
-	BTServiceInf btInterface = null;
-	
+
+	private android.microntek.mtcser_v1.BTServiceInf btInterfaceV1 = null;
+	private android.microntek.mtcser_v2.BTServiceInf btInterfaceV2 = null;
+
 	private ServiceConnection serviceConnection = new ServiceConnection() {
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 
-			btInterface = BTServiceInf.Stub.asInterface(service);
+			Integer version = 2;
+
+			if (1 == version)
+				btInterfaceV1 = android.microntek.mtcser_v1.BTServiceInf.Stub.asInterface(service);
+			if (2 == version)
+				btInterfaceV2 = android.microntek.mtcser_v2.BTServiceInf.Stub.asInterface(service);
+
 			try {
-				btInterface.init();
+				if (null != btInterfaceV1) btInterfaceV1.init();
+				if (null != btInterfaceV2) btInterfaceV2.init();
 				// Update list
 				updateHistory(); // Gen test data?
 				// This should be tested more complitely
 				// updatePhoneBook(); // Request phonebook update
-			} catch (RemoteException e) {				
+			} catch (RemoteException e) {
 				e.printStackTrace();
 				Log.d(TAG, "Error " + e.getMessage());
 			}
@@ -108,47 +114,40 @@ public class ServiceBtReciever extends BroadcastReceiver {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			btInterface = null;
+			btInterfaceV1 = null;
+			btInterfaceV2 = null;
 		}
 	};
 
 	@Override
-	public void onReceive(Context ctx, Intent intent) {		
-		if (intent.getAction().equals("com.microntek.bt.report"))
-		{
-			if (intent.hasExtra("phonebook_record"))
-			{
+	public void onReceive(Context ctx, Intent intent) {
+		if (intent.getAction().equals("com.microntek.bt.report")) {
+			if (intent.hasExtra("phonebook_record")) {
 				String[] bookRecord = intent.getStringExtra("phonebook_record").split("\\^");
-				if (bookRecord.length > 1)
-				{
+				if (bookRecord.length > 1) {
 					String phoneNumber = bookRecord[1].replaceAll("[^\\d\\+]", "");
 					phonebookData.add(new BtPhonebookRecord(bookRecord[0], phoneNumber));
 				}
 			}
-			if (intent.hasExtra("phonebook_end"))
-			{
+			if (intent.hasExtra("phonebook_end")) {
 				// Show The Data
 				Log.d(TAG, "Updated phonebook, records = " + String.valueOf(phonebookData.size()));
 				notifyWidgets();
-			}				
+			}
 		}
-		if (intent.getAction().equals("com.microntek.bootcheck"))
-		{
+		if (intent.getAction().equals("com.microntek.bootcheck")) {
 			String str = intent.getStringExtra("class");
-		    if (str.equals("com.microntek.bluetooth") || str.equals("phonecallin") || str.equals("phonecallout"))
-		    {
-		    	updateHistory(); // Update our history
-		    }
+			if (str.equals("com.microntek.bluetooth") || str.equals("phonecallin") || str.equals("phonecallout")) {
+				updateHistory(); // Update our history
+			}
 		}
 	}
-	
-	public void updateHistory()
-	{
+
+	public void updateHistory() {
 		Log.d(TAG, "Updating history...");
-		if (null != btInterface)
-		{
+		if (null != btInterfaceV2) {
 			try {
-				List<String> histRaw = btInterface.getHistoryList();
+				List<String> histRaw = btInterfaceV2.getHistoryList();
 				setHistoryData(histRaw);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
@@ -168,37 +167,43 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		}
 		notifyWidgets(); // kick widgets
 	}
-	
-	public void updatePhoneBook()
-	{
+
+	public void updatePhoneBook() {
 		phonebookData.clear();
 		try {
-			btInterface.syncPhonebook();
+			btInterfaceV2.syncPhonebook();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public void notifyWidgets()
-	{
+
+	public void call(String number) {
+		try {
+			if (btInterfaceV1 != null) btInterfaceV1.dialOut(number);
+			if (btInterfaceV2 != null) btInterfaceV2.dialOut(number);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void notifyWidgets() {
 		// Call update all widgets...
 		Intent updIntent = new Intent("com.petrows.mtcservice.updatewidgets");
 		context.sendBroadcast(updIntent);
 	}
-	
-	private ServiceBtReciever(Context ctx)
-	{
+
+	private ServiceBtReciever(Context ctx) {
 		context = ctx;
-		
+
 		IntentFilter intf = new IntentFilter();
-		intf.addAction( "com.microntek.bootcheck" );
-		intf.addAction( "com.microntek.bt.report" );
+		intf.addAction("com.microntek.bootcheck");
+		intf.addAction("com.microntek.bt.report");
 		context.registerReceiver(this, intf);
-		
+
 		try {
-			if (!context.bindService(new Intent("com.microntek.btserver"), this.serviceConnection, 1))
-			{		
+			if (!context.bindService(new Intent("com.microntek.btserver"), this.serviceConnection, Context.BIND_AUTO_CREATE)) {
 				Log.d(TAG, "Bind error!");
 				updateHistory(); // Gen test data?
 			} else {
@@ -208,17 +213,15 @@ public class ServiceBtReciever extends BroadcastReceiver {
 			Log.e(TAG, "Service exception " + e.getLocalizedMessage());
 		}
 	}
-	
+
 	public static String FormatStringAsPhoneNumber(String input) {
 		if (input.isEmpty()) return "?";
 		String leadPlus = "";
-		if (input.charAt(0) == '+')
-		{
+		if (input.charAt(0) == '+') {
 			leadPlus = "+";
 			input = input.substring(1);
 		} else {
-			if (input.charAt(0) == '8' && input.length() == 11)
-			{
+			if (input.charAt(0) == '8' && input.length() == 11) {
 				// Russian fuck-up number fix
 				input = '7' + input.substring(1);
 				leadPlus = "+";
@@ -227,59 +230,56 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		input = input.replaceAll("[^\\d]", "");
 		String output;
 		switch (input.length()) {
-		case 7:
-			output = String.format("%s-%s", input.substring(0, 3),
-					input.substring(3, 7));
-			break;
-		case 10:
-			output = String.format("(%s) %s-%s", input.substring(0, 3),
-					input.substring(3, 6), input.substring(6, 10));
-			break;
-		case 11:
-			output = String.format("%s (%s) %s-%s", input.substring(0, 1),
-					input.substring(1, 4), input.substring(4, 7),
-					input.substring(7, 11));
-			break;
-		default:
-			return input;
+			case 7:
+				output = String.format("%s-%s", input.substring(0, 3),
+						input.substring(3, 7));
+				break;
+			case 10:
+				output = String.format("(%s) %s-%s", input.substring(0, 3),
+						input.substring(3, 6), input.substring(6, 10));
+				break;
+			case 11:
+				output = String.format("%s (%s) %s-%s", input.substring(0, 1),
+						input.substring(1, 4), input.substring(4, 7),
+						input.substring(7, 11));
+				break;
+			default:
+				return input;
 		}
 		return leadPlus + output;
 	}
-	
+
 	public String getContactDisplayNameByNumber(String number) {
-	    Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-	    String name = "";
+		Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+		String name = "";
 
-	    ContentResolver contentResolver = context.getContentResolver();
-	    Cursor contactLookup = contentResolver.query(uri, new String[] {BaseColumns._ID,
-	            ContactsContract.PhoneLookup.DISPLAY_NAME }, null, null, null);
+		ContentResolver contentResolver = context.getContentResolver();
+		Cursor contactLookup = contentResolver.query(uri, new String[]{BaseColumns._ID,
+				ContactsContract.PhoneLookup.DISPLAY_NAME}, null, null, null);
 
-	    try {
-	        if (contactLookup != null && contactLookup.getCount() > 0) {
-	            contactLookup.moveToNext();
-	            name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
-	            //String contactId = contactLookup.getString(contactLookup.getColumnIndex(BaseColumns._ID));
-	        }
-	    } finally {
-	        if (contactLookup != null) {
-	            contactLookup.close();
-	        }
-	    }
-	    
-	    if (name.isEmpty())
-	    {
-	    	// Try to search in local (BT) phonebook
-	    	for (BtPhonebookRecord rec : phonebookData)
-	    	{
-	    		if (PhoneNumberUtils.compare(rec.phone, number))
-	    		{
-	    			// Found!
-	    			return rec.name;
-	    		}
-	    	}
-	    }
+		try {
+			if (contactLookup != null && contactLookup.getCount() > 0) {
+				contactLookup.moveToNext();
+				name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+				//String contactId = contactLookup.getString(contactLookup.getColumnIndex(BaseColumns._ID));
+			}
+		} finally {
+			if (contactLookup != null) {
+				contactLookup.close();
+			}
+		}
 
-	    return name;
+		if (name.isEmpty()) {
+			// Try to search in local (BT) phonebook
+			for (BtPhonebookRecord rec : phonebookData) {
+				if (PhoneNumberUtils.compare(rec.phone, number)) {
+					// Found!
+					return rec.name;
+				}
+			}
+		}
+
+		return name;
 	}
 
 }

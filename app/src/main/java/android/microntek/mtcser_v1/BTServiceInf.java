@@ -1,4 +1,4 @@
-package android.microntek.mtcser;
+package android.microntek.mtcser_v1;
 
 import android.os.Binder;
 import android.os.IBinder;
@@ -1352,9 +1352,14 @@ public abstract interface BTServiceInf
     }
   }
 }
-
-
-/* Location:           H:\devel\projects\car-android-klyde\fw-unpack\fw-kld-2.03\system\app\MTCBlueTooth3\classes.dex.jar
- * Qualified Name:     android.microntek.mtcser.BTServiceInf
- * JD-Core Version:    0.7.1
+
+
+
+
+/* Location:           H:\devel\projects\car-android-klyde\fw-unpack\fw-kld-2.03\system\app\MTCBlueTooth3\classes.dex.jar
+
+ * Qualified Name:     android.microntek.mtcser.BTServiceInf
+
+ * JD-Core Version:    0.7.1
+
  */

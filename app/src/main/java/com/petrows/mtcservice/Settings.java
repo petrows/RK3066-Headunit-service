@@ -1,24 +1,24 @@
 package com.petrows.mtcservice;
 
-import java.util.ArrayList;
-
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Intent;
-import android.media.AudioManager;
-import java.util.Arrays;
-import java.util.List;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Settings {
 	private final static String TAG = "Settings";
@@ -61,9 +61,8 @@ public class Settings {
 		} catch (Exception e) {
 			volumeMax = 0f;
 		}
-		
-		if (0f == volumeMax)
-		{
+
+		if (0f == volumeMax) {
 			Log.e(TAG, "Cant get max vlume, set to default 30.0");
 			volumeMax = 30.0f;
 		}
@@ -72,17 +71,19 @@ public class Settings {
 		Log.d(TAG, "Settings created");
 	}
 
-	public static Settings get( Context context ) {
-		if( null == instance )
-			instance = new Settings( context );
-		return( instance );
+	public static Settings get(Context context) {
+		if (null == instance)
+			instance = new Settings(context);
+		return (instance);
 	}
 
 	public static void destroy() {
 		instance = null;
 	}
 
-    public static boolean isNotifitcationServiceEnabled() { return (Build.VERSION.SDK_INT >= 19); }
+	public static boolean isNotifitcationServiceEnabled() {
+		return (Build.VERSION.SDK_INT >= 19);
+	}
 
 	private void setCfgBool(String name, boolean val) {
 		Editor editor = prefs.edit();
@@ -96,51 +97,54 @@ public class Settings {
 		editor.commit();
 	}
 
-    //dsa
-    public void mySleep( long ms ) {
-        long endTime = System.currentTimeMillis() + ms;
-        while( System.currentTimeMillis() < endTime ) {
-            synchronized( this ) {
-                try {
-                    wait( endTime -
-                            System.currentTimeMillis() );
-                } catch( Exception e ) {
-                }
-            }
-        }
-    }
-    public void startMyServices() {
-        if( getServiceEnable() ) {
-            if( !ServiceMain.isRunning ) {
-                if (isNotifitcationServiceEnabled()) { if( NotificationService.isInit ) mySleep( 2000 ); }
-                Log.d(TAG, "Starting service!");
-                ctx.startService(new Intent(ctx, ServiceMain.class));
-            }
+	//dsa
+	public void mySleep(long ms) {
+		long endTime = System.currentTimeMillis() + ms;
+		while (System.currentTimeMillis() < endTime) {
+			synchronized (this) {
+				try {
+					wait(endTime -
+							System.currentTimeMillis());
+				} catch (Exception e) {
+				}
+			}
+		}
+	}
 
-            if (isNotifitcationServiceEnabled()) {
-                if (!NotificationService.isInit) {
-                    if (ServiceMain.isRunning) mySleep(2000);
-                    Log.d(TAG, "Starting Notification!");
-                    ctx.startService(new Intent(ctx, NotificationService.class));
-                }
-            }
-        }
-        else {
-            ctx.stopService( new Intent( ctx, ServiceMain.class ) );
-            ctx.stopService( new Intent( ctx, NotificationService.class ) );
-        }
-    }
-    public void announce( Service srv, int id ) {
-        Intent notificationIntent = new Intent(srv, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(srv, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	public void startMyServices() {
+		if (getServiceEnable()) {
+			if (!ServiceMain.isRunning) {
+				if (isNotifitcationServiceEnabled()) {
+					if (NotificationService.isInit) mySleep(2000);
+				}
+				Log.d(TAG, "Starting service!");
+				ctx.startService(new Intent(ctx, ServiceMain.class));
+			}
 
-        Notification note = new NotificationCompat.Builder(srv)
-                .setContentTitle(srv.getString(R.string.app_service_title) + " " + Settings.get(srv).getVersion())
-                .setContentText(srv.getString(R.string.app_service_descr))
-                .setContentIntent(contentIntent)
-                .setSmallIcon(R.drawable.ic_launcher).build();
-        srv.startForeground(id, note);
-    }
+			if (isNotifitcationServiceEnabled()) {
+				if (!NotificationService.isInit) {
+					if (ServiceMain.isRunning) mySleep(2000);
+					Log.d(TAG, "Starting Notification!");
+					ctx.startService(new Intent(ctx, NotificationService.class));
+				}
+			}
+		} else {
+			ctx.stopService(new Intent(ctx, ServiceMain.class));
+			ctx.stopService(new Intent(ctx, NotificationService.class));
+		}
+	}
+
+	public void announce(Service srv, int id) {
+		Intent notificationIntent = new Intent(srv, MainActivity.class);
+		PendingIntent contentIntent = PendingIntent.getActivity(srv, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Notification note = new NotificationCompat.Builder(srv)
+				.setContentTitle(srv.getString(R.string.app_service_title) + " " + Settings.get(srv).getVersion())
+				.setContentText(srv.getString(R.string.app_service_descr))
+				.setContentIntent(contentIntent)
+				.setSmallIcon(R.drawable.ic_launcher).build();
+		srv.startForeground(id, note);
+	}
 
 	public String getVersion() {
 		String version = "?";
