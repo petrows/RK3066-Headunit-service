@@ -77,6 +77,8 @@ public class ServiceMain extends Service implements LocationListener {
 				Settings.get(this).setVolumeSafe();
 			}
 
+			Settings.get(this).getCallerVersionAuto();
+
 			return (START_STICKY);
 		}
 		stopSelf();

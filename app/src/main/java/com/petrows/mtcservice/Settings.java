@@ -16,6 +16,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +41,7 @@ public class Settings {
 	private ArrayList<Integer> speedValues = new ArrayList<Integer>();
 	private String speedValuesDef = "";
 	private float volumeMax = 30f;
+	private int buildTimestamp = 0;
 
 	private AudioManager am = null;
 
@@ -67,6 +71,9 @@ public class Settings {
 			volumeMax = 30.0f;
 		}
 		Log.d(TAG, "Max volume = " + String.valueOf(volumeMax));
+
+		buildTimestamp = Integer.parseInt(getPropValue("ro.build.date.utc"));
+		Log.d(TAG, "Build timestamp: " + String.valueOf(buildTimestamp));
 
 		Log.d(TAG, "Settings created");
 	}
@@ -159,6 +166,25 @@ public class Settings {
 		return version;
 	}
 
+	public static String getPropValue(String value)
+	{
+		Process p = null;
+		String ret = "";
+		try {
+			p = new ProcessBuilder("/system/bin/getprop", value).redirectErrorStream(true).start();
+			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line = "";
+			while ((line=br.readLine()) != null){
+				ret = line;
+			}
+			p.destroy();
+		} catch (IOException e) {
+// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
+
 	public static boolean getServiceEnable() {
 		return prefs.getBoolean("service.enable", true);
 	}
@@ -170,10 +196,6 @@ public class Settings {
 	public static boolean getServiceToast() {
 		return prefs.getBoolean("service.toast", true);
 	}
-
-	//public void setServiceToast(boolean enable) {
-	//	setCfgBool("service.toast", enable);
-	//}
 
 	public void showToast(String text) {
 		showToast(text, Toast.LENGTH_SHORT);
@@ -187,6 +209,23 @@ public class Settings {
 
 	public boolean getCallerEnable() {
 		return prefs.getBoolean("caller.enable", true);
+	}
+
+	public int getCallerVersionAuto() {
+		// We should test ro.build.date.utc to be > 1 jan 2015
+		if (buildTimestamp < 1420070400) // < 1 jan 2015
+			return 1;
+		else
+			return 2;
+	}
+
+	public int getCallerVersion() {
+		int version = Integer.parseInt(prefs.getString("caller.version", "0"));
+		if (0 == version)
+		{
+			return getCallerVersionAuto();
+		}
+		return version;
 	}
 
 	public boolean getMediaKeysEnable() {

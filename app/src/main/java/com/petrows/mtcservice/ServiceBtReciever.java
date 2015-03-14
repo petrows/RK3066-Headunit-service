@@ -92,7 +92,7 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 
-			Integer version = 2;
+			int version = Settings.get(context).getCallerVersion();
 
 			if (1 == version)
 				btInterfaceV1 = android.microntek.mtcser_v1.BTServiceInf.Stub.asInterface(service);
