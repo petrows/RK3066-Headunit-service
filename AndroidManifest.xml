@@ -100,6 +100,8 @@
                 <action android:name="com.microntek.irkeyUp" />
                 <action android:name="com.microntek.irkeyDown" />
                 <action android:name="com.microntek.acc" />
+                <action android:name="cn.com.cs2c.android.vehicle.action.NEXT_KEY" />
+                <action android:name="cn.com.cs2c.android.vehicle.action.PREVIEW_KEY" />
             </intent-filter>
         </receiver>
 

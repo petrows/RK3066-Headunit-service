@@ -56,6 +56,18 @@ public class ServiceEventReciever extends BroadcastReceiver {
 			}
 		}
 		
+		// C200 keys?
+		if (intent.getAction().equals("cn.com.cs2c.android.vehicle.action.NEXT_KEY"))
+		{
+			sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
+			Settings.get(context).showToast(">>");
+		}
+		if (intent.getAction().equals("cn.com.cs2c.android.vehicle.action.PREVIEW_KEY"))
+		{
+			sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+			Settings.get(context).showToast("<<");
+		}
+		
 		if (intent.getAction().equals(Settings.MTCBroadcastACC))
 		{
 			String accState = intent.getStringExtra("accstate");
