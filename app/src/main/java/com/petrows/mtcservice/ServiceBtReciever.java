@@ -105,7 +105,7 @@ public class ServiceBtReciever extends BroadcastReceiver {
 				// Update list
 				updateHistory(); // Gen test data?
 				// This should be tested more complitely
-				// updatePhoneBook(); // Request phonebook update
+				updatePhoneBookV2(); // Request phonebook update
 			} catch (RemoteException e) {
 				e.printStackTrace();
 				Log.d(TAG, "Error " + e.getMessage());
@@ -145,7 +145,15 @@ public class ServiceBtReciever extends BroadcastReceiver {
 
 	public void updateHistory() {
 		Log.d(TAG, "Updating history...");
-		if (null != btInterfaceV2) {
+		if (null != btInterfaceV1) {
+			try {
+				List<String> histRaw = btInterfaceV1.getHistoryList();
+				setHistoryData(histRaw);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (null != btInterfaceV2) {
 			try {
 				List<String> histRaw = btInterfaceV2.getHistoryList();
 				setHistoryData(histRaw);
@@ -171,7 +179,27 @@ public class ServiceBtReciever extends BroadcastReceiver {
 	public void updatePhoneBook() {
 		phonebookData.clear();
 		try {
-			btInterfaceV2.syncPhonebook();
+			if (btInterfaceV1 != null) btInterfaceV1.syncPhonebook();
+			if (btInterfaceV2 != null) btInterfaceV2.syncPhonebook();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void updatePhoneBookV2() {
+		if (btInterfaceV2 == null) return;
+		phonebookData.clear();
+		try {
+			List<String> lst = btInterfaceV2.getPhoneBookList();
+
+			for (String rec : lst) {
+				String[] bookRecord = rec.split("\\^");
+				if (bookRecord.length > 1) {
+					String phoneNumber = bookRecord[1].replaceAll("[^\\d\\+]", "");
+					phonebookData.add(new BtPhonebookRecord(bookRecord[0], phoneNumber));
+				}
+			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -180,8 +208,17 @@ public class ServiceBtReciever extends BroadcastReceiver {
 
 	public void call(String number) {
 		try {
-			if (btInterfaceV1 != null) btInterfaceV1.dialOut(number);
-			if (btInterfaceV2 != null) btInterfaceV2.dialOut(number);
+			if (btInterfaceV1 != null) {
+				btInterfaceV1.dialOut(number);
+				return;
+			}
+			if (btInterfaceV2 != null) {
+				btInterfaceV2.dialOut(number);
+				return;
+			}
+
+			// No interface!
+			Settings.get(context).showToast("Bt not connected");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -202,12 +239,21 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		intf.addAction("com.microntek.bt.report");
 		context.registerReceiver(this, intf);
 
+		connectBt();
+	}
+
+	public void connectBt() {
+		// Disconnect if was old connection
+		btInterfaceV1 = null;
+		btInterfaceV2 = null;
+
 		try {
 			if (!context.bindService(new Intent("com.microntek.btserver"), this.serviceConnection, Context.BIND_AUTO_CREATE)) {
 				Log.d(TAG, "Bind error!");
+				Settings.get(context).showToast("Bt connection error 1");
 				updateHistory(); // Gen test data?
 			} else {
-				// Will try to call on ServiceConnected!
+
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "Service exception " + e.getLocalizedMessage());

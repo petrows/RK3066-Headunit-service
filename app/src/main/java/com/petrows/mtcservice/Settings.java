@@ -137,7 +137,9 @@ public class Settings {
 			}
 		} else {
 			ctx.stopService(new Intent(ctx, ServiceMain.class));
-			ctx.stopService(new Intent(ctx, NotificationService.class));
+			if (isNotifitcationServiceEnabled()) {
+				ctx.stopService(new Intent(ctx, NotificationService.class));
+			}
 		}
 	}
 
@@ -179,7 +181,6 @@ public class Settings {
 			}
 			p.destroy();
 		} catch (IOException e) {
-// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ret;
@@ -220,7 +221,7 @@ public class Settings {
 	}
 
 	public int getCallerVersion() {
-		int version = Integer.parseInt(prefs.getString("caller.version", "0"));
+		int version = Integer.parseInt(prefs.getString("caller.api", "0"));
 		if (0 == version)
 		{
 			return getCallerVersionAuto();

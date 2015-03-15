@@ -13,7 +13,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	private final static String TAG = "MainActivity";
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,13 +26,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		chService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-				Settings.get(null).setServiceEnable(b);
-				Settings.get(null).startMyServices();
+				setServicesEnable(b);
 			}
 		});
 
 		Settings.get(this).startMyServices();
 	}
+
+	protected void setServicesEnable(boolean b) {
+		Settings.get(this).setServiceEnable(b);
+		Settings.get(this).startMyServices();
+	}
+
 
 	@Override
 	public void onClick(View v) {
@@ -53,12 +57,4 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				break;
 		}
 	}
-
-    /*dsa
-	public void onClickCall(View v)
-	{
-		Intent intent = new Intent(this, DialActivity.class);
-		startActivity(intent);
-	}
-    */
 }

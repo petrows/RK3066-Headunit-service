@@ -1,51 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Автомагнитола</string>
-    <string name="app_service_title">Автомагнитола</string>
-    <string name="app_service_descr">Microntek сервис магнитолы работает</string>
-    
-    <string name="toast_safe_volume">Установлена безопасная громкость</string>
-    
-    <string name="toast_calling_process">Звоним: %s</string>
-    <string name="toast_calling_error">Ошибка вызова: %d</string>
-    
-    <string name="ui_contact_title">Написать автору</string>
-    <string name="ui_contact_text">Отправить письмо на petro@petro.ws</string>
-    
-    <string name="ui_service_title">MicronTek сервис магнитолы</string>
-    <string name="ui_service_enable">Включить сервис</string>
-    <string name="ui_service_settings">Настройки</string>
+	<string name="app_name">Автомагнитола</string>
+	<string name="app_service_title">Автомагнитола</string>
+	<string name="app_service_descr">Microntek сервис магнитолы работает</string>
 
-    <string name="ui_adv_settings_keys_cat">Плееры и кнопки на руле</string>
-    <string name="ui_adv_settings_keys_enable_title">Включить управление с руля</string>
-    <string name="ui_adv_settings_keys_enable_text">Перенаправлять кнопки руля в сторонние плееры Android</string>
-    <string name="ui_adv_settings_keys_config_title">Настроить кнопки</string>
-    <string name="ui_adv_settings_keys_config_text">Определить кнопки руля</string>
-    
-    <string name="ui_adv_settings_caller_cat">Звонки через Android</string>
-    <string name="ui_adv_settings_caller_enable_title">Звонить через Android</string>
-    <string name="ui_adv_settings_caller_enable_text">Начинать звонок через bluetooth по запросу приложения Android</string>
-    <string name="ui_adv_settings_caller_app_title">Приложение True Conctacts</string>
-    <string name="ui_adv_settings_caller_app_text">Нажмите чтобы открыть рекомендованное приложение для записной книги и звонков</string>
-    
-    <string name="ui_adv_settings_svol_cat">Громкость при включении</string>
-    <string name="ui_adv_settings_svol_enable_title">Установить при включении</string>
-    <string name="ui_adv_settings_svol_enable_text">Установить безопасную громкость при включении</string>
-    <string name="ui_adv_settings_svol_level_title">Уровень громкости</string>
-    <string name="ui_adv_settings_svol_level_text">Уровень громкости при включении</string>
-    
-    <string name="ui_adv_settings_toast_cat">Уведомления</string>
-    <string name="ui_adv_settings_toast_enable_title">Показывать уведомления</string>
-    <string name="ui_adv_settings_toast_enable_text">Показывать короткие пояснения на все события</string>
-    
-    <string name="ui_adv_settings_speedvol_cat">Компенсация громкости от скорости</string>
-    <string name="ui_adv_settings_speedvol_enable_title">Компенсация</string>
-    <string name="ui_adv_settings_speedvol_enable_text">Настраивать громкость от скорости</string>
-    <string name="ui_adv_settings_speedvol_speed_title">Шаги регулировки</string>
-    <string name="ui_adv_settings_speedvol_speed_text">Рубеж скорости для увеличинения/уменьшения громкости</string>
-    <string name="ui_adv_settings_speedvol_level_title">Степень регулировки</string>
-    <string name="ui_adv_settings_speedvol_level_text">Насколько сильно громкость меняется на каждом шаге</string>
+	<string name="toast_safe_volume">Установлена безопасная громкость</string>
 
-    <string name="wdg_history_title">Магнитола: звонки</string>
-    <string name="wdg_history_unknown_contact">Неизвестный</string>
+	<string name="toast_calling_process">Звоним: %s</string>
+	<string name="toast_calling_error">Ошибка вызова: %d</string>
+
+	<string name="ui_contact_title">Написать автору</string>
+	<string name="ui_contact_text">Отправить письмо на petro@petro.ws</string>
+
+	<string name="ui_service_title">MicronTek сервис магнитолы</string>
+	<string name="ui_service_enable">Включить сервис</string>
+	<string name="ui_service_settings">Настройки</string>
+
+	<string name="ui_adv_settings_keys_cat">Плееры и кнопки на руле</string>
+	<string name="ui_adv_settings_keys_enable_title">Включить управление с руля</string>
+	<string name="ui_adv_settings_keys_enable_text">Перенаправлять кнопки руля в сторонние плееры Android</string>
+	<string name="ui_adv_settings_keys_config_title">Настроить кнопки</string>
+	<string name="ui_adv_settings_keys_config_text">Определить кнопки руля</string>
+
+	<string name="ui_adv_settings_caller_cat">Звонки через Android</string>
+	<string name="ui_adv_settings_caller_enable_title">Звонить через Android</string>
+	<string name="ui_adv_settings_caller_enable_text">Начинать звонок через bluetooth по запросу приложения Android</string>
+	<string name="ui_adv_settings_caller_app_title">Приложение True Conctacts</string>
+	<string name="ui_adv_settings_caller_app_text">Нажмите чтобы открыть рекомендованное приложение для записной книги и звонков</string>
+	<string name="ui_adv_settings_caller_api_title">Версия ПО управления звонками</string>
+	<string name="ui_adv_settings_caller_api_text">Выберите другое значение, если звонок из Android не работает</string>
+
+	<string name="ui_adv_settings_svol_cat">Громкость при включении</string>
+	<string name="ui_adv_settings_svol_enable_title">Установить при включении</string>
+	<string name="ui_adv_settings_svol_enable_text">Установить безопасную громкость при включении</string>
+	<string name="ui_adv_settings_svol_level_title">Уровень громкости</string>
+	<string name="ui_adv_settings_svol_level_text">Уровень громкости при включении</string>
+
+	<string name="ui_adv_settings_toast_cat">Уведомления</string>
+	<string name="ui_adv_settings_toast_enable_title">Показывать уведомления</string>
+	<string name="ui_adv_settings_toast_enable_text">Показывать короткие пояснения на все события</string>
+
+	<string name="ui_adv_settings_speedvol_cat">Компенсация громкости от скорости</string>
+	<string name="ui_adv_settings_speedvol_enable_title">Компенсация</string>
+	<string name="ui_adv_settings_speedvol_enable_text">Настраивать громкость от скорости</string>
+	<string name="ui_adv_settings_speedvol_speed_title">Шаги регулировки</string>
+	<string name="ui_adv_settings_speedvol_speed_text">Рубеж скорости для увеличинения/уменьшения громкости</string>
+	<string name="ui_adv_settings_speedvol_level_title">Степень регулировки</string>
+	<string name="ui_adv_settings_speedvol_level_text">Насколько сильно громкость меняется на каждом шаге</string>
+
+	<string name="wdg_history_title">Магнитола: звонки</string>
+	<string name="wdg_history_unknown_contact">Неизвестный</string>
 </resources>
