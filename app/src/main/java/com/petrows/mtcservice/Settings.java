@@ -59,8 +59,7 @@ public class Settings {
 
 		// Get max volume
 		try {
-			String vol_max_s = ((AudioManager) ctx.getSystemService("audio"))
-					.getParameters("cfg_maxvolume=");
+			String vol_max_s = am.getParameters("cfg_maxvolume=");
 			volumeMax = Float.parseFloat(vol_max_s);
 		} catch (Exception e) {
 			volumeMax = 0f;
