@@ -25,7 +25,6 @@ public class ServiceMain extends Service implements LocationListener {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return (null);
 	}
 

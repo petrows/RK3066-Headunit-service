@@ -64,7 +64,6 @@ public class ServiceBtReciever extends BroadcastReceiver {
 			try {
 				dt = DateUtils.parseDate(recordParts[2] + " " + recordParts[3], new String[]{"yyyy/MM/dd HH:mm:ss"}, null);
 			} catch (DateParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			String phoneNumber = recordParts[1].replaceAll("[^\\d\\+]", "");
@@ -150,7 +149,6 @@ public class ServiceBtReciever extends BroadcastReceiver {
 				List<String> histRaw = btInterfaceV1.getHistoryList();
 				setHistoryData(histRaw);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else if (null != btInterfaceV2) {
@@ -158,7 +156,6 @@ public class ServiceBtReciever extends BroadcastReceiver {
 				List<String> histRaw = btInterfaceV2.getHistoryList();
 				setHistoryData(histRaw);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
@@ -182,7 +179,6 @@ public class ServiceBtReciever extends BroadcastReceiver {
 			if (btInterfaceV1 != null) btInterfaceV1.syncPhonebook();
 			if (btInterfaceV2 != null) btInterfaceV2.syncPhonebook();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -201,7 +197,6 @@ public class ServiceBtReciever extends BroadcastReceiver {
 				}
 			}
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -220,7 +215,6 @@ public class ServiceBtReciever extends BroadcastReceiver {
 			// No interface!
 			Settings.get(context).showToast("Bt not connected");
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

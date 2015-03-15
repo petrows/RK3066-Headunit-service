@@ -161,21 +161,19 @@ public class Settings {
 					ctx.getPackageName(), 0);
 			version = pInfo.versionName;
 		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return version;
 	}
 
-	public static String getPropValue(String value)
-	{
+	public static String getPropValue(String value) {
 		Process p = null;
 		String ret = "";
 		try {
 			p = new ProcessBuilder("/system/bin/getprop", value).redirectErrorStream(true).start();
 			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line = "";
-			while ((line=br.readLine()) != null){
+			while ((line = br.readLine()) != null) {
 				ret = line;
 			}
 			p.destroy();
@@ -221,8 +219,7 @@ public class Settings {
 
 	public int getCallerVersion() {
 		int version = Integer.parseInt(prefs.getString("caller.api", "0"));
-		if (0 == version)
-		{
+		if (0 == version) {
 			return getCallerVersionAuto();
 		}
 		return version;

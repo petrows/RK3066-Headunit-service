@@ -53,20 +53,14 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		Log.d(TAG, "On create!");
 	}
 
 	@Override
-	public void onDataSetChanged() {
-		// TODO Auto-generated method stub
-
-	}
+	public void onDataSetChanged() {}
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -114,25 +108,21 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 
 	@Override
 	public RemoteViews getLoadingView() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int getViewTypeCount() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
