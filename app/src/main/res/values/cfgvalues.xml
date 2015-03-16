@@ -4,8 +4,8 @@
 
 	<string-array name="cfg_callapi_titles">
 		<item>Auto detect</item>
-		<item>Firmware &lt; 1 Jan 2015</item>
-		<item>Firmware &gt; 1 Jan 2015</item>
+		<item>Firmware &lt; 15 dec 2014</item>
+		<item>Firmware &gt; 16 dec 2014</item>
 	</string-array>
 
 	<string-array name="cfg_callapi_values">
