@@ -27,6 +27,7 @@ public class ServiceBtReciever extends BroadcastReceiver {
 	final static String TAG = "ServiceBtReciever";
 
 	public Context context;
+	public int btApiVersion = 0;
 
 	public class BtHistoryRecord {
 		String phone;
@@ -86,21 +87,23 @@ public class ServiceBtReciever extends BroadcastReceiver {
 	private android.microntek.mtcser_v1.BTServiceInf btInterfaceV1 = null;
 	private android.microntek.mtcser_v2.BTServiceInf btInterfaceV2 = null;
 
-	private ServiceConnection serviceConnection = new ServiceConnection() {
+	private class ServiceConnectionBt implements ServiceConnection {
 
 		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
+		public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+			btApiVersion = Settings.get(context).getCallerVersion();
 
-			int version = Settings.get(context).getCallerVersion();
+			if (1 == btApiVersion)
+				btInterfaceV1 = android.microntek.mtcser_v1.BTServiceInf.Stub.asInterface(iBinder);
+			if (2 == btApiVersion)
+				btInterfaceV2 = android.microntek.mtcser_v2.BTServiceInf.Stub.asInterface(iBinder);
 
-			if (1 == version)
-				btInterfaceV1 = android.microntek.mtcser_v1.BTServiceInf.Stub.asInterface(service);
-			if (2 == version)
-				btInterfaceV2 = android.microntek.mtcser_v2.BTServiceInf.Stub.asInterface(service);
+			Settings.get(context).showToast(String.format("Bt connecting, version %d", btApiVersion));
 
 			try {
 				if (null != btInterfaceV1) btInterfaceV1.init();
 				if (null != btInterfaceV2) btInterfaceV2.init();
+
 				// Update list
 				updateHistory(); // Gen test data?
 				// This should be tested more complitely
@@ -112,11 +115,14 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		}
 
 		@Override
-		public void onServiceDisconnected(ComponentName name) {
+		public void onServiceDisconnected(ComponentName componentName) {
 			btInterfaceV1 = null;
 			btInterfaceV2 = null;
+			Settings.get(context).showToast(String.format("Bt disconnected"));
 		}
-	};
+	}
+
+	private ServiceConnection serviceConnection = null;
 
 	@Override
 	public void onReceive(Context ctx, Intent intent) {
@@ -241,6 +247,8 @@ public class ServiceBtReciever extends BroadcastReceiver {
 		btInterfaceV1 = null;
 		btInterfaceV2 = null;
 
+		serviceConnection = new ServiceConnectionBt();
+
 		try {
 			if (!context.bindService(new Intent("com.microntek.btserver"), this.serviceConnection, Context.BIND_AUTO_CREATE)) {
 				Log.d(TAG, "Bind error!");
@@ -251,6 +259,7 @@ public class ServiceBtReciever extends BroadcastReceiver {
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "Service exception " + e.getLocalizedMessage());
+			Settings.get(context).showToast("Bt connection error 2");
 		}
 	}
 

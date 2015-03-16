@@ -39,13 +39,6 @@
             android:summary="@string/ui_adv_settings_caller_enable_text"
             android:title="@string/ui_adv_settings_caller_enable_title" >
         </SwitchPreference>
-        <PreferenceScreen
-            android:summary="@string/ui_adv_settings_caller_app_text"
-            android:title="@string/ui_adv_settings_caller_app_title" >
-            <intent android:action="android.intent.action.VIEW"
-                android:data="https://play.google.com/store/apps/details?id=cz.psencik.com.android.contacts" />
-        </PreferenceScreen>
-
 	    <ListPreference
 		    android:key="caller.api"
 		    android:title="@string/ui_adv_settings_caller_api_title"
@@ -54,8 +47,14 @@
 		    android:entries="@array/cfg_callapi_titles"
 		    android:entryValues="@array/cfg_callapi_values"
 		    >
+		    </ListPreference>
+	    <PreferenceScreen
+		    android:summary="@string/ui_adv_settings_caller_app_text"
+		    android:title="@string/ui_adv_settings_caller_app_title" >
+		    <intent android:action="android.intent.action.VIEW"
+		            android:data="https://play.google.com/store/apps/details?id=cz.psencik.com.android.contacts" />
+	    </PreferenceScreen>
 
-	    </ListPreference>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="svol"

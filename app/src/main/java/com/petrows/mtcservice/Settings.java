@@ -94,13 +94,13 @@ public class Settings {
 	private void setCfgBool(String name, boolean val) {
 		Editor editor = prefs.edit();
 		editor.putBoolean(name, val);
-		editor.commit();
+		editor.apply();
 	}
 
 	private void setCfgString(String name, String val) {
 		Editor editor = prefs.edit();
 		editor.putString(name, val);
-		editor.commit();
+		editor.apply();
 	}
 
 	//dsa
@@ -112,6 +112,7 @@ public class Settings {
 					wait(endTime -
 							System.currentTimeMillis());
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -167,12 +168,12 @@ public class Settings {
 	}
 
 	public static String getPropValue(String value) {
-		Process p = null;
+		Process p;
 		String ret = "";
 		try {
 			p = new ProcessBuilder("/system/bin/getprop", value).redirectErrorStream(true).start();
 			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line = "";
+			String line;
 			while ((line = br.readLine()) != null) {
 				ret = line;
 			}
@@ -210,8 +211,11 @@ public class Settings {
 	}
 
 	public int getCallerVersionAuto() {
-		// We should test ro.build.date.utc to be > 1 jan 2015
-		if (buildTimestamp < 1420070400) // < 1 jan 2015
+		// We should test ro.build.date.utc to be > 15 dec 2014
+		// 1418642842 (2014-12-15) uses OLD API
+		// 1419924496 (2014-12-30) uses NEW API
+		// 1421921736 (2015-01-22) uses NEW API
+		if (buildTimestamp <= 1418642842) // <= 15 dec 2015
 			return 1;
 		else
 			return 2;
@@ -256,7 +260,7 @@ public class Settings {
 					.split("\\s*,\\s*"));
 			StringBuilder speed_vals_clr = new StringBuilder();
 			for (String spd_step : speed_vals_str) {
-				Integer s = -1;
+				Integer s;
 				try {
 					s = Integer.valueOf(spd_step);
 				} catch (Exception e) {

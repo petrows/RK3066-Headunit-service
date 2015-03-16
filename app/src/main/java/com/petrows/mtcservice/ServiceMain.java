@@ -48,7 +48,7 @@ public class ServiceMain extends Service implements LocationListener {
 		//dsa
 		Settings.get(this).startMyServices();
 
-		ServiceBtReciever.get(this);
+		ServiceBtReciever.get(this).connectBt();
 	}
 
 	@Override
