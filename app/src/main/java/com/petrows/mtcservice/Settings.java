@@ -38,6 +38,10 @@ public class Settings {
 	final static int MTCWidgetAdd = 10520;
 	//final static int MTCWidgetRemove = 10521;
 
+	final static String C200ActionNext = "cn.com.cs2c.android.vehicle.action.NEXT_KEY";
+	final static String C200ActionPrev = "cn.com.cs2c.android.vehicle.action.PREVIEW_KEY";
+	final static String C200ActionPlayPause = "cn.com.cs2c.android.vehicle.action.PLAYPAUSE_KEY";
+
 	private ArrayList<Integer> speedValues = new ArrayList<Integer>();
 	private String speedValuesDef = "";
 	private float volumeMax = 30f;

@@ -41,6 +41,9 @@ public class ServiceMain extends Service implements LocationListener {
 		intf.addAction(Settings.MTCBroadcastIrkeyUp);
 		intf.addAction(Settings.MTCBroadcastACC);
 		intf.addAction(Settings.MTCBroadcastWidget);
+		intf.addAction(Settings.C200ActionNext);
+		intf.addAction(Settings.C200ActionPrev);
+		intf.addAction(Settings.C200ActionPlayPause);
 		mtc = new SWCReceiver();
 		registerReceiver(mtc, intf);
 		Log.d(TAG, "SWCReceiver registerReceiver");
