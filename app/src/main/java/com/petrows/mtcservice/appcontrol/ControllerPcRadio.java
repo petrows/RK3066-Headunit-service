@@ -1,4 +1,4 @@
-package com.petrows.mtcservice.com.petrows.mtcservice.appcontrol;
+package com.petrows.mtcservice.appcontrol;
 
 /**
  * Created by petro on 3/26/15.

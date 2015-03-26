@@ -1,4 +1,4 @@
-package com.petrows.mtcservice.com.petrows.mtcservice.appcontrol;
+package com.petrows.mtcservice.appcontrol;
 
 import android.util.Log;
 
