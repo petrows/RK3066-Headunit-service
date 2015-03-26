@@ -4,19 +4,10 @@ import java.util.ArrayList;
 
 public abstract class ControllerBase {
 
-	// Base methods
-	static ArrayList<ControllerBase> getControllers()
-	{
-		ArrayList<ControllerBase> out = new ArrayList<ControllerBase>();
-		
-		out.add(new ControllerMediaButtons());
-
-		return out;
-	}
-
 	// Class identification
 	public abstract String getId();
 	public abstract String getName();
+	public int getCallPriority() { return 50; }
 
 	// Work methods:
 	public boolean init() {
