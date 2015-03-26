@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -23,6 +24,19 @@ public class SWCReceiver extends BroadcastReceiver {
 			ctx.sendBroadcast(it);
 		}
 	}
+
+
+    private void launcPhoneApp(Context context) {
+        String launchapp = Settings.get(context).getPhoneApp();
+        Log.d(TAG, "Launch app " + launchapp);
+        if (launchapp != null && !launchapp.equals("")){
+            Intent appintent = context.getPackageManager().getLaunchIntentForPackage(launchapp);
+            appintent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_RECEIVER_FOREGROUND);
+            appintent.setPackage(launchapp);
+            context.startActivity(appintent);
+            killMusic(context);
+        }
+    }
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -51,8 +65,11 @@ public class SWCReceiver extends BroadcastReceiver {
 				if (Settings.MTCKeysPause.contains(keyCode)) {
 					Settings.get(context).showToast("||");
 					sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-
 				}
+                if (Settings.MTCKeysPhone.contains(keyCode)) {
+                    Settings.get(context).showToast("Phone");
+                    launcPhoneApp(context);
+                }
 			} else {
 				Log.d(TAG, "Media keys handler is disabled in settings");
 			}
@@ -67,8 +84,7 @@ public class SWCReceiver extends BroadcastReceiver {
 					Settings.get(context).setVolumeSafe();
 				}
 			}
-		} else if (intent.getAction().equals(Settings.MTCBroadcastWidget)) // Microntek launch app?
-		{
+		} else if (intent.getAction().equals(Settings.MTCBroadcastWidget)) { // Microntek launch app?
 			// Install widget?
 			int wdgAction = intent.getIntExtra("myWidget.action", 0);
 			String wdgPackage = intent.getStringExtra("myWidget.packageName");

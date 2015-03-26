@@ -21,6 +21,13 @@
             android:summary="@string/ui_adv_settings_keys_enable_text"
             android:title="@string/ui_adv_settings_keys_enable_title" >
         </SwitchPreference>
+        <PreferenceScreen
+            android:title="@string/ui_adv_settings_callkey_cat"
+            android:summary="@string/ui_adv_settings_callkey_cat_summary"
+            android:key="call_button_screen"
+            >
+            <intent android:action=".SWCPhoneAppActivity" />
+        </PreferenceScreen>
 	    <!--
 	<PreferenceScreen
 		android:summary="@string/ui_adv_settings_keys_config_text"
