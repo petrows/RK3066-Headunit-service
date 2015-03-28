@@ -33,6 +33,7 @@ public class Settings {
 	final static List<Integer> MTCKeysPrev = Arrays.asList(45, 58, 22);
 	final static List<Integer> MTCKeysNext = Arrays.asList(46, 59, 24);
 	final static List<Integer> MTCKeysPause = Arrays.asList(3);
+    final static List<Integer> MTCKeysPhone = Arrays.asList(69);
 
 	final static String MTCBroadcastWidget = "com.android.MTClauncher.action.INSTALL_WIDGETS";
 	final static int MTCWidgetAdd = 10520;
@@ -101,7 +102,7 @@ public class Settings {
 		editor.apply();
 	}
 
-	private void setCfgString(String name, String val) {
+	public void setCfgString(String name, String val) {
 		Editor editor = prefs.edit();
 		editor.putString(name, val);
 		editor.apply();
@@ -121,6 +122,11 @@ public class Settings {
 			}
 		}
 	}
+
+
+    public String getPhoneApp() {
+        return prefs.getString("call_button_app", "");
+    }
 
 	public void startMyServices() {
 		if (getServiceEnable()) {

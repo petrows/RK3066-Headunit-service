@@ -14,6 +14,7 @@ Supports head units on Rockchip RK30SDK platform: RK3066 (Android 4.2.2 and 4.4.
  - Klyde (KLD)
  - Roadmaster (RM)
  - Hui Fei (KGL)
+ - Joyous (JY)
  
 App developer home page: http://petro.ws/projects/auto/micronteck-headunit/mtc-service
 

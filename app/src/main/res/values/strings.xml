@@ -50,5 +50,7 @@
 
 	<string name="wdg_history_title">HeadUnit Call History</string>
 	<string name="wdg_history_unknown_contact">Unknown</string>
+    <string name="ui_adv_settings_callkey_cat">Steering Wheel Phone Button</string>
+    <string name="ui_adv_settings_callkey_cat_summary">Select which app to launch when pressing Phone button</string>
 
 </resources>
