@@ -10,6 +10,13 @@
             android:summary="@string/ui_adv_settings_toast_enable_text"
             android:title="@string/ui_adv_settings_toast_enable_title" >
         </SwitchPreference>
+
+	    <com.petrows.mtcservice.view.IconListPreference
+		    android:key="test.list"
+		    android:title="This is a test"
+		    android:summary="Description"
+		    android:icon="@drawable/ic_launcher"
+		    />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="keys"
@@ -19,7 +26,8 @@
             android:defaultValue="true"
             android:key="keys.enable"
             android:summary="@string/ui_adv_settings_keys_enable_text"
-            android:title="@string/ui_adv_settings_keys_enable_title" >
+            android:title="@string/ui_adv_settings_keys_enable_title"
+	        >
         </SwitchPreference>
         <PreferenceScreen
             android:title="@string/ui_adv_settings_callkey_cat"
