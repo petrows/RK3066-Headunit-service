@@ -7,7 +7,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.petrows.mtcservice.com.petrows.mtcservice.appcontrol.ControllerList;
+import com.petrows.mtcservice.appcontrol.ControllerList;
 
 public class SWCReceiver extends BroadcastReceiver {
 
@@ -21,7 +21,7 @@ public class SWCReceiver extends BroadcastReceiver {
 	private boolean ord = false;
 
 	public SWCReceiver() {
-		appController = new ControllerList();
+
 	}
 
 	private void fireIT(Context ctx, Intent it, boolean frrp) {

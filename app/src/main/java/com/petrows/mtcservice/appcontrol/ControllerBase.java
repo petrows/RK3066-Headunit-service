@@ -1,16 +1,21 @@
 package com.petrows.mtcservice.appcontrol;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 public abstract class ControllerBase {
 
+	protected Context ctx;
+
 	// Class identification
 	public abstract String getId();
 	public abstract String getName();
-	public int getCallPriority() { return 50; }
+	public int getEventPriority() { return 50; }
 
 	// Work methods:
-	public boolean init() {
+	public boolean init(Context ctx) {
+		this.ctx = ctx;
 		return true;
 	}
 

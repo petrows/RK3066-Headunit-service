@@ -97,6 +97,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.microntek.startApp" />
                 <action android:name="com.microntek.irkeyUp" />
             </intent-filter>
         </receiver>

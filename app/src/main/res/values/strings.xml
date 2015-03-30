@@ -51,4 +51,7 @@
 	<string name="wdg_history_title">HeadUnit Call History</string>
 	<string name="wdg_history_unknown_contact">Unknown</string>
 
+	<string name="appcontrol_name_media_buttons">Media buttons (system-wide)</string>
+	<string name="appcontrol_name_pcradio">PCRadio (ROOT required)</string>
+
 </resources>

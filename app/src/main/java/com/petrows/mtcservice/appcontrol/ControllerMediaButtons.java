@@ -1,6 +1,9 @@
 package com.petrows.mtcservice.appcontrol;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.petrows.mtcservice.R;
 
 public class ControllerMediaButtons extends ControllerBase {
 	private final static String TAG = "ControllerMediaButtons";
@@ -15,16 +18,11 @@ public class ControllerMediaButtons extends ControllerBase {
 
 	@Override
 	public String getName() {
-		return "Media buttons";
+		return ctx.getString(R.string.appcontrol_name_media_buttons);
 	}
 
 	@Override
-	public int getCallPriority() {
+	public int getEventPriority() {
 		return 80; // Low priority
-	}
-
-	@Override
-	public boolean init() {
-		return true;
 	}
 }

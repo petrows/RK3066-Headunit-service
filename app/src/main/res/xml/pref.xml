@@ -21,6 +21,7 @@
             android:summary="@string/ui_adv_settings_keys_enable_text"
             android:title="@string/ui_adv_settings_keys_enable_title" >
         </SwitchPreference>
+
 	    <!--
 	<PreferenceScreen
 		android:summary="@string/ui_adv_settings_keys_config_text"
