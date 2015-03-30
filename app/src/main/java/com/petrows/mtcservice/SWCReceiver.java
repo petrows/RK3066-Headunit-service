@@ -8,13 +8,22 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.petrows.mtcservice.appcontrol.ControllerList;
+
 public class SWCReceiver extends BroadcastReceiver {
 
 	private final static String TAG = "SWCReceiver";
+	ControllerList appController = null;
+
+
 
 	//dsa
 	public static boolean syn = false;
 	private boolean ord = false;
+
+	public SWCReceiver() {
+
+	}
 
 	private void fireIT(Context ctx, Intent it, boolean frrp) {
 		if (ord)

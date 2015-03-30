@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.petrows.mtcservice.appcontrol.ControllerList;
+
 import java.util.List;
 
 public class ServiceMain extends Service implements LocationListener {
@@ -22,6 +24,7 @@ public class ServiceMain extends Service implements LocationListener {
 
 	public static boolean isRunning = false;
 	public double last_speed = 0;
+	ControllerList appController;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -47,6 +50,8 @@ public class ServiceMain extends Service implements LocationListener {
 		mtc = new SWCReceiver();
 		registerReceiver(mtc, intf);
 		Log.d(TAG, "SWCReceiver registerReceiver");
+
+		appController = new ControllerList(this);
 
 		//dsa
 		Settings.get(this).startMyServices();
