@@ -41,4 +41,7 @@ public class ControllerList {
 		}
 	}
 
+	public ArrayList<ControllerBase> getListDisplay() { return controllersList; }
+	public ArrayList<ControllerBase> getListCall() { return controllersListCall; }
+
 }
