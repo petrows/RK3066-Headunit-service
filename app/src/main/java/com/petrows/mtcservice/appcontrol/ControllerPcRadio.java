@@ -66,4 +66,22 @@ public class ControllerPcRadio extends ControllerBase {
 	public Drawable getIcon() {
 		return getPackageIcon(appPackage);
 	}
+
+	@Override
+	public boolean onNext() {
+		if (!isRunning()) return false; // No app - no key
+		return cmdNext.execute();
+	}
+
+	@Override
+	public boolean onPrev() {
+		if (!isRunning()) return false; // No app - no key
+		return cmdPrev.execute();
+	}
+
+	@Override
+	public boolean onStop() {
+		if (!isRunning()) return false; // No app - no key
+		return cmdStop.execute();
+	}
 }

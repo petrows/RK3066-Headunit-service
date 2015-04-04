@@ -65,15 +65,17 @@ public class SWCReceiver extends BroadcastReceiver {
 			if (Settings.get(context).getMediaKeysEnable()) {
 				if (Settings.MTCKeysPrev.contains(keyCode)) {
 					Settings.get(context).showToast("<<");
-					sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+					// sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+					ControllerList.get(context).sendKeyPrev();
 				}
 				if (Settings.MTCKeysNext.contains(keyCode)) {
 					Settings.get(context).showToast(">>");
-					sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
+					//sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
+					ControllerList.get(context).sendKeyNext();
 				}
 				if (Settings.MTCKeysPause.contains(keyCode)) {
 					Settings.get(context).showToast("||");
-					sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+					// sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
 				}
                 if (Settings.MTCKeysPhone.contains(keyCode)) {
                     Settings.get(context).showToast("Phone");

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -26,7 +27,7 @@ import com.petrows.mtcservice.R;
  * @author atanarro
  *
  */
-public class IconListPreference extends ListPreference {
+public class IconListPreference extends MultiSelectListPreference {
 
 	private Drawable mIcon;
 	private IconListPreferenceScreenAdapter iconListPreferenceAdapter = null;
@@ -63,20 +64,6 @@ public class IconListPreference extends ListPreference {
 
 		a.recycle();
 
-	}
-
-	@Override
-	public CharSequence getEntry() {
-		if (selectedEntry != -1)
-			return entries[selectedEntry];
-		return "";
-	}
-
-	@Override
-	public String getValue() {
-		if (selectedEntry != -1)
-			return entryValues[selectedEntry].toString();
-		return "";
 	}
 
 	@Override
@@ -131,13 +118,14 @@ public class IconListPreference extends ListPreference {
 		iconListPreferenceAdapter = new IconListPreferenceScreenAdapter(mContext);
 
 		if (mEntryIcons != null) {
+			/*
 			String selectedValue = prefs.getString(mKey, "");
 			for (int i = 0; i < entryValues.length; i++) {
 				if (selectedValue.compareTo((String) entryValues[i]) == 0) {
 					selectedEntry = i;
 					break;
 				}
-			}
+			}*/
 			builder.setAdapter(iconListPreferenceAdapter, null);
 
 		}

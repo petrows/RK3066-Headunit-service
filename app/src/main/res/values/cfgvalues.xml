@@ -13,4 +13,7 @@
 		<item>1</item>
 		<item>2</item>
 	</string-array>
+
+	<string-array name="empty" translatable="false">
+	</string-array>
 </resources>

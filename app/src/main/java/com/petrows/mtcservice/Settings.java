@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Settings {
 	private final static String TAG = "Settings";
@@ -79,6 +81,15 @@ public class Settings {
 		buildTimestamp = Integer.parseInt(getPropValue("ro.build.date.utc"));
 		Log.d(TAG, "Build timestamp: " + String.valueOf(buildTimestamp));
 
+		if (prefs.getStringSet("keys.apps", null).size() == 0)
+		{
+			Editor editor = prefs.edit();
+			Set<String> mySet = new HashSet<String>();
+			mySet.add("media");
+			editor.putStringSet("keys.apps", mySet);
+			editor.apply();
+		}
+
 		Log.d(TAG, "Settings created");
 	}
 
@@ -123,7 +134,9 @@ public class Settings {
 		}
 	}
 
-
+	public HashSet<String> getMediaApps() {
+		return new HashSet<String>(prefs.getStringSet("keys.apps", null));
+	}
     public String getPhoneApp() {
         return prefs.getString("call_button_app", "");
     }

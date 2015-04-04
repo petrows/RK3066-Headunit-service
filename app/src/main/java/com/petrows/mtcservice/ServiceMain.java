@@ -44,14 +44,11 @@ public class ServiceMain extends Service implements LocationListener {
 		intf.addAction(Settings.MTCBroadcastIrkeyUp);
 		intf.addAction(Settings.MTCBroadcastACC);
 		intf.addAction(Settings.MTCBroadcastWidget);
-		intf.addAction(Settings.C200ActionNext);
-		intf.addAction(Settings.C200ActionPrev);
-		intf.addAction(Settings.C200ActionPlayPause);
 		mtc = new SWCReceiver();
 		registerReceiver(mtc, intf);
 		Log.d(TAG, "SWCReceiver registerReceiver");
 
-		appController = new ControllerList(this);
+		appController = ControllerList.get(this);
 
 		//dsa
 		Settings.get(this).startMyServices();
@@ -100,7 +97,7 @@ public class ServiceMain extends Service implements LocationListener {
 
 		if (Settings.get(this).getMute()) {
 			// Skip volume change on Mute
-			Log.d(TAG, "Set voume skipped - mute is active");
+			Log.d(TAG, "Set volume skipped - mute is active");
 			return;
 		}
 

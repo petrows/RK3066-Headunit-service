@@ -19,6 +19,8 @@
 	<string name="ui_adv_settings_keys_cat">Steering wheel keys to media remap</string>
 	<string name="ui_adv_settings_keys_enable_title">Enable media keys</string>
 	<string name="ui_adv_settings_keys_enable_text">Make media players work from steering wheel</string>
+	<string name="ui_adv_settings_keys_apps_title">Control methods</string>
+	<string name="ui_adv_settings_keys_apps_text">Select methods/players for media commands</string>
     <string name="ui_adv_settings_keys_config_title">Configure keys</string>
     <string name="ui_adv_settings_keys_config_text">Configure steering wheel keys</string>
 
@@ -53,7 +55,7 @@
     <string name="ui_adv_settings_callkey_cat">Steering Wheel Phone Button</string>
     <string name="ui_adv_settings_callkey_cat_summary">Select which app to launch when pressing Phone button</string>
 
-	<string name="appcontrol_name_media_buttons">Media buttons (system-wide)</string>
-	<string name="appcontrol_name_pcradio">PCRadio (ROOT required)</string>
+	<string name="appcontrol_name_media_buttons">Send Media Buttons</string>
+	<string name="appcontrol_name_pcradio">PcRadio (ROOT required)</string>
 
 </resources>

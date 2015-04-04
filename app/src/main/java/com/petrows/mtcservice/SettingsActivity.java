@@ -3,6 +3,7 @@ package com.petrows.mtcservice;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.util.Log;
@@ -20,32 +21,18 @@ public class SettingsActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.pref);
 
-		IconListPreference zApps = (IconListPreference) getPreferenceManager().findPreference("test.list");
-		// zApps.setIcon(getResources().getDrawable(R.drawable.ic_launcher));
-		//CharSequence[] zAppsTitle = {"a", "b", "z"};
-		//zApps.setEntryValues(zAppsTitle);
-		//zApps.setEntries(zAppsTitle);
-		zApps.setTitle("Asshole");
-
-
+		MultiSelectListPreference zApps = (MultiSelectListPreference) getPreferenceManager().findPreference("keys.apps");
 		ArrayList<String> titles = new ArrayList<String>();
 		ArrayList<String> ides = new ArrayList<String>();
-		// ArrayList<Drawable> icons;
-		ControllerList ctr = new ControllerList(this);
-		//CharSequence[] titlesText = new CharSequence[ctr.getListDisplay().size()];
-		for (int z=0; z<ctr.getListDisplay().size(); z++)
+		ArrayList<ControllerBase> apps = ControllerList.get(this).getListDisplay();
+		for (int z=0; z<apps.size(); z++)
 		{
-			ControllerBase item = ctr.getListDisplay().get(z);
+			ControllerBase item = apps.get(z);
 			titles.add(item.getName());
-			//ides.add(item.getId());
-			//titlesText[z] = "App: " + z;
+			ides.add(item.getId());
 			Log.d(TAG, titles.get(z).toString());
 		}
-
-
-		//zApps.setEntryValues(titlesText);
-		//zApps.setEntries(titlesText);
-		zApps.setEntryValues(titles.toArray(new CharSequence[titles.size()]));
+		zApps.setEntryValues(ides.toArray(new CharSequence[ides.size()]));
 		zApps.setEntries(titles.toArray(new CharSequence[titles.size()]));
 	}
 

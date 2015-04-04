@@ -3,17 +3,31 @@ package com.petrows.mtcservice.appcontrol;
 import android.content.Context;
 import android.util.Log;
 
+import com.petrows.mtcservice.Settings;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Map;
 
 public class ControllerList {
 	private final static String TAG = "ControllerList";
 	private ArrayList<ControllerBase> controllersList = new ArrayList<ControllerBase>();
 	private ArrayList<ControllerBase> controllersListCall = new ArrayList<ControllerBase>();
 
-	public ControllerList(Context ctx)
+	private static ControllerList instance = null;
+	private Context ctx;
+
+	public static ControllerList get(Context context) {
+		if (null == instance)
+			instance = new ControllerList(context);
+		return (instance);
+	}
+
+	private ControllerList(Context context)
 	{
+		ctx = context;
 		controllersList.add(new ControllerMediaButtons());
 		controllersList.add(new ControllerPcRadio());
 
@@ -42,6 +56,48 @@ public class ControllerList {
 	}
 
 	public ArrayList<ControllerBase> getListDisplay() { return controllersList; }
-	public ArrayList<ControllerBase> getListCall() { return controllersListCall; }
+	public ArrayList<ControllerBase> getListCall() {
+		ArrayList<ControllerBase> out = new ArrayList<ControllerBase>();
+		HashSet<String> appsEnabled = Settings.get(ctx).getMediaApps();
+		for (ControllerBase itm : controllersListCall)
+		{
+			if (appsEnabled.contains(itm.getId()))
+			{
+				out.add(itm);
+			}
+		}
+		return out;
+	}
 
+	public boolean sendKeyNext()
+	{
+		ArrayList<ControllerBase> apps = getListCall();
+		for (ControllerBase app : apps)
+		{
+			Log.d(TAG, "Probe NEXT : " + app.getId());
+			if (app.onNext())
+			{
+				// Key is sended!
+				Log.d(TAG, "Sended");
+				return true;
+			}
+		}
+		return false; // No app!
+	}
+
+	public boolean sendKeyPrev()
+	{
+		ArrayList<ControllerBase> apps = getListCall();
+		for (ControllerBase app : apps)
+		{
+			Log.d(TAG, "Probe PREV : " + app.getId());
+			if (app.onPrev())
+			{
+				// Key is sended!
+				Log.d(TAG, "Sended");
+				return true;
+			}
+		}
+		return false; // No app!
+	}
 }
