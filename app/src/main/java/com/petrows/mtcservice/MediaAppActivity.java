@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class SWCPhoneAppActivity extends PreferenceActivity {
+public class MediaAppActivity extends PreferenceActivity {
 
     private PreferenceCategory mApps;
     private PackageManager mPackageManager;
@@ -56,7 +56,7 @@ public class SWCPhoneAppActivity extends PreferenceActivity {
         public boolean onPreferenceChange(Preference preference, Object o) {
             boolean checked = ((Boolean) o).booleanValue();
             if (checked) {
-                Settings.get(this.mPref.getContext()).setCfgString("call_button_app", mPref.getPkgName());
+                Settings.get(this.mPref.getContext()).setCfgString("player.app", mPref.getPkgName());
                 for (int i = 0; i < mApps.getPreferenceCount(); i++) {
                     AppPreference pref = (AppPreference) mApps.getPreference(i);
                     if (!pref.getPkgName().equals(mPref.getPkgName())) {
@@ -87,7 +87,7 @@ public class SWCPhoneAppActivity extends PreferenceActivity {
             List<ApplicationInfo> pkgs = mPackageManager.getInstalledApplications(PackageManager.GET_META_DATA);
             List<AppPreference> prefs = new ArrayList<AppPreference>();
 
-            String callAppPkg = sharedPrefs.getString("call_button_app", "");
+            String callAppPkg = Settings.get(this).getMediaPlayerApp();
             for (ApplicationInfo pkg: pkgs) {
                 AppPreference pref = new AppPreference(this);
                 pref.setTitle(mPackageManager.getApplicationLabel(pkg));

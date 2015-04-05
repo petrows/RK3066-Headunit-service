@@ -16,18 +16,6 @@ public class SWCReceiver extends BroadcastReceiver {
 
 	public SWCReceiver() {}
 
-    private void launcPhoneApp(Context context) {
-        String launchapp = Settings.get(context).getPhoneApp();
-        Log.d(TAG, "Launch app " + launchapp);
-        if (launchapp != null && !launchapp.equals("")){
-            Intent appintent = context.getPackageManager().getLaunchIntentForPackage(launchapp);
-            appintent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_RECEIVER_FOREGROUND);
-            appintent.setPackage(launchapp);
-            context.startActivity(appintent);
-            killMusic(context);
-        }
-    }
-
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.d(TAG, "Action " + intent.getAction() + ", key " + intent.getIntExtra("keyCode", -1));
@@ -54,8 +42,10 @@ public class SWCReceiver extends BroadcastReceiver {
 					ControllerList.get(context).sendKeyPlayPause();
 				}
                 if (Settings.MTCKeysPhone.contains(keyCode)) {
-                    Settings.get(context).showToast("Phone");
-                    launcPhoneApp(context);
+	                if (Settings.get(context).getMediaPlayerPhonerun()) {
+		                killMusic(context);
+		                Settings.get(context).startMediaPlayer();
+	                }
                 }
 			} else {
 				Log.d(TAG, "Media keys handler is disabled in settings");
@@ -65,7 +55,6 @@ public class SWCReceiver extends BroadcastReceiver {
 			Log.d(TAG, "Acc state: " + accState);
 			if ("accoff" == accState) {
 				// We are powering-off
-
 				// Set safe volume?
 				if (Settings.get(context).getSafeVolumeEnable()) {
 					Settings.get(context).setVolumeSafe();

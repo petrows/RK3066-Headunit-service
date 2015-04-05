@@ -1,11 +1,13 @@
 package com.petrows.mtcservice;
 
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceScreen;
 import android.util.Log;
 
 import com.petrows.mtcservice.appcontrol.ControllerBase;
@@ -35,6 +37,27 @@ public class SettingsActivity extends PreferenceActivity {
 		zApps.setEntryValues(ides.toArray(new CharSequence[ides.size()]));
 		zApps.setEntries(titles.toArray(new CharSequence[titles.size()]));
 	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		// Set app icon (if app selected)
+		if (!Settings.get(this).getMediaPlayerApp().isEmpty()) {
+			try {
+				Drawable playerIcon = getPackageManager().getApplicationIcon(Settings.get(this).getMediaPlayerApp());
+				if (null != playerIcon)
+				{
+					PreferenceScreen playerOption = (PreferenceScreen)getPreferenceManager().findPreference("player_screen");
+					playerOption.setIcon(playerIcon);
+				}
+			} catch (PackageManager.NameNotFoundException e) {
+				Log.d(TAG, "Error get package!");
+				e.printStackTrace();
+			}
+		}
+	}
+
 
 	@Override
 	protected void onPause() {

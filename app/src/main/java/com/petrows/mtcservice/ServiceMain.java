@@ -83,6 +83,11 @@ public class ServiceMain extends Service implements LocationListener {
 
 			Settings.get(this).getCallerVersionAuto();
 
+			if (Settings.get(this).getMediaPlayerAutorun())
+			{
+				Settings.get(this).startMediaPlayer();
+			}
+
 			return (START_STICKY);
 		}
 		stopSelf();

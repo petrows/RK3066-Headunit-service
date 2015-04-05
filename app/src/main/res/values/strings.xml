@@ -9,6 +9,8 @@
 	<string name="toast_calling_process">Calling: %s</string>
 	<string name="toast_calling_error">Calling error: %d</string>
 
+	<string name="toast_player_start">Starting player</string>
+
 	<string name="ui_contact_title">Contact author</string>
 	<string name="ui_contact_text">Write email to petro@petro.ws</string>
 
@@ -22,14 +24,16 @@
 	<string name="ui_adv_settings_keys_apps_title">Control methods</string>
 	<string name="ui_adv_settings_keys_apps_text">Select methods/players for media commands</string>
 
-	<string name="ui_adv_settings_callkey_cat">Steering Wheel Phone Button</string>
-	<string name="ui_adv_settings_callkey_cat_summary">Select which app to launch when pressing Phone button</string>
     <string name="ui_adv_settings_keys_config_title">Configure keys</string>
     <string name="ui_adv_settings_keys_config_text">Configure steering wheel keys</string>
 
 	<string name="ui_adv_settings_player_cat">Custom media player</string>
 	<string name="ui_adv_settings_player_app_title">Select main player</string>
-	<string name="ui_adv_settings_player_app_text">Select customa main player for autostart, etc</string>
+	<string name="ui_adv_settings_player_app_text">Select custom app to be as player for autostart, etc</string>
+	<string name="ui_adv_settings_player_autorun_title">Launch player on service start</string>
+	<string name="ui_adv_settings_player_autorun_text">Autorun custom music player on headunit boot</string>
+	<string name="ui_adv_settings_player_phonerun_title">Launch player on PHONE button</string>
+	<string name="ui_adv_settings_player_phonerun_text">Run custom music player on headunit "Phone" key</string>
 
 	<string name="ui_adv_settings_caller_cat">Call from Android</string>
 	<string name="ui_adv_settings_caller_enable_title">Enable call from Android</string>
@@ -59,7 +63,6 @@
 
 	<string name="wdg_history_title">HeadUnit Call History</string>
 	<string name="wdg_history_unknown_contact">Unknown</string>
-
 
 	<string name="appcontrol_name_media_buttons">Send Media Buttons</string>
 	<string name="appcontrol_name_pcradio">PcRadio (ROOT required)</string>

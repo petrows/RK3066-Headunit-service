@@ -9,6 +9,8 @@
 	<string name="toast_calling_process">Звоним: %s</string>
 	<string name="toast_calling_error">Ошибка вызова: %d</string>
 
+	<string name="toast_player_start">Запуск плеера</string>
+
 	<string name="ui_contact_title">Написать автору</string>
 	<string name="ui_contact_text">Отправить письмо на petro@petro.ws</string>
 
@@ -23,6 +25,14 @@
 	<string name="ui_adv_settings_keys_apps_text">Выберите методы переключения для плееров</string>
 	<string name="ui_adv_settings_keys_config_title">Настроить кнопки</string>
 	<string name="ui_adv_settings_keys_config_text">Определить кнопки руля</string>
+
+	<string name="ui_adv_settings_player_cat">Медиа-плеер</string>
+	<string name="ui_adv_settings_player_app_title">Приложение плеер</string>
+	<string name="ui_adv_settings_player_app_text">Выберите главное приложение для функции плеера</string>
+	<string name="ui_adv_settings_player_autorun_title">Запуск при включении</string>
+	<string name="ui_adv_settings_player_autorun_text">Запускать приложение плеера при включении магнитолы</string>
+	<string name="ui_adv_settings_player_phonerun_title">Запуск по кнопке Phone</string>
+	<string name="ui_adv_settings_player_phonerun_text">Запускать приложение плеера по кнопке Телефона или Bluetooth</string>
 
 	<string name="ui_adv_settings_caller_cat">Звонки через Android</string>
 	<string name="ui_adv_settings_caller_enable_title">Звонить через Android</string>

@@ -44,10 +44,6 @@ public class Settings {
 	final static int MTCWidgetAdd = 10520;
 	//final static int MTCWidgetRemove = 10521;
 
-	final static String C200ActionNext = "cn.com.cs2c.android.vehicle.action.NEXT_KEY";
-	final static String C200ActionPrev = "cn.com.cs2c.android.vehicle.action.PREVIEW_KEY";
-	final static String C200ActionPlayPause = "cn.com.cs2c.android.vehicle.action.PLAYPAUSE_KEY";
-
 	private ArrayList<Integer> speedValues = new ArrayList<Integer>();
 	private String speedValuesDef = "";
 	private float volumeMax = 30f;
@@ -143,13 +139,6 @@ public class Settings {
 			}
 		}
 	}
-
-	public HashSet<String> getMediaApps() {
-		return new HashSet<String>(prefs.getStringSet("keys.apps", null));
-	}
-    public String getPhoneApp() {
-        return prefs.getString("call_button_app", "");
-    }
 
 	public void startMyServices() {
 		if (getServiceEnable()) {
@@ -264,6 +253,33 @@ public class Settings {
 
 	public boolean getMediaKeysEnable() {
 		return prefs.getBoolean("keys.enable", true);
+	}
+
+	public HashSet<String> getMediaApps() {
+		return new HashSet<String>(prefs.getStringSet("keys.apps", null));
+	}
+
+	public String getMediaPlayerApp() { return prefs.getString("player.app", ""); }
+	public boolean getMediaPlayerAutorun() { return prefs.getBoolean("player.autorun", false); }
+	public boolean getMediaPlayerPhonerun() { return prefs.getBoolean("player.phonerun", false); }
+
+	public void startMediaPlayer()
+	{
+		String launchapp = Settings.get(ctx).getMediaPlayerApp();
+		Log.d(TAG, "Launch app: " + launchapp);
+		if (launchapp != null && !launchapp.equals("")){
+			try {
+				Intent appintent = ctx.getPackageManager().getLaunchIntentForPackage(launchapp);
+				if (null != appintent) {
+					appintent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_RECEIVER_FOREGROUND);
+					appintent.setPackage(launchapp);
+					showToast(ctx.getString(R.string.toast_player_start));
+					ctx.startActivity(appintent);
+				}
+			} catch (Exception e) {
+				// Error :-(
+			}
+		}
 	}
 
 	public boolean getSafeVolumeEnable() {
