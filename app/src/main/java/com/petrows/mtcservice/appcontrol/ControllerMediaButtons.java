@@ -52,6 +52,12 @@ public class ControllerMediaButtons extends ControllerBase {
 		return true;
 	}
 
+	@Override
+	public boolean onPlayPause() {
+		sendKey(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+		return true;
+	}
+
 	public void sendKey(int keycode) {
 		Log.d(TAG, "Send key " + keycode);
 		long eventtime = SystemClock.uptimeMillis();

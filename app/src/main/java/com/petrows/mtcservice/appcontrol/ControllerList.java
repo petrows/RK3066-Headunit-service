@@ -30,6 +30,7 @@ public class ControllerList {
 		ctx = context;
 		controllersList.add(new ControllerMediaButtons());
 		controllersList.add(new ControllerPcRadio());
+		controllersList.add(new ControllerPowerAmp());
 
 		// Sort by call priority 0->100
 		for (ControllerBase s : controllersList) {

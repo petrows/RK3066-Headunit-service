@@ -14,6 +14,8 @@ public class ControllerPcRadio extends ControllerBase {
 	final static String appPackage = "com.maxxt.pcradio";
 	final static String appService = ".service.RadioService";
 
+
+
 	private ExecuteAsRootBase cmdNext = new ExecuteAsRootBase() {
 		@Override
 		protected ArrayList<String> getCommandsToExecute() {
@@ -83,5 +85,10 @@ public class ControllerPcRadio extends ControllerBase {
 	public boolean onStop() {
 		if (!isRunning()) return false; // No app - no key
 		return cmdStop.execute();
+	}
+
+	@Override
+	public boolean onPlayPause() {
+		return onStop(); // Dont supported, do stop unstead
 	}
 }
