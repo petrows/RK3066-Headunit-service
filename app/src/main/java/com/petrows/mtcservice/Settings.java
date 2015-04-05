@@ -80,21 +80,38 @@ public class Settings {
 		buildTimestamp = Integer.parseInt(getPropValue("ro.build.date.utc"));
 		Log.d(TAG, "Build timestamp: " + String.valueOf(buildTimestamp));
 
-		if (null == prefs.getStringSet("keys.apps", null) || prefs.getStringSet("keys.apps", null).size() == 0)
-		{
-			Editor editor = prefs.edit();
-			Set<String> mySet = new HashSet<String>();
+		Set<String> wasInstalledApps = prefs.getStringSet("keys.apps.installed", new HashSet<String>());
+		Set<String> wasEnabledApps = prefs.getStringSet("keys.apps", new HashSet<String>());
 
-			// Get all controlles list and add default-enabled to list
-			ArrayList<ControllerBase> appsList = ControllerList.get(ctx).getListDisplay();
-			for (ControllerBase app : appsList) {
-				if (app.isDefaultEnabled()) mySet.add(app.getId());
+
+		Set<String> defaultList = new HashSet<String>();
+		Set<String> installedtList = new HashSet<String>();
+		// Get all controlles list and add default-enabled to list
+		ArrayList<ControllerBase> appsList = ControllerList.get(ctx).getListDisplay();
+		for (ControllerBase app : appsList) {
+			installedtList.add(app.getId());
+			if (wasEnabledApps.contains(app.getId()))
+			{
+				// This app was enabled
+				defaultList.add(app.getId());
+				Log.d(TAG, "App " + app.getId() + " was enabled by user");
+				continue;
 			}
-
-			Log.d(TAG, "Set default apps list: " + mySet.toString());
-			editor.putStringSet("keys.apps", mySet);
-			editor.apply();
+			if (app.isDefaultEnabled() && !wasInstalledApps.contains(app.getId()))
+			{
+				// This app is new and enabled by-default
+				defaultList.add(app.getId());
+				Log.d(TAG, "App " + app.getId() + " is new and was enabled by default");
+				continue;
+			}
 		}
+
+		Log.d(TAG, "Set default apps list: " + defaultList.toString());
+		Editor editor = prefs.edit();
+		editor.putStringSet("keys.apps", defaultList);
+		editor.putStringSet("keys.apps.installed", installedtList);
+		editor.apply();
+
 
 		Log.d(TAG, "Settings created");
 	}
