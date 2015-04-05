@@ -24,6 +24,7 @@ public abstract class ControllerBase {
 	public abstract String getId();
 	public abstract String getName();
 	public int getEventPriority() { return 50; }
+	public boolean isDefaultEnabled() { return true; }
 
 	// Work methods:
 	public boolean init(Context ctx) {
@@ -45,6 +46,11 @@ public abstract class ControllerBase {
 
 	// Play STOP
 	public boolean onStop() {
+		return true;
+	}
+
+	// Play PLAY/PAUSE
+	public boolean onPlayPause() {
 		return true;
 	}
 }

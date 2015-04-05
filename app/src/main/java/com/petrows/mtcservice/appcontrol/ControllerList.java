@@ -100,4 +100,36 @@ public class ControllerList {
 		}
 		return false; // No app!
 	}
+
+	public boolean sendKeyStop()
+	{
+		ArrayList<ControllerBase> apps = getListCall();
+		for (ControllerBase app : apps)
+		{
+			Log.d(TAG, "Probe STOP : " + app.getId());
+			if (app.onStop())
+			{
+				// Key is sended!
+				Log.d(TAG, "Sended");
+				return true;
+			}
+		}
+		return false; // No app!
+	}
+
+	public boolean sendKeyPlayPause()
+	{
+		ArrayList<ControllerBase> apps = getListCall();
+		for (ControllerBase app : apps)
+		{
+			Log.d(TAG, "Probe PLAY/PAUSE : " + app.getId());
+			if (app.onPlayPause())
+			{
+				// Key is sended!
+				Log.d(TAG, "Sended");
+				return true;
+			}
+		}
+		return false; // No app!
+	}
 }

@@ -16,6 +16,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.petrows.mtcservice.appcontrol.ControllerBase;
+import com.petrows.mtcservice.appcontrol.ControllerList;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -81,11 +84,18 @@ public class Settings {
 		buildTimestamp = Integer.parseInt(getPropValue("ro.build.date.utc"));
 		Log.d(TAG, "Build timestamp: " + String.valueOf(buildTimestamp));
 
-		if (prefs.getStringSet("keys.apps", null).size() == 0)
+		if (null == prefs.getStringSet("keys.apps", null) || prefs.getStringSet("keys.apps", null).size() == 0)
 		{
 			Editor editor = prefs.edit();
 			Set<String> mySet = new HashSet<String>();
-			mySet.add("media");
+
+			// Get all controlles list and add default-enabled to list
+			ArrayList<ControllerBase> appsList = ControllerList.get(ctx).getListDisplay();
+			for (ControllerBase app : appsList) {
+				if (app.isDefaultEnabled()) mySet.add(app.getId());
+			}
+
+			Log.d(TAG, "Set default apps list: " + mySet.toString());
 			editor.putStringSet("keys.apps", mySet);
 			editor.apply();
 		}

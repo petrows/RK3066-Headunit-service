@@ -19,6 +19,8 @@
 	<string name="ui_adv_settings_keys_cat">Плееры и кнопки на руле</string>
 	<string name="ui_adv_settings_keys_enable_title">Включить управление с руля</string>
 	<string name="ui_adv_settings_keys_enable_text">Перенаправлять кнопки руля в сторонние плееры Android</string>
+	<string name="ui_adv_settings_keys_apps_title">Методы переключения</string>
+	<string name="ui_adv_settings_keys_apps_text">Выберите методы переключения для плееров</string>
 	<string name="ui_adv_settings_keys_config_title">Настроить кнопки</string>
 	<string name="ui_adv_settings_keys_config_text">Определить кнопки руля</string>
 
@@ -50,4 +52,8 @@
 
 	<string name="wdg_history_title">Магнитола: звонки</string>
 	<string name="wdg_history_unknown_contact">Неизвестный</string>
+
+	<string name="appcontrol_name_media_buttons">Эмуляция медиа-кнопок (гарнитуры)</string>
+	<string name="appcontrol_name_pcradio">PcRadio (требуется ROOT)</string>
+
 </resources>

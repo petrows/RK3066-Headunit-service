@@ -8,6 +8,7 @@ import android.util.Log;
 public class BootReceiver extends BroadcastReceiver {
 
 	private final static String TAG = "BootReceiver";
+	public static boolean syn = false;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -15,7 +16,7 @@ public class BootReceiver extends BroadcastReceiver {
 		Log.d(TAG, "Starting services");
 
 		//dsa
-		SWCReceiver.syn = true;
+		syn = true;
 		Settings.get(context).startMyServices();
 	}
 }

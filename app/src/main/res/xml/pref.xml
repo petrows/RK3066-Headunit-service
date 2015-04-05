@@ -28,13 +28,7 @@
 		    android:summary="@string/ui_adv_settings_keys_apps_text"
 		    android:defaultValue="@array/empty"
 		    />
-        <PreferenceScreen
-            android:title="@string/ui_adv_settings_callkey_cat"
-            android:summary="@string/ui_adv_settings_callkey_cat_summary"
-            android:key="call_button_screen"
-            >
-            <intent android:action=".SWCPhoneAppActivity" />
-        </PreferenceScreen>
+
 	    <!--
 	<PreferenceScreen
 		android:summary="@string/ui_adv_settings_keys_config_text"
@@ -43,6 +37,20 @@
 	</PreferenceScreen>
 	-->
     </PreferenceCategory>
+
+	<PreferenceCategory
+		android:key="player"
+		android:summary=""
+		android:title="@string/ui_adv_settings_player_cat" >
+		<PreferenceScreen
+			android:title="@string/ui_adv_settings_player_app_title"
+			android:summary="@string/ui_adv_settings_player_app_text"
+			android:key="call_button_screen"
+			>
+			<intent android:action=".SWCPhoneAppActivity" />
+		</PreferenceScreen>
+	</PreferenceCategory>
+
     <PreferenceCategory
         android:key="caller"
         android:summary=""

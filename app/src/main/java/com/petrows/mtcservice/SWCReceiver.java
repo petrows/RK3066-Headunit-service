@@ -13,27 +13,8 @@ import com.petrows.mtcservice.appcontrol.ControllerList;
 public class SWCReceiver extends BroadcastReceiver {
 
 	private final static String TAG = "SWCReceiver";
-	ControllerList appController = null;
 
-
-
-	//dsa
-	public static boolean syn = false;
-	private boolean ord = false;
-
-	public SWCReceiver() {
-
-	}
-
-	private void fireIT(Context ctx, Intent it, boolean frrp) {
-		if (ord)
-			ctx.sendOrderedBroadcast(it, null);
-		else {
-			if (frrp) it.addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
-			ctx.sendBroadcast(it);
-		}
-	}
-
+	public SWCReceiver() {}
 
     private void launcPhoneApp(Context context) {
         String launchapp = Settings.get(context).getPhoneApp();
@@ -49,9 +30,6 @@ public class SWCReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		//int keyCode_ = intent.getIntExtra("keyCode", 0);
-		//toast(context, "Action " + intent.getAction() + ", key " + keyCode_);
-
 		Log.d(TAG, "Action " + intent.getAction() + ", key " + intent.getIntExtra("keyCode", -1));
 
 		// Microntek keys?
@@ -65,17 +43,15 @@ public class SWCReceiver extends BroadcastReceiver {
 			if (Settings.get(context).getMediaKeysEnable()) {
 				if (Settings.MTCKeysPrev.contains(keyCode)) {
 					Settings.get(context).showToast("<<");
-					// sendKey(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
 					ControllerList.get(context).sendKeyPrev();
 				}
 				if (Settings.MTCKeysNext.contains(keyCode)) {
 					Settings.get(context).showToast(">>");
-					//sendKey(context, KeyEvent.KEYCODE_MEDIA_NEXT);
 					ControllerList.get(context).sendKeyNext();
 				}
 				if (Settings.MTCKeysPause.contains(keyCode)) {
 					Settings.get(context).showToast("||");
-					// sendKey(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+					ControllerList.get(context).sendKeyPlayPause();
 				}
                 if (Settings.MTCKeysPhone.contains(keyCode)) {
                     Settings.get(context).showToast("Phone");
@@ -113,67 +89,12 @@ public class SWCReceiver extends BroadcastReceiver {
 
 				killMusic(context);
 			}
-		} else if (intent.getAction().equals(Settings.C200ActionNext)) {
-			sendKeyNow(context, KeyEvent.KEYCODE_MEDIA_NEXT);
-			Settings.get(context).showToast(">>");
-		} else if (intent.getAction().equals(Settings.C200ActionPrev)) {
-			sendKeyNow(context, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-			Settings.get(context).showToast("<<");
-		} else if (intent.getAction().equals(Settings.C200ActionPlayPause)) {
-			sendKeyNow(context, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-			Settings.get(context).showToast("||");
 		}
-	}
-
-	public void sendKey(Context ctx, int keycode) {
-		Log.d(TAG, "Send key " + keycode);
-		long eventtime = SystemClock.uptimeMillis();
-
-		//dsa
-		if (false == ord) if (syn) ord = true;
-
-		Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-		KeyEvent downEvent = new KeyEvent(eventtime, eventtime,
-				KeyEvent.ACTION_DOWN, keycode, 0);
-		downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
-
-		//dsa
-		fireIT(ctx, downIntent, true);
-
-		Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-		KeyEvent upEvent = new KeyEvent(eventtime, eventtime,
-				KeyEvent.ACTION_UP, keycode, 0);
-		upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-
-		//dsa
-		fireIT(ctx, upIntent, false);
-		if (!ord) {
-			Settings.get(ctx).mySleep(400);
-			Intent blankIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-			KeyEvent blankEvent = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_UNKNOWN);
-			blankIntent.putExtra(Intent.EXTRA_KEY_EVENT, blankEvent);
-			fireIT(ctx, blankIntent, true);
-		}
-	}
-
-	public void sendKeyNow(Context ctx, int keycode) {
-		Log.d(TAG, "Send key " + keycode);
-		long eventtime = SystemClock.uptimeMillis();
-		Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-		KeyEvent downEvent = new KeyEvent(eventtime, eventtime,
-				KeyEvent.ACTION_DOWN, keycode, 0);
-		downIntent.putExtra(Intent.EXTRA_KEY_EVENT, downEvent);
-		ctx.sendBroadcast(downIntent);
-		Intent upIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
-		KeyEvent upEvent = new KeyEvent(eventtime, eventtime,
-				KeyEvent.ACTION_UP, keycode, 0);
-		upIntent.putExtra(Intent.EXTRA_KEY_EVENT, upEvent);
-		ctx.sendBroadcast(upIntent);
 	}
 
 	private void killMusic(Context ctx) {
 		Log.d(TAG, "Killing music");
 		// Stop playback (NORMAL players)
-		sendKey(ctx, KeyEvent.KEYCODE_MEDIA_STOP);
+		ControllerList.get(ctx).sendKeyStop();
 	}
 }

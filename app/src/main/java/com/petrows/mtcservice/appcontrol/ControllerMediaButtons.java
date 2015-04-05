@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.petrows.mtcservice.BootReceiver;
 import com.petrows.mtcservice.R;
 import com.petrows.mtcservice.Settings;
 
@@ -16,7 +17,6 @@ public class ControllerMediaButtons extends ControllerBase {
 	}
 
 	//dsa
-	public static boolean syn = false;
 	private boolean ord = false;
 
 	@Override
@@ -57,7 +57,7 @@ public class ControllerMediaButtons extends ControllerBase {
 		long eventtime = SystemClock.uptimeMillis();
 
 		//dsa
-		if (false == ord) if (syn) ord = true;
+		if (false == ord) if (BootReceiver.syn) ord = true;
 
 		Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
 		KeyEvent downEvent = new KeyEvent(eventtime, eventtime,
