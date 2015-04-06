@@ -339,8 +339,9 @@ public class Settings {
 					speedValues.add(s);
 				}
 			}
-
-			setCfgString("speed.speedrange", speed_vals_clr.toString());
+			if (!prefs.getString("speed.speedrange", speedValuesDef).equals(speed_vals_clr.toString())) {
+				setCfgString("speed.speedrange", speed_vals_clr.toString());
+			}
 		}
 		return speedValues;
 	}

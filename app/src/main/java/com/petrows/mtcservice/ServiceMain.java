@@ -140,7 +140,7 @@ public class ServiceMain extends Service implements LocationListener {
 
 		last_speed = speed;
 
-		if (volNew != vol) {
+		if (volNew > 0 && vol != 0 && volNew != vol) {
 			// Change it!
 			Settings.get(this).setVolume(volNew);
 			Settings.get(this).showToast("Volume " + (volNew > vol ? "+" : "-") + " (" + volNew + ")");
