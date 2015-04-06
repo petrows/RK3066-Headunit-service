@@ -4,42 +4,13 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import com.petrows.mtcservice.ExecuteAsRootBase;
 import com.petrows.mtcservice.R;
-
-import java.util.ArrayList;
+import com.petrows.mtcservice.RootSession;
 
 
 public class ControllerPcRadio extends ControllerBase {
 	final static String appPackage = "com.maxxt.pcradio";
 	final static String appService = ".service.RadioService";
-
-
-
-	private ExecuteAsRootBase cmdNext = new ExecuteAsRootBase() {
-		@Override
-		protected ArrayList<String> getCommandsToExecute() {
-			ArrayList<String> cmd = new ArrayList<String>();
-			cmd.add("am startservice -n com.maxxt.pcradio/.service.RadioService -a com.maxxt.radio.ACTION_PLAY_NEXT_STREAM");
-			return cmd;
-		}
-	};
-	private ExecuteAsRootBase cmdPrev = new ExecuteAsRootBase() {
-		@Override
-		protected ArrayList<String> getCommandsToExecute() {
-			ArrayList<String> cmd = new ArrayList<String>();
-			cmd.add("am startservice -n com.maxxt.pcradio/.service.RadioService -a com.maxxt.radio.ACTION_PLAY_PREV_STREAM");
-			return cmd;
-		}
-	};
-	private ExecuteAsRootBase cmdStop = new ExecuteAsRootBase() {
-		@Override
-		protected ArrayList<String> getCommandsToExecute() {
-			ArrayList<String> cmd = new ArrayList<String>();
-			cmd.add("am startservice -n com.maxxt.pcradio/.service.RadioService -a com.maxxt.radio.ACTION_STOP_PLAYBACK");
-			return cmd;
-		}
-	};
 
 	public boolean isRunning() {
 		ActivityManager am = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
@@ -72,19 +43,19 @@ public class ControllerPcRadio extends ControllerBase {
 	@Override
 	public boolean onNext() {
 		if (!isRunning()) return false; // No app - no key
-		return cmdNext.execute();
+		return RootSession.get(ctx).exec("am startservice -n com.maxxt.pcradio/.service.RadioService -a com.maxxt.radio.ACTION_PLAY_NEXT_STREAM");
 	}
 
 	@Override
 	public boolean onPrev() {
 		if (!isRunning()) return false; // No app - no key
-		return cmdPrev.execute();
+		return RootSession.get(ctx).exec("am startservice -n com.maxxt.pcradio/.service.RadioService -a com.maxxt.radio.ACTION_PLAY_PREV_STREAM");
 	}
 
 	@Override
 	public boolean onStop() {
 		if (!isRunning()) return false; // No app - no key
-		return cmdStop.execute();
+		return RootSession.get(ctx).exec("am startservice -n com.maxxt.pcradio/.service.RadioService -a com.maxxt.radio.ACTION_STOP_PLAYBACK");
 	}
 
 	@Override

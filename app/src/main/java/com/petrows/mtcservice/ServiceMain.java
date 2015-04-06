@@ -53,6 +53,9 @@ public class ServiceMain extends Service implements LocationListener {
 		//dsa
 		Settings.get(this).startMyServices();
 
+		// Root?
+		RootSession.get(this).open();
+
 		ServiceBtReciever.get(this).connectBt();
 	}
 
