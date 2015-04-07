@@ -30,6 +30,8 @@
 	<string name="ui_adv_settings_player_cat">Custom media player</string>
 	<string name="ui_adv_settings_player_app_title">Select main player</string>
 	<string name="ui_adv_settings_player_app_text">Select custom app to be as player for autostart, etc</string>
+	<string name="ui_adv_settings_player_autoplay_title">Command play music</string>
+	<string name="ui_adv_settings_player_autoplay_text">Send command to start music on headunit boot</string>
 	<string name="ui_adv_settings_player_autorun_title">Launch player on service start</string>
 	<string name="ui_adv_settings_player_autorun_text">Autorun custom music player on headunit boot</string>
 	<string name="ui_adv_settings_player_phonerun_title">Launch player on PHONE button</string>

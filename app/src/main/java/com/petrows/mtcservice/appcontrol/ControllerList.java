@@ -118,6 +118,22 @@ public class ControllerList {
 		return false; // No app!
 	}
 
+	public boolean sendKeyPlay()
+	{
+		ArrayList<ControllerBase> apps = getListCall();
+		for (ControllerBase app : apps)
+		{
+			Log.d(TAG, "Probe PLAY : " + app.getId());
+			if (app.onPlay())
+			{
+				// Key is sended!
+				Log.d(TAG, "Sended");
+				return true;
+			}
+		}
+		return false; // No app!
+	}
+
 	public boolean sendKeyPlayPause()
 	{
 		ArrayList<ControllerBase> apps = getListCall();

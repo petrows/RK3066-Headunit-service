@@ -90,6 +90,10 @@ public class ServiceMain extends Service implements LocationListener {
 			{
 				Settings.get(this).startMediaPlayer();
 			}
+			if (Settings.get(this).getMediaPlayerAutoplay())
+			{
+				ControllerList.get(this).sendKeyPlay();
+			}
 
 			return (START_STICKY);
 		}

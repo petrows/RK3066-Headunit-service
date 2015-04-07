@@ -277,6 +277,7 @@ public class Settings {
 	}
 
 	public String getMediaPlayerApp() { return prefs.getString("player.app", ""); }
+	public boolean getMediaPlayerAutoplay() { return prefs.getBoolean("player.autoplay", false); }
 	public boolean getMediaPlayerAutorun() { return prefs.getBoolean("player.autorun", false); }
 	public boolean getMediaPlayerPhonerun() { return prefs.getBoolean("player.phonerun", false); }
 

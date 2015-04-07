@@ -36,21 +36,26 @@ public abstract class ControllerBase {
 
 	// Play NEXT
 	public boolean onNext() {
-		return true;
+		return false;
 	}
 
 	// Play PREV
 	public boolean onPrev() {
-		return true;
+		return false;
 	}
 
 	// Play STOP
 	public boolean onStop() {
-		return true;
+		return false;
+	}
+
+	// Play PLAY
+	public boolean onPlay() {
+		return false;
 	}
 
 	// Play PLAY/PAUSE
 	public boolean onPlayPause() {
-		return true;
+		return false;
 	}
 }

@@ -29,10 +29,12 @@
 	<string name="ui_adv_settings_player_cat">Медиа-плеер</string>
 	<string name="ui_adv_settings_player_app_title">Приложение плеер</string>
 	<string name="ui_adv_settings_player_app_text">Выберите главное приложение для функции плеера</string>
-	<string name="ui_adv_settings_player_autorun_title">Запуск при включении</string>
-	<string name="ui_adv_settings_player_autorun_text">Запускать приложение плеера при включении магнитолы</string>
+    <string name="ui_adv_settings_player_autoplay_title">Запуск воспроизведения</string>
+    <string name="ui_adv_settings_player_autoplay_text">Отправлять команду на старт воспроизведения при включении</string>
+	<string name="ui_adv_settings_player_autorun_title">Запуск приложения при включении</string>
+	<string name="ui_adv_settings_player_autorun_text">Запускать окно приложения плеера при включении магнитолы</string>
 	<string name="ui_adv_settings_player_phonerun_title">Запуск по кнопке Phone</string>
-	<string name="ui_adv_settings_player_phonerun_text">Запускать приложение плеера по кнопке Телефона или Bluetooth</string>
+	<string name="ui_adv_settings_player_phonerun_text">Запускать окно приложения плеера по кнопке Телефона или Bluetooth</string>
 
 	<string name="ui_adv_settings_caller_cat">Звонки через Android</string>
 	<string name="ui_adv_settings_caller_enable_title">Звонить через Android</string>

@@ -42,6 +42,15 @@
 		android:key="player"
 		android:summary=""
 		android:title="@string/ui_adv_settings_player_cat" >
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="player.autoplay"
+            android:summary="@string/ui_adv_settings_player_autoplay_text"
+            android:title="@string/ui_adv_settings_player_autoplay_title"
+            >
+        </SwitchPreference>
+
 		<PreferenceScreen
 			android:title="@string/ui_adv_settings_player_app_title"
 			android:summary="@string/ui_adv_settings_player_app_text"
@@ -49,7 +58,8 @@
 			>
 			<intent android:action=".MediaAppActivity" />
 		</PreferenceScreen>
-		<SwitchPreference
+
+        <SwitchPreference
 			android:defaultValue="false"
 			android:key="player.autorun"
 			android:summary="@string/ui_adv_settings_player_autorun_text"

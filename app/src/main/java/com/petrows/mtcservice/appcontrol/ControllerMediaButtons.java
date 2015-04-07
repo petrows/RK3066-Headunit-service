@@ -53,6 +53,12 @@ public class ControllerMediaButtons extends ControllerBase {
 	}
 
 	@Override
+	public boolean onPlay() {
+		sendKey(KeyEvent.KEYCODE_MEDIA_PLAY);
+		return true;
+	}
+
+	@Override
 	public boolean onPlayPause() {
 		sendKey(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
 		return true;
