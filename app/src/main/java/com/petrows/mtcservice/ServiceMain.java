@@ -114,6 +114,12 @@ public class ServiceMain extends Service implements LocationListener {
 		int volNew = vol;
 		int volChange = Settings.get(this).getSpeedChangeValue();
 
+		if (0 == vol) {
+			// Skip volume change on Volume == 0
+			Log.d(TAG, "Set volume skipped - volume == 0");
+			return;
+		}
+
 		double speed = location.getSpeed();
 		speed = speed * 3.6; // m/s => km/h
 		if (speed == last_speed) return;
@@ -140,12 +146,11 @@ public class ServiceMain extends Service implements LocationListener {
 
 		last_speed = speed;
 
-		if (volNew > 0 && vol != 0 && volNew != vol) {
+		if (volNew > 0 && volNew != vol) {
 			// Change it!
 			Settings.get(this).setVolume(volNew);
 			Settings.get(this).showToast("Volume " + (volNew > vol ? "+" : "-") + " (" + volNew + ")");
 		}
-
 	}
 
 	@Override
