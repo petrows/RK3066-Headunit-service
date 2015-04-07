@@ -102,7 +102,16 @@ public class RootSession {
 
 			// Try to open again:
 			isOpen = false;
-			open();
+			if (open())	{
+				// Try again
+				try {
+					suWrite.writeBytes(command + "\n");
+					suWrite.flush();
+				} catch (IOException e2) {
+					return false;
+				}
+				return true;
+			}
 
 			e.printStackTrace();
 			return false;

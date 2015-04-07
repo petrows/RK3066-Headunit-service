@@ -4,24 +4,24 @@
         android:key="cat_toast"
         android:summary=""
         android:title="@string/ui_adv_settings_toast_cat" >
-        <SwitchPreference
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="service.toast"
             android:summary="@string/ui_adv_settings_toast_enable_text"
             android:title="@string/ui_adv_settings_toast_enable_title" >
-        </SwitchPreference>
+        </CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="keys"
         android:summary=""
         android:title="@string/ui_adv_settings_keys_cat" >
-        <SwitchPreference
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="keys.enable"
             android:summary="@string/ui_adv_settings_keys_enable_text"
             android:title="@string/ui_adv_settings_keys_enable_title"
 	        >
-        </SwitchPreference>
+        </CheckBoxPreference>
 	    <MultiSelectListPreference
 		    android:key="keys.apps"
 		    android:title="@string/ui_adv_settings_keys_apps_title"
@@ -43,13 +43,13 @@
 		android:summary=""
 		android:title="@string/ui_adv_settings_player_cat" >
 
-        <SwitchPreference
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="player.autoplay"
             android:summary="@string/ui_adv_settings_player_autoplay_text"
             android:title="@string/ui_adv_settings_player_autoplay_title"
             >
-        </SwitchPreference>
+        </CheckBoxPreference>
 
 		<PreferenceScreen
 			android:title="@string/ui_adv_settings_player_app_title"
@@ -59,32 +59,32 @@
 			<intent android:action=".MediaAppActivity" />
 		</PreferenceScreen>
 
-        <SwitchPreference
+        <CheckBoxPreference
 			android:defaultValue="false"
 			android:key="player.autorun"
 			android:summary="@string/ui_adv_settings_player_autorun_text"
 			android:title="@string/ui_adv_settings_player_autorun_title"
 			>
-		</SwitchPreference>
-		<SwitchPreference
+		</CheckBoxPreference>
+		<CheckBoxPreference
 			android:defaultValue="false"
 			android:key="player.phonerun"
 			android:summary="@string/ui_adv_settings_player_phonerun_text"
 			android:title="@string/ui_adv_settings_player_phonerun_title"
 			>
-		</SwitchPreference>
+		</CheckBoxPreference>
 	</PreferenceCategory>
 
     <PreferenceCategory
         android:key="caller"
         android:summary=""
         android:title="@string/ui_adv_settings_caller_cat" >
-        <SwitchPreference
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="caller.enable"
             android:summary="@string/ui_adv_settings_caller_enable_text"
             android:title="@string/ui_adv_settings_caller_enable_title" >
-        </SwitchPreference>
+        </CheckBoxPreference>
 	    <ListPreference
 		    android:key="caller.api"
 		    android:title="@string/ui_adv_settings_caller_api_title"
@@ -106,12 +106,12 @@
         android:key="svol"
         android:summary=""
         android:title="@string/ui_adv_settings_svol_cat" >
-        <SwitchPreference
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="svol.enable"
             android:summary="@string/ui_adv_settings_svol_enable_text"
             android:title="@string/ui_adv_settings_svol_enable_title" >
-        </SwitchPreference>
+        </CheckBoxPreference>
 
         <EditTextPreference
             android:defaultValue="5"
@@ -125,12 +125,12 @@
         android:key="cat_speed"
         android:summary=""
         android:title="@string/ui_adv_settings_speedvol_cat" >
-        <SwitchPreference
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="speed.enable"
             android:summary="@string/ui_adv_settings_speedvol_enable_text"
             android:title="@string/ui_adv_settings_speedvol_enable_title" >
-        </SwitchPreference>
+        </CheckBoxPreference>
 
         <EditTextPreference
             android:defaultValue="@string/cfg_def_speed_values"
