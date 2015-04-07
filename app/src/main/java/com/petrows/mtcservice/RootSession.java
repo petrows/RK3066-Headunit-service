@@ -98,6 +98,12 @@ public class RootSession {
 			suWrite.writeBytes(command + "\n");
 			suWrite.flush();
 		} catch (IOException e) {
+			Log.d(TAG, "Root write failed!");
+
+			// Try to open again:
+			isOpen = false;
+			open();
+
 			e.printStackTrace();
 			return false;
 		}
