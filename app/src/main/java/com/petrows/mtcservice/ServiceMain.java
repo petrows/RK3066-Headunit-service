@@ -86,13 +86,19 @@ public class ServiceMain extends Service implements LocationListener {
 
 			Settings.get(this).getCallerVersionAuto();
 
-			if (Settings.get(this).getMediaPlayerAutorun())
+			// Check that MTC app i snot running before start
+			if (!Settings.get(this).isMTCAppRunning())
 			{
-				Settings.get(this).startMediaPlayer();
-			}
-			if (Settings.get(this).getMediaPlayerAutoplay())
-			{
-				ControllerList.get(this).sendKeyPlay();
+				if (Settings.get(this).getMediaPlayerAutorun())
+				{
+					Settings.get(this).startMediaPlayer();
+				}
+				if (Settings.get(this).getMediaPlayerAutoplay())
+				{
+					ControllerList.get(this).sendKeyPlay();
+				}
+			} else {
+				Log.d(TAG, "MTC app is running!");
 			}
 
 			return (START_STICKY);

@@ -1,5 +1,6 @@
 package com.petrows.mtcservice;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -39,6 +40,10 @@ public class Settings {
 	final static List<Integer> MTCKeysNext = Arrays.asList(46, 59, 24);
 	final static List<Integer> MTCKeysPause = Arrays.asList(3);
     final static List<Integer> MTCKeysPhone = Arrays.asList(69);
+	final static List<String> MTCMusicApps = Arrays.asList(
+			"com.microntek.radio.RadioActivity", "com.microntek.music.MusicActivity", "com.microntek.dvd.DVDActivity", "com.microntek.ipod.IPODActivity", "com.microntek.media.MediaActivity", "com.microntek.bluetooth.BlueToothActivity"
+	);
+
 
 	final static String MTCBroadcastWidget = "com.android.MTClauncher.action.INSTALL_WIDGETS";
 	final static int MTCWidgetAdd = 10520;
@@ -221,6 +226,23 @@ public class Settings {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+
+	public boolean isMTCAppRunning()
+	{
+		boolean flag = false;
+		ActivityManager mng = (ActivityManager)ctx.getSystemService("activity");
+
+		List<ActivityManager.RunningTaskInfo> activities = mng.getRunningTasks(0x7fffffff);
+		for (ActivityManager.RunningTaskInfo task : activities)
+		{
+			if (MTCMusicApps.contains(task.topActivity.getClassName()))
+			{
+				Log.d(TAG, "Activity running: " + task.topActivity.getClassName());
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static boolean getServiceEnable() {
