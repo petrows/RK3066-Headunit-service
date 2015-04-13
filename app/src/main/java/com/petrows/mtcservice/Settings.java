@@ -40,9 +40,7 @@ public class Settings {
 	final static List<Integer> MTCKeysNext = Arrays.asList(46, 59, 24);
 	final static List<Integer> MTCKeysPause = Arrays.asList(3);
     final static List<Integer> MTCKeysPhone = Arrays.asList(69);
-	final static List<String> MTCMusicApps = Arrays.asList(
-			"com.microntek.radio.RadioActivity", "com.microntek.music.MusicActivity", "com.microntek.dvd.DVDActivity", "com.microntek.ipod.IPODActivity", "com.microntek.media.MediaActivity", "com.microntek.bluetooth.BlueToothActivity"
-	);
+
 
 
 	final static String MTCBroadcastWidget = "com.android.MTClauncher.action.INSTALL_WIDGETS";
@@ -211,39 +209,9 @@ public class Settings {
 		return version;
 	}
 
-	public static String getPropValue(String value) {
-		Process p;
-		String ret = "";
-		try {
-			p = new ProcessBuilder("/system/bin/getprop", value).redirectErrorStream(true).start();
-			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line;
-			while ((line = br.readLine()) != null) {
-				ret = line;
-			}
-			p.destroy();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ret;
-	}
 
-	public boolean isMTCAppRunning()
-	{
-		boolean flag = false;
-		ActivityManager mng = (ActivityManager)ctx.getSystemService("activity");
 
-		List<ActivityManager.RunningTaskInfo> activities = mng.getRunningTasks(0x7fffffff);
-		for (ActivityManager.RunningTaskInfo task : activities)
-		{
-			if (MTCMusicApps.contains(task.topActivity.getClassName()))
-			{
-				Log.d(TAG, "Activity running: " + task.topActivity.getClassName());
-				return true;
-			}
-		}
-		return false;
-	}
+
 
 	public static boolean getServiceEnable() {
 		return prefs.getBoolean("service.enable", true);
@@ -269,17 +237,6 @@ public class Settings {
 
 	public boolean getCallerEnable() {
 		return prefs.getBoolean("caller.enable", true);
-	}
-
-	public int getCallerVersionAuto() {
-		// We should test ro.build.date.utc to be > 15 dec 2014
-		// 1418642842 (2014-12-15) uses OLD API
-		// 1419924496 (2014-12-30) uses NEW API
-		// 1421921736 (2015-01-22) uses NEW API
-		if (buildTimestamp <= 1418642842) // <= 15 dec 2015
-			return 1;
-		else
-			return 2;
 	}
 
 	public int getCallerVersion() {
@@ -375,39 +332,14 @@ public class Settings {
 
 	// This function is reversed from package
 	// android.microntek.service.MicrontekServer
-	private int mtcGetRealVolume(int paramInt) {
-		float f1 = 100.0F * paramInt / volumeMax;
-		float f2;
-		if (f1 < 20.0F) {
-			f2 = f1 * 3.0F / 2.0F;
-		} else if (f1 < 50.0F) {
-			f2 = f1 + 10.0F;
-		} else {
-			f2 = 20.0F + f1 * 4.0F / 5.0F;
-		}
-		return (int) f2;
-	}
 
-	public void setVolume(int level) {
-		if (level < 0 || level > (int) volumeMax) {
-			Log.w(TAG, "Volume level " + level + " is wrong, ignore it");
-			return;
-		}
 
-		Log.d(TAG, "Settings new volume system: " + level + ", real: "
-				+ mtcGetRealVolume(level));
-		android.provider.Settings.System.putInt(ctx.getContentResolver(),
-				"av_volume=", level);
-		am.setParameters("av_volume=" + mtcGetRealVolume(level));
-	}
+
 
 	public void setVolumeSafe() {
 		showToast(ctx.getString(R.string.toast_safe_volume));
 		setVolume(getSafeVolumeLevel());
 	}
 
-	public int getVolume() {
-		return android.provider.Settings.System.getInt(
-				ctx.getContentResolver(), "av_volume=", 15);
-	}
+
 }

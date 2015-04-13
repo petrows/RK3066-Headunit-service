@@ -1,4 +1,4 @@
-package com.petrows.mtcservice;
+package com.petrows.mtcservice.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -16,6 +16,8 @@ import android.provider.ContactsContract;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
+import com.petrows.mtcservice.Settings;
+
 import org.apache.http.impl.cookie.DateParseException;
 import org.apache.http.impl.cookie.DateUtils;
 
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ServiceBtReciever extends BroadcastReceiver {
+public class BtReceiver extends BroadcastReceiver {
 	final static String TAG = "ServiceBtReciever";
 
 	public Context context;

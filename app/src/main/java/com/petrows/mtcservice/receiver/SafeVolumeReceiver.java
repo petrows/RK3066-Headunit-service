@@ -1,15 +1,18 @@
-package com.petrows.mtcservice;
+package com.petrows.mtcservice.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-public class SafeVolumeReciever extends BroadcastReceiver {
+import com.petrows.mtcservice.HeadUnit;
+import com.petrows.mtcservice.R;
+import com.petrows.mtcservice.Settings;
+
+public class SafeVolumeReceiver extends BroadcastReceiver {
 	
 	private final static String TAG = "SafeVolumeReciever";
-	public static boolean syn = false;
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// Check out this
@@ -18,7 +21,7 @@ public class SafeVolumeReciever extends BroadcastReceiver {
 		if (Settings.get(context).getBool("svol.enable"))
 		{
 			Settings.get(context).showToast(context.getString(R.string.toast_safe_volume));
-			Settings.get(context).setVolume(getInt("svol.level"));
+			HeadUnit.get(context).setVolume(Settings.get(context).getInt("svol.level"));
 		}
 	}
 }
