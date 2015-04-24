@@ -32,19 +32,19 @@ import java.util.Set;
 public class Settings {
 	private final static String TAG = "Settings";
 
-	final static String MTCBroadcastIrkeyUp = "com.microntek.irkeyUp";
+	public final static String MTCBroadcastIrkeyUp = "com.microntek.irkeyUp";
 	//final static String MTCBroadcastIrkeyDown = "com.microntek.irkeyDown";
-	final static String MTCBroadcastACC = "com.microntek.acc";
+	public final static String MTCBroadcastACC = "com.microntek.acc";
 
-	final static List<Integer> MTCKeysPrev = Arrays.asList(45, 58, 22);
-	final static List<Integer> MTCKeysNext = Arrays.asList(46, 59, 24);
-	final static List<Integer> MTCKeysPause = Arrays.asList(3);
-    final static List<Integer> MTCKeysPhone = Arrays.asList(69);
+	public final static List<Integer> MTCKeysPrev = Arrays.asList(45, 58, 22);
+	public final static List<Integer> MTCKeysNext = Arrays.asList(46, 59, 24);
+	public final static List<Integer> MTCKeysPause = Arrays.asList(3);
+	public final static List<Integer> MTCKeysPhone = Arrays.asList(69);
 
 
 
-	final static String MTCBroadcastWidget = "com.android.MTClauncher.action.INSTALL_WIDGETS";
-	final static int MTCWidgetAdd = 10520;
+	public final static String MTCBroadcastWidget = "com.android.MTClauncher.action.INSTALL_WIDGETS";
+	public final static int MTCWidgetAdd = 10520;
 	//final static int MTCWidgetRemove = 10521;
 
 	private ArrayList<Integer> speedValues = new ArrayList<Integer>();
@@ -80,7 +80,7 @@ public class Settings {
 		}
 		Log.d(TAG, "Max volume = " + String.valueOf(volumeMax));
 
-		buildTimestamp = Integer.parseInt(getPropValue("ro.build.date.utc"));
+		buildTimestamp = Integer.parseInt(HeadUnit.getPropValue("ro.build.date.utc"));
 		Log.d(TAG, "Build timestamp: " + String.valueOf(buildTimestamp));
 
 		Set<String> wasInstalledApps = prefs.getStringSet("keys.apps.installed", new HashSet<String>());
@@ -186,7 +186,7 @@ public class Settings {
 	}
 
 	public void announce(Service srv, int id) {
-		Intent notificationIntent = new Intent(srv, MainActivity.class);
+		Intent notificationIntent = new Intent(srv, com.petrows.mtcservice.MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(srv, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		Notification note = new NotificationCompat.Builder(srv)
@@ -237,14 +237,6 @@ public class Settings {
 
 	public boolean getCallerEnable() {
 		return prefs.getBoolean("caller.enable", true);
-	}
-
-	public int getCallerVersion() {
-		int version = Integer.parseInt(prefs.getString("caller.api", "0"));
-		if (0 == version) {
-			return getCallerVersionAuto();
-		}
-		return version;
 	}
 
 	public boolean getMediaKeysEnable() {
@@ -329,17 +321,4 @@ public class Settings {
 	public boolean getMute() {
 		return am.getParameters("av_mute=").equals("true");
 	}
-
-	// This function is reversed from package
-	// android.microntek.service.MicrontekServer
-
-
-
-
-	public void setVolumeSafe() {
-		showToast(ctx.getString(R.string.toast_safe_volume));
-		setVolume(getSafeVolumeLevel());
-	}
-
-
 }

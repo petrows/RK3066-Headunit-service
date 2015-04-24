@@ -12,6 +12,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.petrows.mtcservice.appcontrol.ControllerList;
+import com.petrows.mtcservice.receiver.BtReceiver;
+import com.petrows.mtcservice.receiver.SWCReceiver;
 
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class ServiceMain extends Service implements LocationListener {
 		// Root?
 		RootSession.get(this).open();
 
-		ServiceBtReciever.get(this).connectBt();
+		BtReceiver.get(this).connectBt();
 	}
 
 	@Override
@@ -81,13 +83,13 @@ public class ServiceMain extends Service implements LocationListener {
 
 			// Set safe volume?
 			if (Settings.get(this).getSafeVolumeEnable()) {
-				Settings.get(this).setVolumeSafe();
+				// Settings.get(this).setVolumeSafe();
 			}
 
-			Settings.get(this).getCallerVersionAuto();
+			HeadUnit.get(this).getCallerVersionAuto();
 
 			// Check that MTC app i snot running before start
-			if (!Settings.get(this).isMTCAppRunning())
+			if (!HeadUnit.get(this).isMTCAppRunning())
 			{
 				if (Settings.get(this).getMediaPlayerAutorun())
 				{
@@ -120,7 +122,7 @@ public class ServiceMain extends Service implements LocationListener {
 		}
 
 		List<Integer> speed_steps = Settings.get(this).getSpeedValues();
-		int vol = Settings.get(this).getVolume();
+		int vol = HeadUnit.get(this).getVolume();
 		int volNew = vol;
 		int volChange = Settings.get(this).getSpeedChangeValue();
 
@@ -158,7 +160,7 @@ public class ServiceMain extends Service implements LocationListener {
 
 		if (volNew > 0 && volNew != vol) {
 			// Change it!
-			Settings.get(this).setVolume(volNew);
+			HeadUnit.get(this).setVolume(volNew);
 			Settings.get(this).showToast("Volume " + (volNew > vol ? "+" : "-") + " (" + volNew + ")");
 		}
 	}

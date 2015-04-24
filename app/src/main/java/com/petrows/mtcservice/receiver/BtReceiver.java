@@ -16,6 +16,7 @@ import android.provider.ContactsContract;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
+import com.petrows.mtcservice.HeadUnit;
 import com.petrows.mtcservice.Settings;
 
 import org.apache.http.impl.cookie.DateParseException;
@@ -32,8 +33,8 @@ public class BtReceiver extends BroadcastReceiver {
 	public int btApiVersion = 0;
 
 	public class BtHistoryRecord {
-		String phone;
-		Date callDate;
+		public String phone;
+		public Date callDate;
 
 		public BtHistoryRecord(String ph, Date t) {
 			phone = ph;
@@ -74,11 +75,11 @@ public class BtReceiver extends BroadcastReceiver {
 		}
 	}
 
-	private static ServiceBtReciever instance;
+	private static BtReceiver instance;
 
-	public static ServiceBtReciever get(Context ctx) {
+	public static BtReceiver get(Context ctx) {
 		if (null == instance)
-			instance = new ServiceBtReciever(ctx);
+			instance = new BtReceiver(ctx);
 		return instance;
 	}
 
@@ -93,7 +94,7 @@ public class BtReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-			btApiVersion = Settings.get(context).getCallerVersion();
+			//btApiVersion = HeadUnit.get(context).getCallerVersion();
 
 			if (1 == btApiVersion)
 				btInterfaceV1 = android.microntek.mtcser_v1.BTServiceInf.Stub.asInterface(iBinder);
@@ -233,7 +234,7 @@ public class BtReceiver extends BroadcastReceiver {
 		context.sendBroadcast(updIntent);
 	}
 
-	private ServiceBtReciever(Context ctx) {
+	private BtReceiver(Context ctx) {
 		context = ctx;
 
 		IntentFilter intf = new IntentFilter();

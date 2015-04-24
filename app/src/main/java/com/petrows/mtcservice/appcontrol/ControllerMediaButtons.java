@@ -6,7 +6,8 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.petrows.mtcservice.BootReceiver;
+import com.petrows.mtcservice.receiver.BootReceiver;
+import com.petrows.mtcservice.receiver.BtReceiver;
 import com.petrows.mtcservice.R;
 import com.petrows.mtcservice.Settings;
 

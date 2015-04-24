@@ -13,6 +13,8 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
+import com.petrows.mtcservice.receiver.BtReceiver;
+
 public class WdgHistoryListProvider implements RemoteViewsFactory {
 	final String TAG = "HistoryListProvider";
 
@@ -65,13 +67,13 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 
 	@Override
 	public int getCount() {
-		if (null == ServiceBtReciever.get(context)) {
+		if (null == BtReceiver.get(context)) {
 			// No data
 			Log.e(TAG, "Service is not active!");
 			return 0;
 		}
 
-		return ServiceBtReciever.get(context).historyData.size();
+		return BtReceiver.get(context).historyData.size();
 	}
 
 	@Override
@@ -80,15 +82,15 @@ public class WdgHistoryListProvider implements RemoteViewsFactory {
 		final RemoteViews remoteView = new RemoteViews(
 				context.getPackageName(), R.layout.historywdg_list_fragment);
 
-		if (null == ServiceBtReciever.get(context)) {
+		if (null == BtReceiver.get(context)) {
 			// No data
 			Log.e(TAG, "Service is not active!");
 			return remoteView;
 		}
 
-		ServiceBtReciever.BtHistoryRecord rec = ServiceBtReciever.get(context).historyData.get(position);
-		remoteView.setTextViewText(R.id.wdgHistoryPhone, ServiceBtReciever.FormatStringAsPhoneNumber(rec.phone));
-		String name = ServiceBtReciever.get(context).getContactDisplayNameByNumber(rec.phone);
+		BtReceiver.BtHistoryRecord rec = BtReceiver.get(context).historyData.get(position);
+		remoteView.setTextViewText(R.id.wdgHistoryPhone, BtReceiver.FormatStringAsPhoneNumber(rec.phone));
+		String name = BtReceiver.get(context).getContactDisplayNameByNumber(rec.phone);
 		if (name.isEmpty()) {
 			name = context.getString(R.string.wdg_history_unknown_contact);
 		}

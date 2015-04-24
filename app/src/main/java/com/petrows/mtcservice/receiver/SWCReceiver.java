@@ -1,4 +1,4 @@
-package com.petrows.mtcservice;
+package com.petrows.mtcservice.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import com.petrows.mtcservice.Settings;
 import com.petrows.mtcservice.appcontrol.ControllerList;
 
 public class SWCReceiver extends BroadcastReceiver {
@@ -57,7 +58,7 @@ public class SWCReceiver extends BroadcastReceiver {
 				// We are powering-off
 				// Set safe volume?
 				if (Settings.get(context).getSafeVolumeEnable()) {
-					Settings.get(context).setVolumeSafe();
+					//Settings.get(context).setVolumeSafe();
 				}
 			}
 		} else if (intent.getAction().equals(Settings.MTCBroadcastWidget)) { // Microntek launch app?

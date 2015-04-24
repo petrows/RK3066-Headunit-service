@@ -18,11 +18,11 @@ public class SafeVolumeReceiver extends BroadcastReceiver {
 		// Check out this
 		Log.d(TAG, "Safe volume recieved");
 		
-		if (Settings.get(context).getBool("svol.enable"))
+		/*if (Settings.get(context).getBool("svol.enable"))
 		{
 			Settings.get(context).showToast(context.getString(R.string.toast_safe_volume));
 			HeadUnit.get(context).setVolume(Settings.get(context).getInt("svol.level"));
-		}
+		}*/
 	}
 }
 

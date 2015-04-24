@@ -1,18 +1,17 @@
-package com.petrows.mtcservice;
+package com.petrows.mtcservice.ui;
 
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 
+import com.petrows.mtcservice.R;
+import com.petrows.mtcservice.Settings;
 import com.petrows.mtcservice.appcontrol.ControllerBase;
 import com.petrows.mtcservice.appcontrol.ControllerList;
-import com.petrows.mtcservice.view.IconListPreference;
 
 import java.util.ArrayList;
 
@@ -65,7 +64,7 @@ public class SettingsActivity extends PreferenceActivity {
 		// Restart service and re-create the settings
 		Settings.destroy();
 		// Bt restart
-		ServiceBtReciever.get(this).connectBt();
+		// BtReceiver.get(this).connectBt();
 		super.onPause();
 	}
 }

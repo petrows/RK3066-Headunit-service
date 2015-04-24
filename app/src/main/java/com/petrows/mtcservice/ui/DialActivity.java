@@ -1,8 +1,12 @@
-package com.petrows.mtcservice;
+package com.petrows.mtcservice.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.petrows.mtcservice.R;
+import com.petrows.mtcservice.Settings;
+import com.petrows.mtcservice.receiver.BtReceiver;
 
 public class DialActivity extends Activity {
 
@@ -38,7 +42,7 @@ public class DialActivity extends Activity {
 		Settings.get(this).showToast(String.format(getString(R.string.toast_calling_process), phoneNumber));
 		Log.d(TAG, "Calling to: " + phoneNumber);
 
-		ServiceBtReciever.get(this).call(phoneNumber);
+		BtReceiver.get(this).call(phoneNumber);
 
 		finish();
 	}

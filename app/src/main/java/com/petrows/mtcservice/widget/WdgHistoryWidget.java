@@ -1,4 +1,4 @@
-package com.petrows.mtcservice;
+package com.petrows.mtcservice.widget;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.petrows.mtcservice.R;
+import com.petrows.mtcservice.widget.WdgHistoryService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
