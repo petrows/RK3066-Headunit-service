@@ -30,6 +30,6 @@ public class HeadUnit extends IHeadUnit {
 
 	@Override
 	public ISwc getSwc() {
-		return new Swc();
+		return new Swc(ctx);
 	}
 }
