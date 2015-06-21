@@ -31,8 +31,11 @@ public class Hal {
 
 		Log.d(TAG, "Init done, type is " + hu.getName());
 
-		// Start main services
+		// Create main services
 		swc = hu.getSwc();
+
+		// Init main services
+		swc.init();
 
 		return true;
 	}
@@ -46,7 +49,7 @@ public class Hal {
 			if (huTest.detectUnit()) {
 				// Detected unit!
 				hu = huTest;
-				return hu.init(ctx);
+				return hu.init();
 			}
 		}
 		return false;
@@ -54,10 +57,11 @@ public class Hal {
 
 	public ArrayList<IHeadUnit> getAllUnits() {
 		ArrayList<IHeadUnit> huList = new ArrayList<>();
-		huList.add(new com.petrows.mtcservice.hal.mtc.HeadUnit());
-		huList.add(new com.petrows.mtcservice.hal.c200.HeadUnit());
+		huList.add(new com.petrows.mtcservice.hal.mtc.HeadUnit(ctx));
+		huList.add(new com.petrows.mtcservice.hal.c200.HeadUnit(ctx));
 		return huList;
 	}
 
+	public IHeadUnit getHeadUnit() { return hu; }
 	public ISwc getSwc() { return swc; }
 }

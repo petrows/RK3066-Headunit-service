@@ -1,11 +1,15 @@
 package com.petrows.mtcservice.hal;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 public abstract class ISwc {
+	protected static final String TAG = "ISwc";
+
 	public enum Key {
+		KEY_NONE,
 		KEY_STOP,
 		KEY_PAUSE,
 		KEY_NEXT,
@@ -19,8 +23,11 @@ public abstract class ISwc {
 		ctx = context;
 	}
 
+	public void init ()	{}
+
 	public interface KeyHandler {
-		void onKeyPress(Key key);
+		void onKeyPressMapped(Key key);
+		void onKeyPressRaw(String keyId);
 	}
 
 	private ArrayList<KeyHandler> keyHandlers = new ArrayList<>();
@@ -33,8 +40,31 @@ public abstract class ISwc {
 		keyHandlers.remove(cb);
 	}
 
-	private void sendPress(Key key)
+	protected void sendPressRaw(String id)
 	{
-		for (KeyHandler h : keyHandlers) { h.onKeyPress(key); }
+		for (KeyHandler h : keyHandlers) { h.onKeyPressRaw(id); }
+	}
+
+	protected boolean blockMapped = false;
+	public void setBlockMapped(boolean block)
+	{
+		Log.d(TAG, "Mapping keys disable status: " + block);
+		blockMapped = block;
+	}
+	protected abstract Key mapKeyDefault(String id); // If not defined in settings - current HAL should return default key
+	protected Key mapKey(String id)
+	{
+		return Key.KEY_NONE;
+	}
+
+	protected void sendPressMapped(Key key)
+	{
+		if (blockMapped)
+		{
+			Log.d(TAG, "Mapped keys are disabled!");
+			return;
+		}
+
+		for (KeyHandler h : keyHandlers) { h.onKeyPressMapped(key); }
 	}
 }

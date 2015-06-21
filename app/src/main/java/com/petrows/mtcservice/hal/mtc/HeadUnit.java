@@ -7,6 +7,10 @@ import com.petrows.mtcservice.hal.IHeadUnit;
 import com.petrows.mtcservice.hal.ISwc;
 
 public class HeadUnit extends IHeadUnit {
+	public HeadUnit(Context ctx) {
+		super(ctx);
+	}
+
 	@Override
 	public boolean detectUnit() {
 		return true;
@@ -23,8 +27,8 @@ public class HeadUnit extends IHeadUnit {
 	}
 
 	@Override
-	public boolean init(Context context) {
-		super.init(context);
+	public boolean init() {
+		super.init();
 		return true;
 	}
 

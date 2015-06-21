@@ -11,13 +11,16 @@ public abstract class IHeadUnit {
 		HAL_C200,   // C200 units family
 	}
 
+	public IHeadUnit(Context context) {
+		ctx = context;
+	}
+
 	abstract public boolean detectUnit();
 	abstract public HalType getType();
 	abstract public String getName();
 
-	public boolean init(Context context) {
+	public boolean init() {
 		Log.d(TAG, "Init unit!");
-		ctx = context;
 		return true;
 	}
 
