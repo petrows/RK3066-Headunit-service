@@ -77,7 +77,7 @@ public class Settings {
 		}
 
 		if (0f == volumeMax) {
-			Log.e(TAG, "Cant get max vlume, set to default 30.0");
+			Log.e(TAG, "Cant get max volume, set to default 30.0");
 			volumeMax = 30.0f;
 		}
 		Log.d(TAG, "Max volume = " + String.valueOf(volumeMax));
@@ -91,7 +91,7 @@ public class Settings {
 
 		Set<String> defaultList = new HashSet<String>();
 		Set<String> installedtList = new HashSet<String>();
-		// Get all controlles list and add default-enabled to list
+		// Get all controllers list and add default-enabled to list
 		ArrayList<ControllerBase> appsList = ControllerList.get(ctx).getListDisplay();
 		for (ControllerBase app : appsList) {
 			installedtList.add(app.getId());
@@ -230,8 +230,7 @@ public class Settings {
 
 	public boolean isMTCAppRunning()
 	{
-		boolean flag = false;
-		ActivityManager mng = (ActivityManager)ctx.getSystemService("activity");
+		ActivityManager mng = (ActivityManager)ctx.getSystemService(Context.ACTIVITY_SERVICE);
 
 		List<ActivityManager.RunningTaskInfo> activities = mng.getRunningTasks(0x7fffffff);
 		for (ActivityManager.RunningTaskInfo task : activities)
@@ -332,6 +331,10 @@ public class Settings {
 
 	public boolean getSpeedEnable() {
 		return prefs.getBoolean("speed.enable", true);
+	}
+
+	public int getSpeedTolerance() {
+		return Integer.valueOf(prefs.getString("speed.tol", "5"));
 	}
 
 	public int getSpeedChangeValue() {

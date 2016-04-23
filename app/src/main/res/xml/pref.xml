@@ -146,6 +146,14 @@
             android:summary="@string/ui_adv_settings_speedvol_level_text"
             android:title="@string/ui_adv_settings_speedvol_level_title" >
         </EditTextPreference>
-    </PreferenceCategory>
+		<EditTextPreference
+			android:defaultValue="3"
+			android:dependency="speed.enable"
+			android:key="speed.tol"
+			android:summary="@string/ui_adv_settings_speedvol_tol_text"
+			android:title="@string/ui_adv_settings_speedvol_tol_title" >
+		</EditTextPreference>
+	</PreferenceCategory>
+
 
 </PreferenceScreen>
