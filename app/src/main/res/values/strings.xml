@@ -70,5 +70,11 @@
 
 	<string name="appcontrol_name_media_buttons">Send Media Buttons</string>
 	<string name="appcontrol_name_pcradio">PcRadio (ROOT required)</string>
-
+	<string name="cfg_theme_title">Theme</string>
+	<string name="cfg_theme_summary">Change the theme off the app</string>
+	<string name="cfg_design_title">Design</string>
+	<string name="theme_item_default">Device default</string>
+	<string name="theme_item_light">Light</string>
+	<string name="theme_item_dark">Dark</string>
+	<string name="theme_item_black">Black</string>
 </resources>

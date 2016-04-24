@@ -8,4 +8,16 @@
         <!-- API 11 theme customizations can go here. -->
     </style>
 
+    <style name="AppBaseThemeDark" parent="android:Theme.Holo">
+        <!-- API 11 theme customizations can go here. -->
+    </style>
+
+    <style name="AppBaseThemeBlack" parent="android:Theme.Black">
+        <!-- API 11 theme customizations can go here. -->
+    </style>
+
+    <style name="AppBaseThemeDefault" parent="android:Theme.DeviceDefault">
+        <!-- API 11 theme customizations can go here. -->
+    </style>
+
 </resources>

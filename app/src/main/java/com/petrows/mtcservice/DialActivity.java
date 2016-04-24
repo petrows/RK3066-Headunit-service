@@ -1,10 +1,9 @@
 package com.petrows.mtcservice;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-public class DialActivity extends Activity {
+public class DialActivity extends BaseActivity {
 
 	private final static String TAG = "DialActivity";
 

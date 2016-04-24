@@ -1,7 +1,6 @@
 package com.petrows.mtcservice;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -10,8 +9,7 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
-import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
+import android.preference.PreferenceFragment;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -19,10 +17,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MediaAppActivity extends PreferenceActivity {
+public class MediaAppActivity extends BasePreferenceActivity {
 
+    private final String TAG = "MediaAppActivity";
     private PreferenceCategory mApps;
-    private PackageManager mPackageManager;
 
     class AppPreference extends CheckBoxPreference {
         private String mPkgName;
@@ -54,7 +52,7 @@ public class MediaAppActivity extends PreferenceActivity {
         @Override
 
         public boolean onPreferenceChange(Preference preference, Object o) {
-            boolean checked = ((Boolean) o).booleanValue();
+            boolean checked = (Boolean) o;
             if (checked) {
                 Settings.get(this.mPref.getContext()).setCfgString("player.app", mPref.getPkgName());
                 for (int i = 0; i < mApps.getPreferenceCount(); i++) {
@@ -82,8 +80,7 @@ public class MediaAppActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.prefapps);
         if ( mApps == null) {
             mApps = (PreferenceCategory) getPreferenceManager().findPreference("call_button_applist");
-            final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            mPackageManager = getPackageManager();
+            PackageManager mPackageManager = getPackageManager();
             List<ApplicationInfo> pkgs = mPackageManager.getInstalledApplications(PackageManager.GET_META_DATA);
             List<AppPreference> prefs = new ArrayList<AppPreference>();
 

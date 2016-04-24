@@ -90,11 +90,11 @@ public class Settings {
 
 
 		Set<String> defaultList = new HashSet<String>();
-		Set<String> installedtList = new HashSet<String>();
+		Set<String> installedList = new HashSet<String>();
 		// Get all controllers list and add default-enabled to list
 		ArrayList<ControllerBase> appsList = ControllerList.get(ctx).getListDisplay();
 		for (ControllerBase app : appsList) {
-			installedtList.add(app.getId());
+			installedList.add(app.getId());
 			if (wasEnabledApps.contains(app.getId()))
 			{
 				// This app was enabled
@@ -114,7 +114,7 @@ public class Settings {
 		Log.d(TAG, "Set default apps list: " + defaultList.toString());
 		Editor editor = prefs.edit();
 		editor.putStringSet("keys.apps", defaultList);
-		editor.putStringSet("keys.apps.installed", installedtList);
+		editor.putStringSet("keys.apps.installed", installedList);
 		editor.apply();
 
 
@@ -131,7 +131,7 @@ public class Settings {
 		instance = null;
 	}
 
-	public static boolean isNotifitcationServiceEnabled() {
+	public static boolean isNotificationServiceEnabled() {
 		return (Build.VERSION.SDK_INT >= 19);
 	}
 
@@ -165,14 +165,14 @@ public class Settings {
 	public void startMyServices() {
 		if (getServiceEnable()) {
 			if (!ServiceMain.isRunning) {
-				if (isNotifitcationServiceEnabled()) {
+				if (isNotificationServiceEnabled()) {
 					if (NotificationService.isInit) mySleep(2000);
 				}
 				Log.d(TAG, "Starting service!");
 				ctx.startService(new Intent(ctx, ServiceMain.class));
 			}
 
-			if (isNotifitcationServiceEnabled()) {
+			if (isNotificationServiceEnabled()) {
 				if (!NotificationService.isInit) {
 					if (ServiceMain.isRunning) mySleep(2000);
 					Log.d(TAG, "Starting Notification!");
@@ -181,7 +181,7 @@ public class Settings {
 			}
 		} else {
 			ctx.stopService(new Intent(ctx, ServiceMain.class));
-			if (isNotifitcationServiceEnabled()) {
+			if (isNotificationServiceEnabled()) {
 				ctx.stopService(new Intent(ctx, NotificationService.class));
 			}
 		}
@@ -335,6 +335,10 @@ public class Settings {
 
 	public int getSpeedTolerance() {
 		return Integer.valueOf(prefs.getString("speed.tol", "5"));
+	}
+
+	public int getTheme() {
+		return Integer.valueOf(prefs.getString("design.theme", "-1"));
 	}
 
 	public int getSpeedChangeValue() {
