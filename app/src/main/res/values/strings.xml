@@ -29,7 +29,7 @@
 
 	<string name="ui_adv_settings_player_cat">Custom media player</string>
 	<string name="ui_adv_settings_player_app_title">Select main player</string>
-	<string name="ui_adv_settings_player_app_text">Select custom app to be as player for autostart, etc</string>
+	<string name="ui_adv_settings_player_app_text">Select custom app as player for autostart, etc</string>
 	<string name="ui_adv_settings_player_autoplay_title">Command play music</string>
 	<string name="ui_adv_settings_player_autoplay_text">Send command to start music on headunit boot</string>
 	<string name="ui_adv_settings_player_autorun_title">Launch player on service start</string>
@@ -39,8 +39,8 @@
 
 	<string name="ui_adv_settings_caller_cat">Call from Android</string>
 	<string name="ui_adv_settings_caller_enable_title">Enable call from Android</string>
-	<string name="ui_adv_settings_caller_enable_text">Make an bluetooth call from Android app or phonebook request</string>
-    <string name="ui_adv_settings_caller_app_title">True Conctacts app</string>
+	<string name="ui_adv_settings_caller_enable_text">Make a bluetooth call from Android app or phonebook request</string>
+    <string name="ui_adv_settings_caller_app_title">True Contacts app</string>
     <string name="ui_adv_settings_caller_app_text">Press to open recommended app for Android contacts and calls</string>
 	<string name="ui_adv_settings_caller_api_title">Bluetooth API version</string>
 	<string name="ui_adv_settings_caller_api_text">Change this, if BT calls not working on your device</string>
@@ -55,18 +55,26 @@
 	<string name="ui_adv_settings_toast_enable_title">Enable toast</string>
 	<string name="ui_adv_settings_toast_enable_text">Show short message on all keys and events</string>
 
-	<string name="ui_adv_settings_speedvol_cat">Speed volume</string>
-	<string name="ui_adv_settings_speedvol_enable_title">Enable speed ajust</string>
-	<string name="ui_adv_settings_speedvol_enable_text">Ajust volume depends on vehicle speed</string>
-    <string name="ui_adv_settings_speedvol_speed_title">Speed edges</string>
-    <string name="ui_adv_settings_speedvol_speed_text">Speed values to up/down volume</string>
+	<string name="ui_adv_settings_speedvol_cat">Speed volume adjustment</string>
+	<string name="ui_adv_settings_speedvol_enable_title">Enable speed volume adjustment</string>
+	<string name="ui_adv_settings_speedvol_enable_text">Adjusting volume depending on the speed of the car</string>
+    <string name="ui_adv_settings_speedvol_speed_title">Speed levels</string>
+    <string name="ui_adv_settings_speedvol_speed_text">Velocities on which the volume will be in/decreased</string>
     <string name="ui_adv_settings_speedvol_level_title">Change level</string>
-    <string name="ui_adv_settings_speedvol_level_text">Volume level value to change on every step</string>
+    <string name="ui_adv_settings_speedvol_level_text">Value to change on every step</string>
+	<string name="ui_adv_settings_speedvol_tol_title">Speed tolerance</string>
+	<string name="ui_adv_settings_speedvol_tol_text">The volume will be in/decreased if the speed is higher/lower than the level +/- tolerance</string>
 
 	<string name="wdg_history_title">HeadUnit Call History</string>
 	<string name="wdg_history_unknown_contact">Unknown</string>
 
 	<string name="appcontrol_name_media_buttons">Send Media Buttons</string>
 	<string name="appcontrol_name_pcradio">PcRadio (ROOT required)</string>
-
+	<string name="cfg_theme_title">Theme</string>
+	<string name="cfg_theme_summary">Change the theme off the app</string>
+	<string name="cfg_design_title">Design</string>
+	<string name="theme_item_default">Device default</string>
+	<string name="theme_item_light">Light</string>
+	<string name="theme_item_dark">Dark</string>
+	<string name="theme_item_black">Black</string>
 </resources>

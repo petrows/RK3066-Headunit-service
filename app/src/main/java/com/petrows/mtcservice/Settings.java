@@ -77,7 +77,7 @@ public class Settings {
 		}
 
 		if (0f == volumeMax) {
-			Log.e(TAG, "Cant get max vlume, set to default 30.0");
+			Log.e(TAG, "Cant get max volume, set to default 30.0");
 			volumeMax = 30.0f;
 		}
 		Log.d(TAG, "Max volume = " + String.valueOf(volumeMax));
@@ -90,11 +90,11 @@ public class Settings {
 
 
 		Set<String> defaultList = new HashSet<String>();
-		Set<String> installedtList = new HashSet<String>();
-		// Get all controlles list and add default-enabled to list
+		Set<String> installedList = new HashSet<String>();
+		// Get all controllers list and add default-enabled to list
 		ArrayList<ControllerBase> appsList = ControllerList.get(ctx).getListDisplay();
 		for (ControllerBase app : appsList) {
-			installedtList.add(app.getId());
+			installedList.add(app.getId());
 			if (wasEnabledApps.contains(app.getId()))
 			{
 				// This app was enabled
@@ -114,7 +114,7 @@ public class Settings {
 		Log.d(TAG, "Set default apps list: " + defaultList.toString());
 		Editor editor = prefs.edit();
 		editor.putStringSet("keys.apps", defaultList);
-		editor.putStringSet("keys.apps.installed", installedtList);
+		editor.putStringSet("keys.apps.installed", installedList);
 		editor.apply();
 
 
@@ -131,7 +131,7 @@ public class Settings {
 		instance = null;
 	}
 
-	public static boolean isNotifitcationServiceEnabled() {
+	public static boolean isNotificationServiceEnabled() {
 		return (Build.VERSION.SDK_INT >= 19);
 	}
 
@@ -165,14 +165,14 @@ public class Settings {
 	public void startMyServices() {
 		if (getServiceEnable()) {
 			if (!ServiceMain.isRunning) {
-				if (isNotifitcationServiceEnabled()) {
+				if (isNotificationServiceEnabled()) {
 					if (NotificationService.isInit) mySleep(2000);
 				}
 				Log.d(TAG, "Starting service!");
 				ctx.startService(new Intent(ctx, ServiceMain.class));
 			}
 
-			if (isNotifitcationServiceEnabled()) {
+			if (isNotificationServiceEnabled()) {
 				if (!NotificationService.isInit) {
 					if (ServiceMain.isRunning) mySleep(2000);
 					Log.d(TAG, "Starting Notification!");
@@ -181,7 +181,7 @@ public class Settings {
 			}
 		} else {
 			ctx.stopService(new Intent(ctx, ServiceMain.class));
-			if (isNotifitcationServiceEnabled()) {
+			if (isNotificationServiceEnabled()) {
 				ctx.stopService(new Intent(ctx, NotificationService.class));
 			}
 		}
@@ -230,8 +230,7 @@ public class Settings {
 
 	public boolean isMTCAppRunning()
 	{
-		boolean flag = false;
-		ActivityManager mng = (ActivityManager)ctx.getSystemService("activity");
+		ActivityManager mng = (ActivityManager)ctx.getSystemService(Context.ACTIVITY_SERVICE);
 
 		List<ActivityManager.RunningTaskInfo> activities = mng.getRunningTasks(0x7fffffff);
 		for (ActivityManager.RunningTaskInfo task : activities)
@@ -332,6 +331,14 @@ public class Settings {
 
 	public boolean getSpeedEnable() {
 		return prefs.getBoolean("speed.enable", true);
+	}
+
+	public int getSpeedTolerance() {
+		return Integer.valueOf(prefs.getString("speed.tol", "5"));
+	}
+
+	public int getTheme() {
+		return Integer.valueOf(prefs.getString("design.theme", "-1"));
 	}
 
 	public int getSpeedChangeValue() {

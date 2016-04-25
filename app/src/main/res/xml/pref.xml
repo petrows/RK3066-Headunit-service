@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <PreferenceCategory
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	>
+	<PreferenceCategory
+		android:key="design"
+		android:summary=""
+		android:title="@string/cfg_design_title">
+		<ListPreference
+			android:key="design.theme"
+			android:entries="@array/theme_selection_titles"
+			android:entryValues="@array/theme_cfg_values"
+			android:defaultValue="@string/default_theme"
+			android:title="@string/cfg_theme_title"
+			android:summary="@string/cfg_theme_summary">
+		</ListPreference>
+	</PreferenceCategory>
+	<PreferenceCategory
         android:key="cat_toast"
         android:summary=""
         android:title="@string/ui_adv_settings_toast_cat" >
@@ -146,6 +160,14 @@
             android:summary="@string/ui_adv_settings_speedvol_level_text"
             android:title="@string/ui_adv_settings_speedvol_level_title" >
         </EditTextPreference>
-    </PreferenceCategory>
+		<EditTextPreference
+			android:defaultValue="3"
+			android:dependency="speed.enable"
+			android:key="speed.tol"
+			android:summary="@string/ui_adv_settings_speedvol_tol_text"
+			android:title="@string/ui_adv_settings_speedvol_tol_title" >
+		</EditTextPreference>
+	</PreferenceCategory>
+
 
 </PreferenceScreen>

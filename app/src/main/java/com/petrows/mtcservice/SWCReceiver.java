@@ -65,7 +65,7 @@ public class SWCReceiver extends BroadcastReceiver {
 			int wdgAction = intent.getIntExtra("myWidget.action", 0);
 			String wdgPackage = intent.getStringExtra("myWidget.packageName");
 
-			Log.d(TAG, "MTCService recieve widget " + wdgPackage + ", " + wdgAction);
+			Log.d(TAG, "MTCService receive widget " + wdgPackage + ", " + wdgAction);
 			// Install widget?
 			if (Settings.MTCWidgetAdd == wdgAction) {
 				String[] wdgPackageSplit = wdgPackage.split("\\.");

@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.petrows.mtcservice.appcontrol.ControllerList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceMain extends Service implements LocationListener {
@@ -23,7 +24,6 @@ public class ServiceMain extends Service implements LocationListener {
 	SWCReceiver mtc;
 
 	public static boolean isRunning = false;
-	public double last_speed = 0;
 	ControllerList appController;
 
 	@Override
@@ -86,7 +86,7 @@ public class ServiceMain extends Service implements LocationListener {
 
 			Settings.get(this).getCallerVersionAuto();
 
-			// Check that MTC app i snot running before start
+			// Check that MTC app is not running before start
 			if (!Settings.get(this).isMTCAppRunning())
 			{
 				if (Settings.get(this).getMediaPlayerAutorun())
@@ -107,6 +107,10 @@ public class ServiceMain extends Service implements LocationListener {
 		return (START_NOT_STICKY);
 	}
 
+
+	private int nxtLower=-1;
+	private int nxtHigher=-1;
+
 	@Override
 	public void onLocationChanged(Location location) {
 
@@ -119,7 +123,10 @@ public class ServiceMain extends Service implements LocationListener {
 			return;
 		}
 
-		List<Integer> speed_steps = Settings.get(this).getSpeedValues();
+		List<Integer> speed_steps = new ArrayList<Integer>( Settings.get(this).getSpeedValues());
+		speed_steps.add(0, -999);
+		speed_steps.add(999);
+		int tol = Settings.get(this).getSpeedTolerance();
 		int vol = Settings.get(this).getVolume();
 		int volNew = vol;
 		int volChange = Settings.get(this).getSpeedChangeValue();
@@ -132,29 +139,42 @@ public class ServiceMain extends Service implements LocationListener {
 
 		double speed = location.getSpeed();
 		speed = speed * 3.6; // m/s => km/h
-		if (speed == last_speed) return;
-		Log.d(TAG, "Speed is: " + speed + ", spteps is: " + speed_steps.toString());
-		Log.d(TAG, "Last Speed is: " + last_speed);
-		if (speed > last_speed) {
-			// Speed is bigger!
-			for (Integer spd_step : speed_steps) {
-				if ((last_speed < spd_step) && (speed > spd_step)) {
-					Log.d(TAG, "Set (+) voume: " + volNew + "+" + volChange + " / " + last_speed + " / " + speed + "(" + spd_step + ")");
-					volNew = volNew + volChange;
-				}
-			}
-		} else {
-			// Speed is lower!
-			for (Integer spd_step : speed_steps) {
-				if ((last_speed > spd_step) && (speed < spd_step)) {
-					// Speed is changed! (lower)
-					Log.d(TAG, "Set (-) voume: " + volNew + "-" + volChange + " / " + last_speed + " / " + speed + "(" + spd_step + ")");
-					volNew = volNew - volChange;
+
+
+        if (nxtHigher == -1 || nxtLower == -1) {
+			for (int i=0; i < speed_steps.size();i++){
+				if (speed > speed_steps.get(i)){
+					nxtLower = i;
+					nxtHigher = i+1;
+					if (nxtHigher == speed_steps.size())
+						nxtHigher--;
 				}
 			}
 		}
 
-		last_speed = speed;
+        if (nxtHigher == -1 || nxtLower == -1) {
+            Log.e(TAG, "config error");
+            return;
+        }
+
+		Log.d(TAG, "Speed is: " + speed + ", steps are: " + speed_steps.toString());
+
+		if (speed > speed_steps.get(nxtHigher) + tol) {
+			//Log.d(TAG, "Set (+) volume: " + volNew + "+" + volChange + " / " + last_speedstep + " / " + speed + "(" + spd_step + ")");
+			volNew = volNew + volChange;
+			nxtLower = nxtHigher;
+			if (nxtHigher < speed_steps.size() - 1)
+				nxtHigher ++;
+		}
+
+		if (speed < speed_steps.get(nxtLower) - tol) {
+			// Log.d(TAG, "Set (-) volume: " + volNew + "-" + volChange + " / " + last_speed + " / " + speed + "(" + spd_step + ")");
+			volNew = volNew - volChange;
+			nxtHigher = nxtLower;
+			if (nxtLower > 0)
+				nxtLower --;
+
+		}
 
 		if (volNew > 0 && volNew != vol) {
 			// Change it!

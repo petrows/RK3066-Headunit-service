@@ -16,4 +16,20 @@
 
 	<string-array name="empty" translatable="false">
 	</string-array>
+
+	<string-array name="theme_selection_titles">
+		<item>@string/theme_item_default</item>
+		<item>@string/theme_item_light</item>
+		<item>@string/theme_item_dark</item>
+		<item>@string/theme_item_black</item>
+	</string-array>
+
+	<string-array name="theme_cfg_values"  translatable="false">
+		<item >0</item>
+		<item >1</item>
+		<item >2</item>
+		<item >3</item>
+	</string-array>
+
+	<string name="default_theme" translatable="false">1</string>
 </resources>
