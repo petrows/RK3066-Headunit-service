@@ -70,4 +70,21 @@ public class ControllerPowerAmp extends ControllerBase {
 		ctx.startService(control);
 		return true;
 	}
+	@Override
+	public boolean onNextInCat() {
+		if (!isRunning()) return false; // No app - no key
+		Intent control = PowerampAPI.newAPIIntent();
+		control.putExtra(PowerampAPI.COMMAND, PowerampAPI.Commands.NEXT_IN_CAT);
+		ctx.startService(control);
+		return true;
+	}
+
+	@Override
+	public boolean onPrevInCat() {
+		if (!isRunning()) return false; // No app - no key
+		Intent control = PowerampAPI.newAPIIntent();
+		control.putExtra(PowerampAPI.COMMAND, PowerampAPI.Commands.PREVIOUS_IN_CAT);
+		ctx.startService(control);
+		return true;
+	}
 }
