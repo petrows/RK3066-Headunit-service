@@ -48,6 +48,13 @@
     <string name="ui_adv_settings_svol_enable_text">Setze eine sichere Lautstärke beim Start des Geräts</string>
     <string name="ui_adv_settings_svol_enable_title">Aktivieren beim Start</string>
     <string name="ui_adv_settings_svol_level_text">Setzen der sicheren Lautstärke</string>
+	<string name="ui_adv_settings_usbvol_cat">USB-DAC Volume (ALSA, ROOT required)</string>
+	<string name="ui_adv_settings_usbvol_enable_title">Enable USB-DAC volume adjust</string>
+	<string name="ui_adv_settings_usbvol_enable_text">Ajust USB-DAC volume by HeadUnit\'s controls</string>
+    <string name="ui_adv_settings_usbvol_number_title">USB-DAC Card number in ALSA (N)</string>
+    <string name="ui_adv_settings_usbvol_number_text">Can be determined by terminal command: alsa_aplay -l</string>
+    <string name="ui_adv_settings_usbvol_name_title">Volume simple-control name</string>
+    <string name="ui_adv_settings_usbvol_name_text">Use terminal command (N-see prev.): alsa_amixer -cN scontrols</string>
     <string name="wdg_history_unknown_contact">Unbekannt</string>
     <string name="wdg_history_title">HeadUnit: Letze Anrufe</string>
     <string name="ui_service_title">RK3066 HeadUnit Dienst</string>
