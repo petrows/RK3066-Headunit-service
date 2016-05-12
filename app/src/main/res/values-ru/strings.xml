@@ -62,6 +62,14 @@
 	<string name="ui_adv_settings_speedvol_level_title">Степень регулировки</string>
 	<string name="ui_adv_settings_speedvol_level_text">Насколько сильно громкость меняется на каждом шаге</string>
 
+	<string name="ui_adv_settings_usbvol_cat">Громкость USB-DAC (нужны ALSA и ROOT)</string>
+	<string name="ui_adv_settings_usbvol_enable_title">Включить регулировку громкости на USB-DAC</string>
+	<string name="ui_adv_settings_usbvol_enable_text">Регулировка громкости USB-DAC штатными средствами ГУ</string>
+	<string name="ui_adv_settings_usbvol_number_title">Номер карты USB-DAC в ALSA (N)</string>
+	<string name="ui_adv_settings_usbvol_number_text">Определяется терминальной командой: alsa_aplay -l</string>
+	<string name="ui_adv_settings_usbvol_name_title">Имя симпл-контрола громкости</string>
+	<string name="ui_adv_settings_usbvol_name_text">Узнаётся терминальной командой (N-см.выше): alsa_amixer -cN scontrols</string>
+
 	<string name="wdg_history_title">Магнитола: звонки</string>
 	<string name="wdg_history_unknown_contact">Неизвестный</string>
 
