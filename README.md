@@ -9,6 +9,7 @@ Features:
  - Tune volume on speed (steps: 60, 100, 120 km/h)
  - Background volume change (no stock or system UI)
  - Safe volume level set on start/stop headunit
+ - Supports volume adjusting on a USB-DAC synchronously (Alsamixer and Root required)
 
 Supports head units on Rockchip RK30SDK platform: RK3066 (Android 4.2.2 and 4.4.X)
  - Klyde (KLD)
