@@ -168,6 +168,31 @@
 			android:title="@string/ui_adv_settings_speedvol_tol_title" >
 		</EditTextPreference>
 	</PreferenceCategory>
+	<PreferenceCategory
+		android:key="usbvol"
+		android:summary=""
+		android:title="@string/ui_adv_settings_usbvol_cat" >
+		<CheckBoxPreference
+			android:defaultValue="false"
+			android:key="usbvol.enable"
+			android:summary="@string/ui_adv_settings_usbvol_enable_text"
+			android:title="@string/ui_adv_settings_usbvol_enable_title" >
+		</CheckBoxPreference>
 
+		<EditTextPreference
+			android:defaultValue="2"
+			android:dependency="usbvol.enable"
+			android:key="usbvol.number"
+			android:summary="@string/ui_adv_settings_usbvol_enable_text"
+			android:title="@string/ui_adv_settings_usbvol_number_title" >
+		</EditTextPreference>
+		<EditTextPreference
+			android:defaultValue="PCM"
+			android:dependency="usbvol.enable"
+			android:key="usbvol.name"
+			android:summary="@string/ui_adv_settings_usbvol_name_text"
+			android:title="@string/ui_adv_settings_usbvol_name_title" >
+		</EditTextPreference>
+	</PreferenceCategory>
 
 </PreferenceScreen>

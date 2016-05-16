@@ -12,7 +12,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.UserHandle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -37,13 +36,18 @@ public class Settings {
 	//final static String MTCBroadcastIrkeyDown = "com.microntek.irkeyDown";
 	final static String MTCBroadcastACC = "com.microntek.acc";
 
-	final static List<Integer> MTCKeysPrev = Arrays.asList(45, 58, 22);
-	final static List<Integer> MTCKeysNext = Arrays.asList(46, 59, 24);
+	final static List<Integer> MTCKeysPrev = Arrays.asList(45, 58, 22, 63);
+	final static List<Integer> MTCKeysNext = Arrays.asList(46, 59, 24, 64);
 	final static List<Integer> MTCKeysPause = Arrays.asList(3);
     final static List<Integer> MTCKeysPhone = Arrays.asList(69);
 	final static List<String> MTCMusicApps = Arrays.asList(
 			"com.microntek.radio.RadioActivity", "com.microntek.music.MusicActivity", "com.microntek.dvd.DVDActivity", "com.microntek.ipod.IPODActivity", "com.microntek.media.MediaActivity", "com.microntek.bluetooth.BlueToothActivity"
 	);
+
+	final static List<Integer> MTCKeysVolumeUp = Arrays.asList(19);
+	final static List<Integer> MTCKeysVolumeDown = Arrays.asList(27);
+	final static List<Integer> MTCKeysPrevInCat = Arrays.asList(61);
+	final static List<Integer> MTCKeysNextInCat = Arrays.asList(62);
 
 
 	final static String MTCBroadcastWidget = "com.android.MTClauncher.action.INSTALL_WIDGETS";
@@ -346,6 +350,18 @@ public class Settings {
 		return Integer.valueOf(prefs.getString("speed.speedvol", "5"));
 	}
 
+	public boolean getUSBenable() {
+		return prefs.getBoolean("usbvol.enable", false);
+	}
+
+	public String USBnumber() {
+		return prefs.getString("usbvol.number", "2");
+	}
+
+	public String USBname() {
+		return prefs.getString("usbvol.name", "PCM");
+	}
+
 	public List<Integer> getSpeedValues() {
 		// Load speed values
 		if (speedValues == null || speedValues.size() <= 0) {
@@ -398,7 +414,7 @@ public class Settings {
 
 	public void setVolume(int level) {
 		if (level < 0 || level > (int) volumeMax) {
-			Log.w(TAG, "Volume level " + level + " is wrong, ignore it.");
+			Log.w(TAG, "Volume level " + level + " is wrong, ignore it");
 			return;
 		}
 
@@ -412,7 +428,24 @@ public class Settings {
 		Intent intent = new Intent("com.microntek.setVolume");
 		ctx.sendBroadcast(intent);
 
+		setVolumeUSB_alsa(level);
+	}
 
+	public void setVolumeUSB_alsa(int level) {
+		//Need app AlsaMixer and ROOT
+		if (getUSBenable()) {
+			Log.d(TAG, "Settings new volume USB: " + level + ", real: " + mtcGetRealVolume(level) + "%");
+			RootSession.get(ctx).exec("alsa_amixer -c" + USBnumber() + " sset '" + USBname() + "' " + mtcGetRealVolume(level) + "%");
+		}
+	}
+
+	public void setVolumeUSB(int level) {
+		if (level < 0 || level > (int) volumeMax) {
+			Log.w(TAG, "Volume USB level " + level + " is wrong, ignore it");
+			return;
+		}
+
+		setVolumeUSB_alsa(level);
 	}
 
 	public void setVolumeSafe() {

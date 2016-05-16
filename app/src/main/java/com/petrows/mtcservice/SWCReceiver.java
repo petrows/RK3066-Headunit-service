@@ -47,6 +47,24 @@ public class SWCReceiver extends BroadcastReceiver {
 		                Settings.get(context).startMediaPlayer();
 	                }
                 }
+				if (Settings.MTCKeysVolumeUp.contains(keyCode)){
+					int vol = Settings.get(context).getVolume();
+					int volNew = vol + 1;
+					Settings.get(context).setVolumeUSB(volNew);
+				}
+				if (Settings.MTCKeysVolumeDown.contains(keyCode)){
+					int vol = Settings.get(context).getVolume();
+					int volNew = vol - 1;
+					Settings.get(context).setVolumeUSB(volNew);
+				}
+				if (Settings.MTCKeysPrevInCat.contains(keyCode)) {
+					Settings.get(context).showToast("<< in cat");
+					ControllerList.get(context).sendKeyPrevInCat();
+				}
+				if (Settings.MTCKeysNextInCat.contains(keyCode)) {
+					Settings.get(context).showToast(">> in cat");
+					ControllerList.get(context).sendKeyNextInCat();
+				}
 			} else {
 				Log.d(TAG, "Media keys handler is disabled in settings");
 			}
