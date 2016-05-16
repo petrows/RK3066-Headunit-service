@@ -12,6 +12,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.UserHandle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -397,7 +398,7 @@ public class Settings {
 
 	public void setVolume(int level) {
 		if (level < 0 || level > (int) volumeMax) {
-			Log.w(TAG, "Volume level " + level + " is wrong, ignore it");
+			Log.w(TAG, "Volume level " + level + " is wrong, ignore it.");
 			return;
 		}
 
@@ -406,6 +407,12 @@ public class Settings {
 		android.provider.Settings.System.putInt(ctx.getContentResolver(),
 				"av_volume=", level);
 		am.setParameters("av_volume=" + mtcGetRealVolume(level));
+
+		// notify MTC Server
+		Intent intent = new Intent("com.microntek.setVolume");
+		ctx.sendBroadcast(intent);
+
+
 	}
 
 	public void setVolumeSafe() {
