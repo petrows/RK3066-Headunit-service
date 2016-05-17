@@ -39,7 +39,7 @@
 	<string name="ui_adv_settings_caller_cat">Звонки через Android</string>
 	<string name="ui_adv_settings_caller_enable_title">Звонить через Android</string>
 	<string name="ui_adv_settings_caller_enable_text">Начинать звонок через bluetooth по запросу приложения Android</string>
-	<string name="ui_adv_settings_caller_app_title">Приложение True Conctacts</string>
+	<string name="ui_adv_settings_caller_app_title">Приложение True Contacts</string>
 	<string name="ui_adv_settings_caller_app_text">Нажмите чтобы открыть рекомендованное приложение для записной книги и звонков</string>
 	<string name="ui_adv_settings_caller_api_title">Версия ПО управления звонками</string>
 	<string name="ui_adv_settings_caller_api_text">Выберите другое значение, если звонок из Android не работает</string>
@@ -61,6 +61,8 @@
 	<string name="ui_adv_settings_speedvol_speed_text">Рубеж скорости для увеличинения/уменьшения громкости</string>
 	<string name="ui_adv_settings_speedvol_level_title">Степень регулировки</string>
 	<string name="ui_adv_settings_speedvol_level_text">Насколько сильно громкость меняется на каждом шаге</string>
+	<string name="ui_adv_settings_speedvol_tol_title">Допуск скорости (инертность)</string>
+	<string name="ui_adv_settings_speedvol_tol_text">Громкость будет увеличена/уменьшена, если скорость выйдет за пределы установленного допуска (+/- от шага)</string>
 
 	<string name="ui_adv_settings_usbvol_cat">Громкость USB-DAC (нужны ALSA и ROOT)</string>
 	<string name="ui_adv_settings_usbvol_enable_title">Включить регулировку громкости на USB-DAC</string>
@@ -75,5 +77,11 @@
 
 	<string name="appcontrol_name_media_buttons">Эмуляция медиа-кнопок (гарнитуры)</string>
 	<string name="appcontrol_name_pcradio">PcRadio (требуется ROOT)</string>
-
+	<string name="cfg_theme_title">Интерфейс</string>
+	<string name="cfg_theme_summary">Измененить тему оформления</string>
+	<string name="cfg_design_title">Скин</string>
+	<string name="theme_item_default">Как у устройства</string>
+	<string name="theme_item_light">Светлый</string>
+	<string name="theme_item_dark">Темный</string>
+	<string name="theme_item_black">Черный</string>
 </resources>
