@@ -149,4 +149,36 @@ public class ControllerList {
 		}
 		return false; // No app!
 	}
+
+	public boolean sendKeyNextInCat()
+	{
+		ArrayList<ControllerBase> apps = getListCall();
+		for (ControllerBase app : apps)
+		{
+			Log.d(TAG, "Probe NEXT IN CAT : " + app.getId());
+			if (app.onNextInCat())
+			{
+				// Key is sended!
+				Log.d(TAG, "Sended");
+				return true;
+			}
+		}
+		return false; // No app!
+	}
+
+	public boolean sendKeyPrevInCat()
+	{
+		ArrayList<ControllerBase> apps = getListCall();
+		for (ControllerBase app : apps)
+		{
+			Log.d(TAG, "Probe PREV IN CAT : " + app.getId());
+			if (app.onPrevInCat())
+			{
+				// Key is sended!
+				Log.d(TAG, "Sended");
+				return true;
+			}
+		}
+		return false; // No app!
+	}
 }

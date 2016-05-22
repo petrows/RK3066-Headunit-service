@@ -58,4 +58,15 @@ public abstract class ControllerBase {
 	public boolean onPlayPause() {
 		return false;
 	}
+	
+	// Play NEXT/IN CAT
+	public boolean onNextInCat() {
+		return false;
+	}
+
+	// Play PREV/IN CAT
+	public boolean onPrevInCat() {
+		return false;
+	}
+	
 }
