@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Map;
 
 public class ControllerList {
 	private final static String TAG = "ControllerList";
@@ -28,6 +27,7 @@ public class ControllerList {
 	private ControllerList(Context context)
 	{
 		ctx = context;
+		controllersList.add(new ControllerSpotify());
 		controllersList.add(new ControllerMediaButtons());
 		controllersList.add(new ControllerPcRadio());
 		controllersList.add(new ControllerPowerAmp());
