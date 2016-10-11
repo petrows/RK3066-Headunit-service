@@ -69,7 +69,7 @@ public class ControllerMediaButtons extends ControllerBase {
 		long eventtime = SystemClock.uptimeMillis();
 
 		//dsa
-		if (false == ord) if (BootReceiver.syn) ord = true;
+		if (false == ord) if (BootReceiver.isReceived) ord = true;
 
 		Intent downIntent = new Intent(Intent.ACTION_MEDIA_BUTTON, null);
 		KeyEvent downEvent = new KeyEvent(eventtime, eventtime,
