@@ -4,69 +4,75 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
-import java.util.ArrayList;
-
 public abstract class ControllerBase {
 
-	protected Context ctx;
+    protected Context ctx;
 
-	protected Drawable getPackageIcon(String pkg)
-	{
-		try {
-			Drawable icon = ctx.getPackageManager().getApplicationIcon(pkg);
-		} catch (PackageManager.NameNotFoundException ne) {
+    protected Drawable getPackageIcon(String pkg) {
+        try {
+            Drawable icon = ctx.getPackageManager().getApplicationIcon(pkg);
+        } catch (PackageManager.NameNotFoundException ne) {
 
-		}
-		return null;
-	}
+        }
+        return null;
+    }
 
-	// Class identification
-	public abstract String getId();
-	public abstract String getName();
-	public int getEventPriority() { return 50; }
-	public boolean isDefaultEnabled() { return true; }
+    // Class identification
+    public abstract String getId();
 
-	// Work methods:
-	public boolean init(Context ctx) {
-		this.ctx = ctx;
-		return true;
-	}
+    public abstract String getName();
 
-	public Drawable getIcon() { return null; }
+    public int getEventPriority() {
+        return 50;
+    }
 
-	// Play NEXT
-	public boolean onNext() {
-		return false;
-	}
+    public boolean isDefaultEnabled() {
+        return true;
+    }
 
-	// Play PREV
-	public boolean onPrev() {
-		return false;
-	}
+    // Work methods:
+    public boolean init(Context ctx) {
+        this.ctx = ctx;
+        return true;
+    }
 
-	// Play STOP
-	public boolean onStop() {
-		return false;
-	}
+    public Drawable getIcon() {
+        return null;
+    }
 
-	// Play PLAY
-	public boolean onPlay() {
-		return false;
-	}
+    // Play NEXT
+    public boolean onNext() {
+        return false;
+    }
 
-	// Play PLAY/PAUSE
-	public boolean onPlayPause() {
-		return false;
-	}
-	
-	// Play NEXT/IN CAT
-	public boolean onNextInCat() {
-		return false;
-	}
+    // Play PREV
+    public boolean onPrev() {
+        return false;
+    }
 
-	// Play PREV/IN CAT
-	public boolean onPrevInCat() {
-		return false;
-	}
-	
+    // Play STOP
+    public boolean onStop() {
+        return false;
+    }
+
+    // Play PLAY
+    public boolean onPlay() {
+        return false;
+    }
+
+    // Play PLAY/PAUSE
+    public boolean onPlayPause() {
+        return false;
+    }
+
+    // Play NEXT/IN CAT
+    public boolean onNextInCat() {
+        return false;
+    }
+
+    // Play PREV/IN CAT
+    public boolean onPrevInCat() {
+        return false;
+    }
+
 }

@@ -11,112 +11,108 @@ import java.io.IOException;
  * Created by petro on 06.04.2015.
  */
 public class RootSession {
-	private final static String TAG = "RootSession";
-	private static RootSession instance = null;
-	private Context ctx = null;
-	private RootSession(Context context) {
-		ctx = context;
-	}
-	public static RootSession get(Context context)
-	{
-		if (null == instance)
-			instance = new RootSession(context);
-		return (instance);
-	}
+    private final static String TAG = "RootSession";
+    private static RootSession instance = null;
+    private Context ctx = null;
+    private Process suProcess;
+    private DataOutputStream suWrite;
+    private DataInputStream suRead;
+    private boolean isOpen = false;
 
-	private Process suProcess;
-	private DataOutputStream suWrite;
-	private DataInputStream suRead;
-	private boolean isOpen = false;
+    private RootSession(Context context) {
+        ctx = context;
+    }
 
-	public boolean open()
-	{
-		if (isOpened()) return true; // Already running
-		isOpen = false;
-		try {
-			suProcess = Runtime.getRuntime().exec("su");
+    public static RootSession get(Context context) {
+        if (null == instance)
+            instance = new RootSession(context);
+        return (instance);
+    }
 
-			suWrite = new DataOutputStream(suProcess.getOutputStream());
-			suRead = new DataInputStream(suProcess.getInputStream());
+    public boolean open() {
+        if (isOpened()) return true; // Already running
+        isOpen = false;
+        try {
+            suProcess = Runtime.getRuntime().exec("su");
 
-			if (null != suWrite && null != suRead) {
-				// Getting the id of the current user to check if this is root
-				suWrite.writeBytes("id\n");
-				suWrite.flush();
+            suWrite = new DataOutputStream(suProcess.getOutputStream());
+            suRead = new DataInputStream(suProcess.getInputStream());
 
-				String currUid = suRead.readLine();
-				boolean exitSu = false;
+            if (null != suWrite && null != suRead) {
+                // Getting the id of the current user to check if this is root
+                suWrite.writeBytes("id\n");
+                suWrite.flush();
 
-				if (null == currUid) {
-					isOpen = false;
-					exitSu = false;
-					Log.d(TAG, "Can't get root access or denied by user");
-				} else if (true == currUid.contains("uid=0")) {
-					isOpen = true;
-				} else {
-					isOpen = false;
-					exitSu = true;
-					Log.d(TAG, "Root access rejected: " + currUid);
-				}
+                String currUid = suRead.readLine();
+                boolean exitSu = false;
 
-				if (exitSu) {
-					suWrite.writeBytes("exit\n");
-					suWrite.flush();
-					suProcess = null;
-				}
-			}
-		} catch (Exception e) {
-			// Can't get root !
-			// Probably broken pipe exception on trying to write to output stream (os) after su failed, meaning that the device is not rooted
+                if (null == currUid) {
+                    isOpen = false;
+                    exitSu = false;
+                    Log.d(TAG, "Can't get root access or denied by user");
+                } else if (true == currUid.contains("uid=0")) {
+                    isOpen = true;
+                } else {
+                    isOpen = false;
+                    exitSu = true;
+                    Log.d(TAG, "Root access rejected: " + currUid);
+                }
 
-			isOpen = false;
-			Log.d("ROOT", "Root access rejected [" + e.getClass().getName() + "] : " + e.getMessage());
-		}
+                if (exitSu) {
+                    suWrite.writeBytes("exit\n");
+                    suWrite.flush();
+                    suProcess = null;
+                }
+            }
+        } catch (Exception e) {
+            // Can't get root !
+            // Probably broken pipe exception on trying to write to output stream (os) after su failed, meaning that the device is not rooted
 
-		return isOpen;
-	}
+            isOpen = false;
+            Log.d("ROOT", "Root access rejected [" + e.getClass().getName() + "] : " + e.getMessage());
+        }
 
-	public boolean isOpened()
-	{
-		return isOpen;
-	}
+        return isOpen;
+    }
 
-	public boolean exec(String[] cmd)
-	{
-		if (!isOpened()) return false;
-		for (String currCommand : cmd) {
-			if (!exec(currCommand)) return false; // Error in exec
-		}
-		return true;
-	}
+    public boolean isOpened() {
+        return isOpen;
+    }
 
-	public boolean exec(String command)
-	{
-		if (!isOpened()) return false;
-		Log.d(TAG, "Try exec root: " + command);
-		try {
-			suWrite.writeBytes(command + "\n");
-			suWrite.flush();
-		} catch (IOException e) {
-			Log.d(TAG, "Root write failed!");
+    public boolean exec(String[] cmd) {
+        if (!isOpened()) return false;
+        for (String currCommand : cmd) {
+            if (!exec(currCommand)) return false; // Error in exec
+        }
+        return true;
+    }
 
-			// Try to open again:
-			isOpen = false;
-			if (open())	{
-				// Try again
-				try {
-					suWrite.writeBytes(command + "\n");
-					suWrite.flush();
-				} catch (IOException e2) {
-					return false;
-				}
-				return true;
-			}
+    public boolean exec(String command) {
+        if (!isOpened()) return false;
+        Log.d(TAG, "Try exec root: " + command);
+        try {
+            suWrite.writeBytes(command + "\n");
+            suWrite.flush();
+        } catch (IOException e) {
+            Log.d(TAG, "Root write failed!");
 
-			e.printStackTrace();
-			return false;
-		}
+            // Try to open again:
+            isOpen = false;
+            if (open()) {
+                // Try again
+                try {
+                    suWrite.writeBytes(command + "\n");
+                    suWrite.flush();
+                } catch (IOException e2) {
+                    return false;
+                }
+                return true;
+            }
 
-		return true;
-	}
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -7,10 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,8 +19,41 @@ public class MediaAppActivity extends BasePreferenceActivity {
     private final String TAG = "MediaAppActivity";
     private PreferenceCategory mApps;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.prefapps);
+        if (mApps == null) {
+            mApps = (PreferenceCategory) getPreferenceManager().findPreference("call_button_applist");
+            PackageManager mPackageManager = getPackageManager();
+            List<ApplicationInfo> pkgs = mPackageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+            List<AppPreference> prefs = new ArrayList<AppPreference>();
+
+            String callAppPkg = Settings.get(this).getMediaPlayerApp();
+            for (ApplicationInfo pkg : pkgs) {
+                AppPreference pref = new AppPreference(this);
+                pref.setTitle(mPackageManager.getApplicationLabel(pkg));
+                Drawable icon = pkg.loadIcon(mPackageManager);
+                pref.setPkgName(pkg.packageName);
+                boolean isChecked = pkg.packageName.equals(callAppPkg);
+                pref.setChecked(isChecked);
+                pref.setIcon(icon);
+                pref.setOnPreferenceChangeListener(new PrefChangeListener(mApps, pref));
+                prefs.add(pref);
+            }
+            Collections.sort(prefs, new ApplicationComparator());
+            for (AppPreference pref : prefs) {
+                mApps.addPreference(pref);
+            }
+        }
+    }
+
     class AppPreference extends CheckBoxPreference {
         private String mPkgName;
+
+        public AppPreference(Context context) {
+            super(context);
+        }
 
         public String getPkgName() {
             return mPkgName;
@@ -31,10 +61,6 @@ public class MediaAppActivity extends BasePreferenceActivity {
 
         public void setPkgName(String mPkgName) {
             this.mPkgName = mPkgName;
-        }
-
-        public AppPreference(Context context) {
-            super(context);
         }
 
     }
@@ -70,36 +96,6 @@ public class MediaAppActivity extends BasePreferenceActivity {
         @Override
         public int compare(AppPreference a, AppPreference b) {
             return a.getTitle().toString().compareTo(b.getTitle().toString());
-        }
-    }
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.prefapps);
-        if ( mApps == null) {
-            mApps = (PreferenceCategory) getPreferenceManager().findPreference("call_button_applist");
-            PackageManager mPackageManager = getPackageManager();
-            List<ApplicationInfo> pkgs = mPackageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-            List<AppPreference> prefs = new ArrayList<AppPreference>();
-
-            String callAppPkg = Settings.get(this).getMediaPlayerApp();
-            for (ApplicationInfo pkg: pkgs) {
-                AppPreference pref = new AppPreference(this);
-                pref.setTitle(mPackageManager.getApplicationLabel(pkg));
-                Drawable icon = pkg.loadIcon(mPackageManager);
-                pref.setPkgName(pkg.packageName);
-                boolean isChecked = pkg.packageName.equals(callAppPkg);
-                pref.setChecked(isChecked);
-                pref.setIcon(icon);
-                pref.setOnPreferenceChangeListener(new PrefChangeListener(mApps, pref));
-                prefs.add(pref);
-            }
-            Collections.sort(prefs, new ApplicationComparator());
-            for (AppPreference pref: prefs) {
-                mApps.addPreference(pref);
-            }
         }
     }
 }

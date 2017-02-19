@@ -21,7 +21,7 @@ public class BaseActivity extends Activity {
             if (id >= 0 && id != lastTheme) {
                 recreate();
             }
-        }catch (Throwable e){
+        } catch (Throwable e) {
             Log.e(TAG, "error on recreate", e);
         }
     }
@@ -36,7 +36,7 @@ public class BaseActivity extends Activity {
                 setTheme(themes[id]);
                 lastTheme = id;
             }
-        }catch (Throwable e){
+        } catch (Throwable e) {
             Log.e(TAG, "error on setting theme", e);
         }
 

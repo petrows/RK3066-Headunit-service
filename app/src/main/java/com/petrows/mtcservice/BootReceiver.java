@@ -7,16 +7,16 @@ import android.util.Log;
 
 public class BootReceiver extends BroadcastReceiver {
 
-	private final static String TAG = "BootReceiver";
-	public static boolean isReceived = false;
+    private final static String TAG = "BootReceiver";
+    public static boolean isReceived = false;
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		// Check out this
-		Log.d(TAG, "Starting services");
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        // Check out this
+        Log.d(TAG, "Starting services");
 
-		//dsa
-		isReceived = true;
-		Settings.get(context).startMyServices();
-	}
+        //dsa
+        isReceived = true;
+        Settings.get(context).startMyServices();
+    }
 }

@@ -5,18 +5,18 @@ import android.content.Intent;
 import android.widget.RemoteViewsService;
 
 public class WdgHistoryService extends RemoteViewsService {
-	final String TAG = "HistoryService";
+    final String TAG = "HistoryService";
 
-	@Override
-	public RemoteViewsFactory onGetViewFactory(Intent intent) {
-		int appWidgetId = intent.getIntExtra(
-				AppWidgetManager.EXTRA_APPWIDGET_ID,
-				AppWidgetManager.INVALID_APPWIDGET_ID);
+    @Override
+    public RemoteViewsFactory onGetViewFactory(Intent intent) {
+        int appWidgetId = intent.getIntExtra(
+                AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID);
 
-		ServiceBtReciever.get(this.getApplicationContext());
+        ServiceBtReciever.get(this.getApplicationContext());
 
-		return new WdgHistoryListProvider(this.getApplicationContext(), intent);
-	}
+        return new WdgHistoryListProvider(this.getApplicationContext(), intent);
+    }
 
 
 }
