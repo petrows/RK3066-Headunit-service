@@ -448,8 +448,9 @@ public class Settings {
         am.setParameters("av_volume=" + mtcGetRealVolume(level));
 
         // notify MTC Server
-        Intent intent = new Intent("com.microntek.setVolume");
-        ctx.sendBroadcast(intent);
+        // We should not to do this - this cause annoying MTC popup on top of screen
+        // Intent intent = new Intent("com.microntek.setVolume");
+        // ctx.sendBroadcast(intent);
 
         setVolumeUSB_alsa(level);
     }
